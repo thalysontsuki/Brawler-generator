@@ -1,975 +1,380 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Brawl Tsuki 3.0</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-* {
-    box-sizing: border-box;
-}
+  <title>Brawl Tsuki 3.0 - Meu Perfil</title>
 
-body {
-    margin: 0;
-    min-height: 100vh;
-    font-family: Arial, sans-serif;
-    color: white;
-    background:
-        radial-gradient(circle at top, #5b21b6, transparent 45%),
-        linear-gradient(135deg, #101020, #171735);
-}
-
-button {
-    border: 0;
-    border-radius: 15px;
-    padding: 14px 18px;
-    font-size: 16px;
-    font-weight: bold;
-    color: white;
-    background: linear-gradient(#ffcf33, #ff7b00);
-    box-shadow: 0 5px 0 #9b4300;
-    cursor: pointer;
-    margin: 5px;
-}
-
-button:active {
-    transform: translateY(3px);
-    box-shadow: 0 2px 0 #9b4300;
-}
-
-.topo {
-    text-align: center;
-    padding: 20px 10px;
-    background: #0005;
-    border-bottom: 2px solid #ffffff22;
-}
-
-.topo h1 {
-    margin: 0;
-    font-size: 34px;
-    text-shadow: 0 4px #000;
-}
-
-.topo p {
-    margin: 6px 0 0;
-    color: #ddd;
-}
-
-.menu {
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 0 12px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-}
-
-.menu button {
-    min-height: 75px;
-    font-size: 17px;
-    background: linear-gradient(145deg, #36366b, #202044);
-    box-shadow: 0 5px 0 #101025;
-}
-
-.pagina {
-    max-width: 600px;
-    margin: auto;
-    padding: 15px;
-}
-
-.escondido {
-    display: none;
-}
-
-.card {
-    background: #ffffff10;
-    border: 2px solid #ffffff20;
-    border-radius: 22px;
-    padding: 20px;
-    margin-top: 15px;
-    box-shadow: 0 10px 30px #0007;
-}
-
-.card h2 {
-    margin-top: 0;
-    color: #ffd43b;
-}
-
-.hero {
-    text-align: center;
-    padding: 20px 10px;
-}
-
-.hero .emoji {
-    font-size: 90px;
-}
-
-.hero h2 {
-    font-size: 30px;
-    margin: 10px 0;
-}
-
-.acoes {
-    text-align: center;
-}
-
-.resultado {
-    margin-top: 20px;
-    padding: 20px;
-    border-radius: 20px;
-    background: linear-gradient(145deg, #292950, #15152d);
-    text-align: center;
-    animation: aparecer .35s ease;
-}
-
-.personagem {
-    width: 150px;
-    height: 150px;
-    margin: auto;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 70px;
-    background: linear-gradient(135deg, #ffcf33, #ff5e00);
-    border: 4px solid white;
-    box-shadow: 0 8px 20px #000;
-}
-
-.nome {
-    font-size: 32px;
-    font-weight: 900;
-    margin-top: 12px;
-    text-shadow: 0 3px #000;
-}
-
-.raridade {
-    display: inline-block;
-    margin: 8px;
-    padding: 7px 14px;
-    border-radius: 20px;
-    background: #8b5cf6;
-    font-weight: bold;
-}
-
-.stats {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-top: 15px;
-}
-
-.stat {
-    padding: 14px;
-    border-radius: 14px;
-    background: #ffffff10;
-}
-
-.stat span {
-    font-size: 25px;
-    display: block;
-}
-
-.section {
-    margin-top: 15px;
-    padding: 14px;
-    text-align: left;
-    border-radius: 14px;
-    background: #ffffff0d;
-}
-
-.section h3 {
-    color: #ffd43b;
-    margin-top: 0;
-}
-
-input, select {
-    width: 100%;
-    padding: 13px;
-    margin: 7px 0 15px;
-    border: 0;
-    border-radius: 12px;
-    font-size: 16px;
-}
-
-.perfil {
-    text-align: center;
-}
-
-.avatar {
-    width: 130px;
-    height: 130px;
-    border-radius: 50%;
-    margin: 10px auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 65px;
-    background: linear-gradient(135deg, #22d3ee, #7c3aed);
-    border: 5px solid white;
-}
-
-.icone-preview {
-    width: 220px;
-    height: 220px;
-    margin: 20px auto;
-    border-radius: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 100px;
-    border: 6px solid white;
-    box-shadow: 0 10px 25px #000;
-}
-
-footer {
-    text-align: center;
-    padding: 30px 10px;
-    color: #aaa;
-    font-size: 13px;
-}
-
-@keyframes aparecer {
-    from {
-        opacity: 0;
-        transform: scale(.85);
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
     }
 
-    to {
-        opacity: 1;
-        transform: scale(1);
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #151515, #242424);
+      color: white;
+      padding: 20px;
     }
-}
 
-@media (max-width: 450px) {
-    .menu {
+    .container {
+      max-width: 700px;
+      margin: auto;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 36px;
+      margin-bottom: 8px;
+    }
+
+    .subtitulo {
+      text-align: center;
+      color: #bbb;
+      margin-bottom: 25px;
+    }
+
+    .busca {
+      background: #202020;
+      padding: 20px;
+      border-radius: 18px;
+      box-shadow: 0 8px 25px #0008;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      background: #333;
+      color: white;
+      font-size: 17px;
+      outline: none;
+      margin-bottom: 12px;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      background: #f5c400;
+      color: #111;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:active {
+      transform: scale(.98);
+    }
+
+    #status {
+      text-align: center;
+      margin: 18px 0;
+      color: #ccc;
+    }
+
+    .perfil {
+      display: none;
+      margin-top: 20px;
+    }
+
+    .card {
+      background: #202020;
+      border-radius: 18px;
+      padding: 20px;
+      margin-bottom: 15px;
+      box-shadow: 0 8px 25px #0007;
+    }
+
+    .nome {
+      font-size: 30px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .tag {
+      color: #aaa;
+      margin-bottom: 15px;
+    }
+
+    .estatisticas {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .estatistica {
+      background: #303030;
+      padding: 15px;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .numero {
+      display: block;
+      font-size: 25px;
+      font-weight: bold;
+    }
+
+    .titulo {
+      color: #aaa;
+      font-size: 13px;
+    }
+
+    .brawlers {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .brawler {
+      background: #303030;
+      padding: 13px;
+      border-radius: 12px;
+    }
+
+    .brawler strong {
+      display: block;
+      font-size: 17px;
+      margin-bottom: 5px;
+    }
+
+    .erro {
+      color: #ff6666 !important;
+    }
+
+    @media (max-width: 500px) {
+      h1 {
+        font-size: 30px;
+      }
+
+      .estatisticas,
+      .brawlers {
         grid-template-columns: 1fr;
+      }
     }
-}
-</style>
+  </style>
 </head>
 
 <body>
 
-<header class="topo">
-    <h1>🌙 BRAWL TSUKI 3.0</h1>
-    <p>Seu universo de Brawl</p>
-</header>
+  <div class="container">
 
-<nav class="menu">
+    <h1>🔥 BRAWL TSUKI</h1>
 
-    <button onclick="mostrarPagina('inicio')">
-        🏠 Página Inicial
-    </button>
+    <p class="subtitulo">
+      Veja seu próprio perfil do Brawl Stars
+    </p>
 
-    <button onclick="mostrarPagina('gerador')">
-        🎲 Brawler Generator
-    </button>
+    <div class="busca">
 
-    <button onclick="mostrarPagina('perfil')">
-        👤 Meu Perfil
-    </button>
+      <label for="tag">Digite sua tag:</label>
 
-    <button onclick="mostrarPagina('icone')">
-        🖼️ Criar Ícone
-    </button>
+      <input
+        id="tag"
+        type="text"
+        placeholder="#ABC123"
+        maxlength="20"
+      >
 
-    <button onclick="abrirBrawlStars()">
-        🎮 Entrar no Brawl Stars
-    </button>
-
-</nav>
-
-<main>
-
-<section id="inicio" class="pagina">
-
-    <div class="card hero">
-
-        <div class="emoji">🌙</div>
-
-        <h2>Bem-vindo ao Brawl Tsuki!</h2>
-
-        <p>
-            Explore o gerador, crie seu perfil
-            e monte seu próprio ícone.
-        </p>
-
-        <div class="acoes">
-
-            <button onclick="mostrarPagina('gerador')">
-                🎲 Gerar Brawler
-            </button>
-
-            <button onclick="mostrarPagina('icone')">
-                🖼️ Criar Ícone
-            </button>
-
-        </div>
+      <button onclick="buscarPerfil()">
+        🔎 VER MEU PERFIL
+      </button>
 
     </div>
 
-    <div class="card">
+    <p id="status"></p>
 
-        <h2>🔥 Novidades</h2>
+    <div id="perfil" class="perfil">
 
-        <p>• Brawler Generator atualizado</p>
-        <p>• Perfil personalizado</p>
-        <p>• Criador de ícones</p>
-        <p>• Interface Brawl Tsuki 3.0</p>
+      <div class="card">
 
-    </div>
+        <div id="nome" class="nome">
+          Jogador
+        </div>
 
-</section>
+        <div id="tagJogador" class="tag">
+          #XXXXXXXX
+        </div>
 
+        <div class="estatisticas">
 
-<section id="gerador" class="pagina escondido">
+          <div class="estatistica">
+            <span id="trofeus" class="numero">0</span>
+            <span class="titulo">🏆 Troféus</span>
+          </div>
 
-    <div class="card">
+          <div class="estatistica">
+            <span id="recorde" class="numero">0</span>
+            <span class="titulo">🏆 Recorde</span>
+          </div>
 
-        <h2>🎲 Brawler Generator</h2>
+          <div class="estatistica">
+            <span id="xp" class="numero">0</span>
+            <span class="titulo">⭐ XP</span>
+          </div>
 
-        <p>Gere um Brawler fictício aleatório!</p>
-
-        <div class="acoes">
-
-            <button onclick="gerarBrawler()">
-                ⚡ GERAR BRAWLER
-            </button>
+          <div class="estatistica">
+            <span id="brawlerCount" class="numero">0</span>
+            <span class="titulo">👊 Brawlers</span>
+          </div>
 
         </div>
 
-        <div id="resultadoBrawler"></div>
+      </div>
+
+      <div class="card">
+
+        <h2>👊 Meus Brawlers</h2>
+
+        <div id="listaBrawlers" class="brawlers"></div>
+
+      </div>
 
     </div>
 
-</section>
+  </div>
 
+  <script>
 
-<section id="perfil" class="pagina escondido">
+    async function buscarPerfil() {
 
-    <div class="card perfil">
+      const campo = document.getElementById("tag");
+      const status = document.getElementById("status");
+      const perfil = document.getElementById("perfil");
 
-        <h2>👤 Meu Perfil</h2>
+      let tag = campo.value.trim().toUpperCase();
 
-        <div id="avatarPerfil" class="avatar">
-            😎
-        </div>
+      if (!tag) {
+        status.textContent = "Digite sua tag primeiro!";
+        status.className = "erro";
+        return;
+      }
 
-        <input
-            id="nomePerfil"
-            type="text"
-            placeholder="Digite seu nome"
-        >
+      if (!tag.startsWith("#")) {
+        tag = "#" + tag;
+      }
 
-        <input
-            id="trofeusPerfil"
-            type="number"
-            placeholder="Quantidade de troféus"
-        >
+      status.className = "";
+      status.textContent = "🔄 Procurando seu perfil...";
 
-        <select id="avatarEscolhido">
+      perfil.style.display = "none";
 
-            <option value="😎">😎</option>
-            <option value="🔥">🔥</option>
-            <option value="👑">👑</option>
-            <option value="💀">💀</option>
-            <option value="⚡">⚡</option>
-            <option value="🐉">🐉</option>
-            <option value="🌙">🌙</option>
-            <option value="🤖">🤖</option>
+      try {
 
-        </select>
+        /*
+         * IMPORTANTE:
+         * O endereço abaixo será o seu servidor.
+         *
+         * Depois vamos criar o servidor para conversar
+         * com a API oficial do Brawl Stars.
+         */
 
-        <button onclick="salvarPerfil()">
-            💾 Salvar Perfil
-        </button>
+        const resposta = await fetch(
+          "https://SEU-SERVIDOR-AQUI.com/player/" +
+          encodeURIComponent(tag)
+        );
 
-        <div class="section">
+        if (!resposta.ok) {
+          throw new Error("Jogador não encontrado");
+        }
 
-            <h3>Seu perfil</h3>
+        const jogador = await resposta.json();
 
-            <p>
-                Nome:
-                <b id="nomeMostrado">Jogador</b>
-            </p>
+        document.getElementById("nome").textContent =
+          jogador.name || "Jogador";
 
-            <p>
-                🏆 Troféus:
-                <b id="trofeusMostrados">0</b>
-            </p>
+        document.getElementById("tagJogador").textContent =
+          jogador.tag || tag;
 
-        </div>
+        document.getElementById("trofeus").textContent =
+          jogador.trophies ?? 0;
 
-    </div>
+        document.getElementById("recorde").textContent =
+          jogador.highestTrophies ?? 0;
 
-</section>
+        document.getElementById("xp").textContent =
+          jogador.expLevel ?? 0;
 
+        const brawlers = jogador.brawlers || [];
 
-<section id="icone" class="pagina escondido">
+        document.getElementById("brawlerCount").textContent =
+          brawlers.length;
 
-    <div class="card">
+        const lista =
+          document.getElementById("listaBrawlers");
 
-        <h2>🖼️ Criador de Ícones</h2>
+        lista.innerHTML = "";
 
-        <p>Monte seu próprio ícone fictício.</p>
+        brawlers.forEach(brawler => {
 
-        <div
-            id="iconePreview"
-            class="icone-preview"
-            style="background: linear-gradient(135deg,#7c3aed,#06b6d4);"
-        >
-            😎
-        </div>
+          const div = document.createElement("div");
 
-        <label>Personagem</label>
+          div.className = "brawler";
 
-        <select id="iconePersonagem" onchange="atualizarIcone()">
-
-            <option value="😎">😎</option>
-            <option value="🔥">🔥</option>
-            <option value="⚡">⚡</option>
-            <option value="👑">👑</option>
-            <option value="💀">💀</option>
-            <option value="🐉">🐉</option>
-            <option value="👽">👽</option>
-            <option value="🤖">🤖</option>
-
-        </select>
-
-        <label>Fundo</label>
-
-        <select id="iconeFundo" onchange="atualizarIcone()">
-
-            <option value="purple">Roxo + Azul</option>
-            <option value="fire">Vermelho + Laranja</option>
-            <option value="ice">Azul + Branco</option>
-            <option value="dark">Preto + Roxo</option>
-            <option value="gold">Dourado + Laranja</option>
-
-        </select>
-
-        <button onclick="gerarIcone()">
-            ✨ GERAR ÍCONE
-        </button>
-
-        <p>
-            Este criador gera uma arte para você salvar
-            ou usar como inspiração.
-        </p>
-
-    </div>
-
-</section>
-
-</main>
-
-<footer>
-    Criado por Thalyson e ChatGPT ❤️
-</footer>
-
-
-<script>
-
-const brawlers = [
-
-{
-nome: "Volt",
-emoji: "⚡",
-raridade: "Raro",
-tipo: "Atirador",
-vida: 4200,
-ataque: 900,
-defesa: 55,
-velocidade: 85,
-especial: "Dispara uma rajada elétrica.",
-super: "Cria uma tempestade elétrica.",
-passivo: "Fica mais rápido com pouca vida."
-},
-
-{
-nome: "Shadow",
-emoji: "🌑",
-raridade: "Mítico",
-tipo: "Assassino",
-vida: 5000,
-ataque: 1800,
-defesa: 45,
-velocidade: 100,
-especial: "Ataca rapidamente com lâminas sombrias.",
-super: "Fica invisível por alguns segundos.",
-passivo: "Ganha velocidade após uma eliminação."
-},
-
-{
-nome: "Blaze",
-emoji: "🔥",
-raridade: "Épico",
-tipo: "Dano",
-vida: 6500,
-ataque: 1500,
-defesa: 70,
-velocidade: 65,
-especial: "Lança uma bola de fogo.",
-super: "Cria uma área de fogo.",
-passivo: "Seus ataques queimam os inimigos."
-},
-
-{
-nome: "Frost",
-emoji: "❄️",
-raridade: "Super-Raro",
-tipo: "Controle",
-vida: 4700,
-ataque: 1100,
-defesa: 60,
-velocidade: 70,
-especial: "Dispara cristais de gelo.",
-super: "Congela os inimigos.",
-passivo: "Inimigos atingidos ficam lentos."
-},
-
-{
-nome: "Drako",
-emoji: "🐉",
-raridade: "Lendário",
-tipo: "Tanque",
-vida: 9500,
-ataque: 1300,
-defesa: 95,
-velocidade: 55,
-especial: "Cospe fogo.",
-super: "Transforma-se em um dragão gigante.",
-passivo: "Fica mais resistente com pouca vida."
-},
-
-{
-nome: "Tsunki",
-emoji: "🌙",
-raridade: "Mítico",
-tipo: "Suporte",
-vida: 5200,
-ataque: 850,
-defesa: 65,
-velocidade: 75,
-especial: "Lança energia lunar.",
-super: "Cria uma área de cura.",
-passivo: "Cura aliados próximos."
-},
-
-{
-nome: "Rex",
-emoji: "🦖",
-raridade: "Épico",
-tipo: "Tanque",
-vida: 9000,
-ataque: 1200,
-defesa: 90,
-velocidade: 50,
-especial: "Dá uma mordida poderosa.",
-super: "Corre destruindo obstáculos.",
-passivo: "Fica resistente ao receber dano."
-},
-
-{
-nome: "Nox",
-emoji: "☠️",
-raridade: "Lendário",
-tipo: "Assassino",
-vida: 4800,
-ataque: 2200,
-defesa: 40,
-velocidade: 95,
-especial: "Ataca com energia sombria.",
-super: "Teleporta-se atrás do inimigo.",
-passivo: "Causa dano extra em inimigos fracos."
-},
-
-{
-nome: "Zappy",
-emoji: "🔋",
-raridade: "Raro",
-tipo: "Controle",
-vida: 4300,
-ataque: 1000,
-defesa: 60,
-velocidade: 80,
-especial: "Dispara um raio que ricocheteia.",
-super: "Cria uma explosão elétrica.",
-passivo: "Cada acerto fortalece o próximo ataque."
-},
-
-{
-nome: "Kairo",
-emoji: "⏳",
-raridade: "Mítico",
-tipo: "Controle",
-vida: 5600,
-ataque: 1250,
-defesa: 65,
-velocidade: 70,
-especial: "Dispara energia temporal.",
-super: "Diminui a velocidade dos inimigos.",
-passivo: "Carrega o Super mais rapidamente."
-},
-
-{
-nome: "Miko",
-emoji: "🎭",
-raridade: "Super-Raro",
-tipo: "Suporte",
-vida: 5000,
-ataque: 950,
-defesa: 60,
-velocidade: 85,
-especial: "Lança máscaras mágicas.",
-super: "Aumenta o ataque dos aliados.",
-passivo: "Fortalece aliados próximos."
-},
-
-{
-nome: "Raven",
-emoji: "🐦‍⬛",
-raridade: "Lendário",
-tipo: "Atirador",
-vida: 4400,
-ataque: 1900,
-defesa: 50,
-velocidade: 90,
-especial: "Dispara penas sombrias.",
-super: "Invoca uma tempestade de penas.",
-passivo: "Ataques consecutivos causam mais dano."
-},
-
-{
-nome: "Titan",
-emoji: "🗿",
-raridade: "Lendário",
-tipo: "Tanque",
-vida: 10000,
-ataque: 1400,
-defesa: 100,
-velocidade: 45,
-especial: "Dá um soco poderoso.",
-super: "Pula e cria uma onda de choque.",
-passivo: "É difícil empurrá-lo."
-},
-
-{
-nome: "Luna",
-emoji: "🌙",
-raridade: "Épico",
-tipo: "Suporte",
-vida: 5300,
-ataque: 900,
-defesa: 70,
-velocidade: 80,
-especial: "Dispara estrelas mágicas.",
-super: "Cria um campo de cura.",
-passivo: "Recebe velocidade extra."
-},
-
-{
-nome: "Cyber",
-emoji: "🤖",
-raridade: "Mítico",
-tipo: "Atirador",
-vida: 6000,
-ataque: 1600,
-defesa: 75,
-velocidade: 70,
-especial: "Dispara mísseis inteligentes.",
-super: "Invoca um robô auxiliar.",
-passivo: "Seus ataques perseguem inimigos próximos."
-}
-
-];
-
-
-function mostrarPagina(id) {
-
-const paginas = document.querySelectorAll(".pagina");
-
-paginas.forEach(function(pagina) {
-
-pagina.classList.add("escondido");
-
-});
-
-document.getElementById(id)
-.classList.remove("escondido");
-
-window.scrollTo({
-top: 0,
-behavior: "smooth"
-});
-
-}
-
-
-function aleatorio(lista) {
-
-return lista[
-Math.floor(Math.random() * lista.length)
-];
-
-}
-
-
-function gerarBrawler() {
-
-const brawler = aleatorio(brawlers);
-
-document.getElementById("resultadoBrawler").innerHTML = `
-
-<div class="resultado">
-
-<div class="personagem">
-${brawler.emoji}
-</div>
-
-<div class="nome">
-${brawler.nome}
-</div>
-
-<div class="raridade">
-${brawler.raridade}
-</div>
-
-<div class="stats">
-
-<div class="stat">
-<span>❤️</span>
-<b>Vida</b>
-<br>
-${brawler.vida}
-</div>
-
-<div class="stat">
-<span>⚔️</span>
-<b>Ataque</b>
-<br>
-${brawler.ataque}
-</div>
-
-<div class="stat">
-<span>🛡️</span>
-<b>Defesa</b>
-<br>
-${brawler.defesa}
-</div>
-
-<div class="stat">
-<span>⚡</span>
-<b>Velocidade</b>
-<br>
-${brawler.velocidade}
-</div>
-
-</div>
-
-<div class="section">
-
-<h3>🔥 Ataque</h3>
-
-<p>
-${brawler.especial}
-</p>
-
-</div>
-
-<div class="section">
-
-<h3>💥 Super</h3>
-
-<p>
-${brawler.super}
-</p>
-
-</div>
-
-<div class="section">
-
-<h3>🟢 Poder de Estrela</h3>
-
-<p>
-${brawler.passivo}
-</p>
-
-</div>
-
-<div class="tipo">
-🎭 Tipo: ${brawler.tipo}
-</div>
-
-</div>
-
-`;
-
-}
-
-
-function salvarPerfil() {
-
-const nome =
-document.getElementById("nomePerfil").value
-|| "Jogador";
-
-const trofeus =
-document.getElementById("trofeusPerfil").value
-|| "0";
-
-const avatar =
-document.getElementById("avatarEscolhido").value;
-
-document.getElementById("nomeMostrado")
-.textContent = nome;
-
-document.getElementById("trofeusMostrados")
-.textContent = trofeus;
-
-document.getElementById("avatarPerfil")
-.textContent = avatar;
-
-localStorage.setItem("brawlNome", nome);
-localStorage.setItem("brawlTrofeus", trofeus);
-localStorage.setItem("brawlAvatar", avatar);
-
-}
-
-
-function carregarPerfil() {
-
-const nome =
-localStorage.getItem("brawlNome");
-
-const trofeus =
-localStorage.getItem("brawlTrofeus");
-
-const avatar =
-localStorage.getItem("brawlAvatar");
-
-if (nome) {
-
-document.getElementById("nomeMostrado")
-.textContent = nome;
-
-document.getElementById("nomePerfil")
-.value = nome;
-
-}
-
-if (trofeus) {
-
-document.getElementById("trofeusMostrados")
-.textContent = trofeus;
-
-document.getElementById("trofeusPerfil")
-.value = trofeus;
-
-}
-
-if (avatar) {
-
-document.getElementById("avatarPerfil")
-.textContent = avatar;
-
-document.getElementById("avatarEscolhido")
-.value = avatar;
-
-}
-
-}
-
-
-function atualizarIcone() {
-
-const personagem =
-document.getElementById("iconePersonagem")
-.value;
-
-const fundo =
-document.getElementById("iconeFundo")
-.value;
-
-const preview =
-document.getElementById("iconePreview");
-
-preview.textContent = personagem;
-
-const fundos = {
-
-purple:
-"linear-gradient(135deg,#7c3aed,#06b6d4)",
-
-fire:
-"linear-gradient(135deg,#ef4444,#f97316)",
-
-ice:
-"linear-gradient(135deg,#38bdf8,#e0f2fe)",
-
-dark:
-"linear-gradient(135deg,#111827,#581c87)",
-
-gold:
-"linear-gradient(135deg,#facc15,#ea580c)"
-
-};
-
-preview.style.background =
-fundos[fundo];
-
-}
-
-
-function gerarIcone() {
-
-const personagens = [
-"😎",
-"🔥",
-"⚡",
-"👑",
-"💀",
-"🐉",
-"👽",
-"🤖",
-"🌙",
-"🦖"
-];
-
-const fundos = [
-"purple",
-"fire",
-"ice",
-"dark",
-"gold"
-];
-
-document.getElementById("iconePersonagem")
-.value =
-aleatorio(personagens);
-
-document.getElementById("iconeFundo")
-.value =
-aleatorio(fundos);
-
-atualizarIcone();
-
-}
-
-
-function abrirBrawlStars() {
-
-window.location.href =
-"brawlstars://";
-
-}
-
-
-carregarPerfil();
-
-</script>
+          div.innerHTML = `
+            <strong>👊 ${escapeHTML(brawler.name)}</strong>
+            🏆 ${brawler.trophies ?? 0} troféus<br>
+            ⭐ Poder ${brawler.power ?? 0}<br>
+            📈 Recorde ${brawler.highestTrophies ?? 0}
+          `;
+
+          lista.appendChild(div);
+
+        });
+
+        perfil.style.display = "block";
+
+        status.textContent =
+          "✅ Perfil carregado!";
+
+      } catch (erro) {
+
+        console.error(erro);
+
+        status.textContent =
+          "❌ Não consegui encontrar esse perfil.";
+
+        status.className = "erro";
+
+      }
+    }
+
+
+    function escapeHTML(text) {
+
+      const div = document.createElement("div");
+
+      div.textContent = text;
+
+      return div.innerHTML;
+    }
+
+
+    document.getElementById("tag")
+      .addEventListener("keydown", function(event) {
+
+        if (event.key === "Enter") {
+          buscarPerfil();
+        }
+
+      });
+
+  </script>
 
 </body>
-    </html>
+</html>
+
