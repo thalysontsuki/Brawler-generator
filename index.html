@@ -1,10 +1,10 @@
-
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Brawler Generator 2.0</title>
+
+<title>Brawler Generator</title>
 
 <style>
 * {
@@ -15,23 +15,24 @@ body {
     margin: 0;
     min-height: 100vh;
     font-family: Arial, sans-serif;
-    background: radial-gradient(circle at top, #3b1b69, transparent 45%),
-                linear-gradient(135deg, #101020, #171735);
     color: white;
-    display: flex;
-    justify-content: center;
+    text-align: center;
     padding: 25px 12px;
+
+    background:
+        radial-gradient(circle at top, #5b21b6, transparent 45%),
+        linear-gradient(135deg, #101020, #171735);
 }
 
 .container {
     width: 100%;
     max-width: 520px;
-    text-align: center;
+    margin: auto;
 }
 
 h1 {
-    margin: 5px 0;
     font-size: 36px;
+    margin: 5px 0;
     text-shadow: 0 4px 0 #000;
 }
 
@@ -41,7 +42,7 @@ h1 {
 }
 
 button {
-    border: none;
+    border: 0;
     border-radius: 15px;
     padding: 16px 22px;
     font-size: 18px;
@@ -61,7 +62,7 @@ button:active {
     margin-top: 25px;
     padding: 22px;
     border-radius: 25px;
-    background: linear-gradient(145deg, #27274d, #15152d);
+    background: linear-gradient(145deg, #292950, #15152d);
     border: 3px solid #ffffff22;
     box-shadow: 0 12px 35px #0008;
     animation: aparecer .4s ease;
@@ -72,16 +73,16 @@ button:active {
 }
 
 .foto-brawler {
-    width: 190px;
-    height: 190px;
+    width: 200px;
+    height: 200px;
     object-fit: contain;
     display: block;
     margin: 0 auto 10px;
-    filter: drop-shadow(0 8px 8px #0008);
+    filter: drop-shadow(0 8px 8px #000);
 }
 
 .nome {
-    font-size: 34px;
+    font-size: 36px;
     font-weight: 900;
     text-shadow: 0 4px 0 #000;
 }
@@ -89,10 +90,10 @@ button:active {
 .raridade {
     display: inline-block;
     margin: 8px 0 20px;
-    padding: 7px 14px;
+    padding: 8px 16px;
     border-radius: 20px;
     font-weight: bold;
-    background: #7c3aed;
+    background: #8b5cf6;
 }
 
 .stats {
@@ -109,12 +110,10 @@ button:active {
 
 .stat span {
     display: block;
-    font-size: 26px;
-    margin-bottom: 5px;
+    font-size: 27px;
 }
 
 .stat b {
-    font-size: 14px;
     color: #ddd;
 }
 
@@ -132,8 +131,6 @@ button:active {
 }
 
 .section p {
-    margin-bottom: 0;
-    color: #eee;
     line-height: 1.5;
 }
 
@@ -145,18 +142,19 @@ button:active {
 
 .creditos {
     margin-top: 22px;
-    font-size: 13px;
     color: #aaa;
+    font-size: 13px;
 }
 
 @keyframes aparecer {
     from {
         opacity: 0;
-        transform: scale(.85) translateY(20px);
+        transform: scale(.85);
     }
+
     to {
         opacity: 1;
-        transform: scale(1) translateY(0);
+        transform: scale(1);
     }
 }
 </style>
@@ -167,7 +165,10 @@ button:active {
 <div class="container">
 
 <h1>🎮 BRAWLER GENERATOR</h1>
-<div class="subtitle">Crie seu próprio Brawler!</div>
+
+<div class="subtitle">
+Crie seu próprio Brawler!
+</div>
 
 <button onclick="gerarBrawler()">
 ⚡ GERAR NOVO BRAWLER ⚡
@@ -175,9 +176,13 @@ button:active {
 
 <div id="card" class="card hidden">
 
-<img id="fotoBrawler" class="foto-brawler" src="" alt="Brawler">
+<img id="fotoBrawler"
+     class="foto-brawler"
+     src=""
+     alt="Brawler">
 
 <div id="nome" class="nome"></div>
+
 <div id="raridade" class="raridade"></div>
 
 <div class="stats">
@@ -209,17 +214,17 @@ button:active {
 </div>
 
 <div class="section">
-<h3>🔥 Ataque Especial</h3>
+<h3>🔥 Ataque</h3>
 <p id="especial"></p>
 </div>
 
 <div class="section">
-<h3>💥 Super Poder</h3>
+<h3>💥 Super</h3>
 <p id="super"></p>
 </div>
 
 <div class="section">
-<h3>🟢 Poder Passivo</h3>
+<h3>🟢 Poder de Estrela</h3>
 <p id="passivo"></p>
 </div>
 
@@ -240,112 +245,78 @@ Criado por Thalyson e ChatGPT ❤️
 const brawlers = [
 
 {
-nome: "Volt",
-foto: "https://via.placeholder.com/190?text=Volt"
+nome: "Mortis",
+raridade: "Mítico",
+tipo: "Algoz",
+vida: 8000,
+ataque: 1800,
+defesa: 65,
+velocidade: 95,
+
+foto: "mortis.png",
+
+especial:
+"Mortis avança para frente com sua pá, causando dano aos inimigos no caminho.",
+
+super:
+"Mortis lança uma onda de morcegos que causa dano e recupera sua vida.",
+
+passivo:
+"Coleta Sinistra: Mortis recupera vida ao derrotar um inimigo."
 },
 
 {
-nome: "Shadow",
-foto: "https://via.placeholder.com/190?text=Shadow"
+
+nome: "Pierce",
+raridade: "Lendário",
+tipo: "Atirador",
+vida: 6400,
+ataque: 2100,
+defesa: 55,
+velocidade: 75,
+
+foto: "pierce.png",
+
+especial:
+"Pierce dispara projéteis que podem atravessar Brawlers.",
+
+super:
+"Pierce dispara duas ondas de projéteis contra seus inimigos.",
+
+passivo:
+"Seus ataques podem atingir vários inimigos em sequência."
 },
 
 {
-nome: "Blaze",
-foto: "https://via.placeholder.com/190?text=Blaze"
-},
 
-{
-nome: "Nox",
-foto: "https://via.placeholder.com/190?text=Nox"
-},
+nome: "Sirius",
+raridade: "Ultra Lendário",
+tipo: "Controlador",
+vida: 3400,
+ataque: 1800,
+defesa: 60,
+velocidade: 72,
 
-{
-nome: "Tsunki",
-foto: "https://via.placeholder.com/190?text=Tsunki"
-},
+foto: "sirius.png",
 
-{
-nome: "Rex",
-foto: "https://via.placeholder.com/190?text=Rex"
-},
+especial:
+"Sirius dispara dois projéteis: uma bomba que causa dano em área e um ataque direto.",
 
-{
-nome: "Zappy",
-foto: "https://via.placeholder.com/190?text=Zappy"
-},
+super:
+"Sirius invoca Sombras de Brawlers derrotados para lutar ao seu lado.",
 
-{
-nome: "Kairo",
-foto: "https://via.placeholder.com/190?text=Kairo"
-},
-
-{
-nome: "Drako",
-foto: "https://via.placeholder.com/190?text=Drako"
-},
-
-{
-nome: "Miko",
-foto: "https://via.placeholder.com/190?text=Miko"
-},
-
-{
-nome: "Frost",
-foto: "https://via.placeholder.com/190?text=Frost"
+passivo:
+"A cada quarto acerto, Sirius pode armazenar uma Sombra."
 }
 
-];
-
-const raridades = [
-"Raro",
-"Super-Raro",
-"Épico",
-"Mítico",
-"Lendário"
-];
-
-const tipos = [
-"Tanque",
-"Assassino",
-"Atirador",
-"Suporte",
-"Controle",
-"Dano"
-];
-
-const ataques = [
-"Dispara uma rajada de energia contra o inimigo.",
-"Lança três projéteis explosivos.",
-"Ataca rapidamente com lâminas de energia.",
-"Dispara um poderoso raio de longo alcance.",
-"Arremessa uma bomba que causa dano em área.",
-"Invoca uma onda de choque."
-];
-
-const supers = [
-"Fica extremamente rápido durante alguns segundos.",
-"Cria uma explosão gigante ao redor do Brawler.",
-"Recupera uma grande quantidade de vida.",
-"Invoca um aliado temporário para ajudar na batalha.",
-"Fica invisível por alguns segundos.",
-"Lança um ataque que atravessa paredes."
-];
-
-const passivos = [
-"Ganha velocidade quando fica com pouca vida.",
-"Recupera vida lentamente depois de alguns segundos.",
-"Causa mais dano contra inimigos próximos.",
-"Recebe menos dano enquanto estiver parado.",
-"Aumenta o alcance do ataque.",
-"Carrega o Super mais rapidamente."
 ];
 
 function aleatorio(lista) {
-return lista[Math.floor(Math.random() * lista.length)];
-}
 
-function numero(min, max) {
-return Math.floor(Math.random() * (max - min + 1)) + min;
+return lista[
+Math.floor(Math.random() * lista.length)
+];
+
 }
 
 function gerarBrawler() {
@@ -355,40 +326,45 @@ const card = document.getElementById("card");
 card.classList.remove("hidden");
 
 card.style.animation = "none";
+
 void card.offsetWidth;
+
 card.style.animation = "aparecer .4s ease";
 
 const brawler = aleatorio(brawlers);
 
-document.getElementById("fotoBrawler").src = brawler.foto;
-document.getElementById("nome").textContent = brawler.nome;
+document.getElementById("fotoBrawler").src =
+brawler.foto;
+
+document.getElementById("nome").textContent =
+brawler.nome;
 
 document.getElementById("raridade").textContent =
-aleatorio(raridades);
+brawler.raridade;
 
 document.getElementById("vida").textContent =
-numero(2500, 10000);
+brawler.vida;
 
 document.getElementById("ataque").textContent =
-numero(500, 2500);
+brawler.ataque;
 
 document.getElementById("defesa").textContent =
-numero(20, 100);
+brawler.defesa;
 
 document.getElementById("velocidade").textContent =
-numero(50, 100);
+brawler.velocidade;
 
 document.getElementById("especial").textContent =
-aleatorio(ataques);
+brawler.especial;
 
 document.getElementById("super").textContent =
-aleatorio(supers);
+brawler.super;
 
 document.getElementById("passivo").textContent =
-aleatorio(passivos);
+brawler.passivo;
 
 document.getElementById("tipo").textContent =
-aleatorio(tipos);
+brawler.tipo;
 
 }
 
