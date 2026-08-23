@@ -1,387 +1,310 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brawl Tsuki 1v1</title>
 
-  <title>Brawl Tsuki</title>
+<style>
+* {
+  box-sizing: border-box;
+  user-select: none;
+}
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
+body {
+  margin: 0;
+  background: #111;
+  color: white;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
 
-    body {
-      min-height: 100vh;
-      background: linear-gradient(135deg, #111, #292929);
-      color: white;
-      padding: 20px;
-    }
+h1 {
+  margin: 15px 0 5px;
+}
 
-    .container {
-      max-width: 700px;
-      margin: auto;
-    }
+#arena {
+  position: relative;
+  width: 95%;
+  max-width: 800px;
+  height: 450px;
+  margin: 15px auto;
+  background: #5b9e43;
+  border: 6px solid #222;
+  border-radius: 20px;
+  overflow: hidden;
+}
 
-    h1 {
-      text-align: center;
-      font-size: 38px;
-      margin-bottom: 8px;
-    }
+.player {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 4px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
+}
 
-    .subtitulo {
-      text-align: center;
-      color: #bbb;
-      margin-bottom: 25px;
-    }
+#p1 {
+  background: #2878ff;
+  left: 60px;
+  top: 200px;
+}
 
-    .busca,
-    .card {
-      background: #202020;
-      padding: 20px;
-      border-radius: 18px;
-      margin-bottom: 18px;
-      box-shadow: 0 8px 25px #0008;
-    }
+#p2 {
+  background: #ff3d3d;
+  right: 60px;
+  top: 200px;
+}
 
-    label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: bold;
-    }
+.bullet {
+  position: absolute;
+  width: 13px;
+  height: 13px;
+  background: yellow;
+  border-radius: 50%;
+}
 
-    input {
-      width: 100%;
-      padding: 15px;
-      border: none;
-      border-radius: 12px;
-      background: #333;
-      color: white;
-      font-size: 17px;
-      outline: none;
-      margin-bottom: 12px;
-    }
+.bar {
+  width: 45%;
+  height: 18px;
+  background: #333;
+  border-radius: 10px;
+  overflow: hidden;
+  display: inline-block;
+  margin: 5px;
+}
 
-    button {
-      width: 100%;
-      padding: 15px;
-      border: none;
-      border-radius: 12px;
-      background: #f5c400;
-      color: #111;
-      font-size: 18px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+.hp {
+  height: 100%;
+  width: 100%;
+  background: #28d34d;
+}
 
-    button:active {
-      transform: scale(.98);
-    }
+button {
+  padding: 12px 18px;
+  margin: 5px;
+  border: 0;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 16px;
+}
 
-    #status {
-      text-align: center;
-      margin: 18px 0;
-      color: #ccc;
-    }
+#controles {
+  max-width: 800px;
+  margin: auto;
+}
 
-    .erro {
-      color: #ff6666 !important;
-    }
+.controle {
+  display: inline-grid;
+  grid-template-columns: repeat(3, 55px);
+  gap: 5px;
+}
 
-    .perfil {
-      display: none;
-    }
+.controle button {
+  width: 55px;
+  height: 55px;
+  padding: 0;
+  background: #333;
+  color: white;
+}
 
-    .nome {
-      font-size: 30px;
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
+.acao {
+  background: #e5b900 !important;
+  color: black !important;
+}
 
-    .tag {
-      color: #aaa;
-      margin-bottom: 18px;
-    }
-
-    .estatisticas {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-    }
-
-    .estatistica {
-      background: #303030;
-      padding: 15px;
-      border-radius: 12px;
-      text-align: center;
-    }
-
-    .numero {
-      display: block;
-      font-size: 25px;
-      font-weight: bold;
-    }
-
-    .titulo {
-      color: #aaa;
-      font-size: 13px;
-    }
-
-    .brawlers {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      margin-top: 15px;
-    }
-
-    .brawler {
-      background: #303030;
-      padding: 13px;
-      border-radius: 12px;
-    }
-
-    .brawler strong {
-      display: block;
-      font-size: 18px;
-      margin-bottom: 5px;
-    }
-
-    @media (max-width: 500px) {
-      .estatisticas,
-      .brawlers {
-        grid-template-columns: 1fr;
-      }
-
-      h1 {
-        font-size: 30px;
-      }
-    }
-  </style>
+#mensagem {
+  font-size: 22px;
+  font-weight: bold;
+  margin: 10px;
+}
+</style>
 </head>
 
 <body>
 
-  <div class="container">
+<h1>🔥 BRAWL TSUKI 1V1</h1>
 
-    <h1>🔥 BRAWL TSUKI</h1>
-
-    <p class="subtitulo">
-      Veja seu perfil
-    </p>
-
-    <div class="busca">
-
-      <label for="tag">Digite sua tag:</label>
-
-      <input
-        id="tag"
-        type="text"
-        placeholder="#ABC123"
-        maxlength="20"
-      >
-
-      <button onclick="buscarPerfil()">
-        🔎 VER MEU PERFIL
-      </button>
-
-    </div>
-
-    <p id="status"></p>
-
-    <div id="perfil" class="perfil">
-
-      <div class="card">
-
-        <div id="nome" class="nome">
-          Jogador
-        </div>
-
-        <div id="tagJogador" class="tag">
-          #XXXXXXXX
-        </div>
-
-        <div class="estatisticas">
-
-          <div class="estatistica">
-            <span id="trofeus" class="numero">0</span>
-            <span class="titulo">🏆 Troféus</span>
-          </div>
-
-          <div class="estatistica">
-            <span id="recorde" class="numero">0</span>
-            <span class="titulo">🏆 Recorde</span>
-          </div>
-
-          <div class="estatistica">
-            <span id="xp" class="numero">0</span>
-            <span class="titulo">⭐ XP</span>
-          </div>
-
-          <div class="estatistica">
-            <span id="brawlerCount" class="numero">0</span>
-            <span class="titulo">👊 Brawlers</span>
-          </div>
-
-        </div>
-
-      </div>
-
-      <div class="card">
-
-        <h2>👊 Meus Brawlers</h2>
-
-        <div id="listaBrawlers" class="brawlers"></div>
-
-      </div>
-
-    </div>
-
+<div>
+  P1 ❤️
+  <div class="bar">
+    <div id="hp1" class="hp"></div>
   </div>
 
-  <script>
+  P2 ❤️
+  <div class="bar">
+    <div id="hp2" class="hp"></div>
+  </div>
+</div>
 
-    function buscarPerfil() {
+<div id="arena">
+  <div id="p1" class="player">👊</div>
+  <div id="p2" class="player">👊</div>
+</div>
 
-      const campo = document.getElementById("tag");
-      const status = document.getElementById("status");
-      const perfil = document.getElementById("perfil");
+<div id="mensagem">⚔️ Batalha!</div>
 
-      let tag = campo.value.trim().toUpperCase();
+<div id="controles">
 
-      if (!tag) {
-        status.textContent = "Digite sua tag primeiro!";
-        status.className = "erro";
-        return;
-      }
+  <h3>🔵 Jogador 1</h3>
 
-      if (!tag.startsWith("#")) {
-        tag = "#" + tag;
-      }
+  <div class="controle">
+    <span></span>
+    <button onclick="mover(1,0,-15)">⬆️</button>
+    <span></span>
 
-      const jogador = {
+    <button onclick="mover(1,-15,0)">⬅️</button>
+    <button onclick="atacar(1)">💥</button>
+    <button onclick="mover(1,15,0)">➡️</button>
 
-        name: "Thalyson",
+    <span></span>
+    <button onclick="mover(1,0,15)">⬇️</button>
+    <span></span>
+  </div>
 
-        tag: tag,
+  <h3>🔴 Jogador 2</h3>
 
-        trophies: 12500,
+  <div class="controle">
+    <span></span>
+    <button onclick="mover(2,0,-15)">⬆️</button>
+    <span></span>
 
-        highestTrophies: 14000,
+    <button onclick="mover(2,-15,0)">⬅️</button>
+    <button onclick="atacar(2)">💥</button>
+    <button onclick="mover(2,15,0)">➡️</button>
 
-        expLevel: 120,
+    <span></span>
+    <button onclick="mover(2,0,15)">⬇️</button>
+    <span></span>
+  </div>
 
-        brawlers: [
+</div>
 
-          {
-            name: "Shelly",
-            trophies: 800,
-            power: 11,
-            highestTrophies: 850
-          },
+<br>
 
-          {
-            name: "Colt",
-            trophies: 750,
-            power: 10,
-            highestTrophies: 820
-          },
+<button class="acao" onclick="reiniciar()">
+  🔄 RECOMEÇAR
+</button>
 
-          {
-            name: "Spike",
-            trophies: 900,
-            power: 11,
-            highestTrophies: 950
-          },
+<script>
 
-          {
-            name: "Leon",
-            trophies: 700,
-            power: 10,
-            highestTrophies: 780
-          },
+let jogadores = {
+  1: {
+    x: 60,
+    y: 200,
+    hp: 100
+  },
 
-          {
-            name: "El Primo",
-            trophies: 650,
-            power: 10,
-            highestTrophies: 720
-          },
+  2: {
+    x: 690,
+    y: 200,
+    hp: 100
+  }
+};
 
-          {
-            name: "Charlie",
-            trophies: 600,
-            power: 9,
-            highestTrophies: 690
-          }
+function atualizar() {
 
-        ]
+  document.getElementById("p1").style.left =
+    jogadores[1].x + "px";
 
-      };
+  document.getElementById("p1").style.top =
+    jogadores[1].y + "px";
 
-      document.getElementById("nome").textContent =
-        jogador.name;
+  document.getElementById("p2").style.left =
+    jogadores[2].x + "px";
 
-      document.getElementById("tagJogador").textContent =
-        jogador.tag;
+  document.getElementById("p2").style.top =
+    jogadores[2].y + "px";
 
-      document.getElementById("trofeus").textContent =
-        jogador.trophies;
+  document.getElementById("hp1").style.width =
+    jogadores[1].hp + "%";
 
-      document.getElementById("recorde").textContent =
-        jogador.highestTrophies;
+  document.getElementById("hp2").style.width =
+    jogadores[2].hp + "%";
+}
 
-      document.getElementById("xp").textContent =
-        jogador.expLevel;
+function mover(jogador, dx, dy) {
 
-      document.getElementById("brawlerCount").textContent =
-        jogador.brawlers.length;
+  if (jogadores[jogador].hp <= 0) return;
 
-      const lista =
-        document.getElementById("listaBrawlers");
+  jogadores[jogador].x += dx;
+  jogadores[jogador].y += dy;
 
-      lista.innerHTML = "";
+  jogadores[jogador].x =
+    Math.max(0, Math.min(750, jogadores[jogador].x));
 
-      jogador.brawlers.forEach(brawler => {
+  jogadores[jogador].y =
+    Math.max(0, Math.min(400, jogadores[jogador].y));
 
-        const div = document.createElement("div");
+  atualizar();
+}
 
-        div.className = "brawler";
+function atacar(jogador) {
 
-        div.innerHTML = `
-          <strong>👊 ${brawler.name}</strong>
-          🏆 ${brawler.trophies} troféus<br>
-          ⭐ Poder ${brawler.power}<br>
-          📈 Recorde ${brawler.highestTrophies}
-        `;
+  const inimigo = jogador === 1 ? 2 : 1;
 
-        lista.appendChild(div);
+  const dx =
+    jogadores[inimigo].x -
+    jogadores[jogador].x;
 
-      });
+  const dy =
+    jogadores[inimigo].y -
+    jogadores[jogador].y;
 
-      perfil.style.display = "block";
+  const distancia =
+    Math.sqrt(dx * dx + dy * dy);
 
-      status.textContent =
-        "✅ Perfil carregado!";
+  if (distancia < 180) {
 
-      status.className = "";
+    jogadores[inimigo].hp -= 20;
 
+    if (jogadores[inimigo].hp < 0) {
+      jogadores[inimigo].hp = 0;
     }
 
-    document.getElementById("tag").addEventListener(
-      "keydown",
-      function(event) {
+    atualizar();
 
-        if (event.key === "Enter") {
-          buscarPerfil();
-        }
+    if (jogadores[inimigo].hp === 0) {
 
-      }
-    );
+      document.getElementById("mensagem").textContent =
+        jogador === 1
+        ? "🏆 JOGADOR 1 VENCEU!"
+        : "🏆 JOGADOR 2 VENCEU!";
+    }
 
-  </script>
+  } else {
+
+    document.getElementById("mensagem").textContent =
+      "💨 Muito longe!";
+  }
+}
+
+function reiniciar() {
+
+  jogadores[1] = {
+    x: 60,
+    y: 200,
+    hp: 100
+  };
+
+  jogadores[2] = {
+    x: 690,
+    y: 200,
+    hp: 100
+  };
+
+  document.getElementById("mensagem").textContent =
+    "⚔️ Batalha!";
+
+  atualizar();
+}
+
+atualizar();
+
+</script>
 
 </body>
 </html>
