@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Brawler Generator</title>
 
 <style>
@@ -18,7 +17,6 @@ body {
     color: white;
     text-align: center;
     padding: 25px 12px;
-
     background:
         radial-gradient(circle at top, #5b21b6, transparent 45%),
         linear-gradient(135deg, #101020, #171735);
@@ -72,13 +70,18 @@ button:active {
     display: none;
 }
 
-.foto-brawler {
-    width: 200px;
-    height: 200px;
-    object-fit: contain;
-    display: block;
-    margin: 0 auto 10px;
-    filter: drop-shadow(0 8px 8px #000);
+.personagem {
+    width: 180px;
+    height: 180px;
+    margin: 0 auto 15px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 75px;
+    background: linear-gradient(135deg, #ffcf33, #ff5e00);
+    border: 5px solid white;
+    box-shadow: 0 8px 20px #000;
 }
 
 .nome {
@@ -149,12 +152,12 @@ button:active {
 @keyframes aparecer {
     from {
         opacity: 0;
-        transform: scale(.85);
+        transform: scale(.8) rotate(-5deg);
     }
 
     to {
         opacity: 1;
-        transform: scale(1);
+        transform: scale(1) rotate(0);
     }
 }
 </style>
@@ -176,10 +179,7 @@ Crie seu próprio Brawler!
 
 <div id="card" class="card hidden">
 
-<img id="fotoBrawler"
-     class="foto-brawler"
-     src=""
-     alt="Brawler">
+<div id="personagem" class="personagem">🥊</div>
 
 <div id="nome" class="nome"></div>
 
@@ -245,68 +245,213 @@ Criado por Thalyson e ChatGPT ❤️
 const brawlers = [
 
 {
-nome: "Mortis",
-raridade: "Mítico",
-tipo: "Algoz",
-vida: 8000,
-ataque: 1800,
-defesa: 65,
-velocidade: 95,
-
-foto: "mortis.png",
-
-especial:
-"Mortis avança para frente com sua pá, causando dano aos inimigos no caminho.",
-
-super:
-"Mortis lança uma onda de morcegos que causa dano e recupera sua vida.",
-
-passivo:
-"Coleta Sinistra: Mortis recupera vida ao derrotar um inimigo."
+nome: "Volt",
+emoji: "⚡",
+raridade: "Raro",
+tipo: "Atirador",
+vida: 4200,
+ataque: 900,
+defesa: 55,
+velocidade: 85,
+especial: "Dispara uma rajada elétrica que atinge vários inimigos.",
+super: "Cria uma tempestade elétrica que causa dano em área.",
+passivo: "Fica mais rápido quando sua vida está baixa."
 },
 
 {
+nome: "Shadow",
+emoji: "🌑",
+raridade: "Mítico",
+tipo: "Assassino",
+vida: 5000,
+ataque: 1800,
+defesa: 45,
+velocidade: 100,
+especial: "Avança rapidamente e causa dano com suas lâminas.",
+super: "Fica invisível durante alguns segundos.",
+passivo: "Recebe velocidade extra depois de derrotar um inimigo."
+},
 
-nome: "Pierce",
+{
+nome: "Blaze",
+emoji: "🔥",
+raridade: "Épico",
+tipo: "Dano",
+vida: 6500,
+ataque: 1500,
+defesa: 70,
+velocidade: 65,
+especial: "Lança uma bola de fogo explosiva.",
+super: "Cria um círculo de fogo no chão.",
+passivo: "Seus ataques deixam os inimigos queimando."
+},
+
+{
+nome: "Frost",
+emoji: "❄️",
+raridade: "Super-Raro",
+tipo: "Controle",
+vida: 4700,
+ataque: 1100,
+defesa: 60,
+velocidade: 70,
+especial: "Dispara cristais de gelo.",
+super: "Congela os inimigos por alguns segundos.",
+passivo: "Inimigos atingidos ficam mais lentos."
+},
+
+{
+nome: "Drako",
+emoji: "🐉",
+raridade: "Lendário",
+tipo: "Tanque",
+vida: 9500,
+ataque: 1300,
+defesa: 95,
+velocidade: 55,
+especial: "Cospe fogo em uma área à sua frente.",
+super: "Transforma-se em um dragão gigante.",
+passivo: "Recebe menos dano enquanto estiver com pouca vida."
+},
+
+{
+nome: "Tsunki",
+emoji: "🌙",
+raridade: "Mítico",
+tipo: "Suporte",
+vida: 5200,
+ataque: 850,
+defesa: 65,
+velocidade: 75,
+especial: "Lança uma energia lunar que cura aliados.",
+super: "Cria uma área que recupera vida dos aliados.",
+passivo: "Cura lentamente os aliados próximos."
+},
+
+{
+nome: "Rex",
+emoji: "🦖",
+raridade: "Épico",
+tipo: "Tanque",
+vida: 9000,
+ataque: 1200,
+defesa: 90,
+velocidade: 50,
+especial: "Dá uma mordida poderosa.",
+super: "Corre para frente destruindo obstáculos.",
+passivo: "Fica mais resistente quando recebe muito dano."
+},
+
+{
+nome: "Nox",
+emoji: "☠️",
+raridade: "Lendário",
+tipo: "Assassino",
+vida: 4800,
+ataque: 2200,
+defesa: 40,
+velocidade: 95,
+especial: "Ataca com energia sombria.",
+super: "Teleporta-se atrás do inimigo.",
+passivo: "Causa dano extra em inimigos com pouca vida."
+},
+
+{
+nome: "Zappy",
+emoji: "🔋",
+raridade: "Raro",
+tipo: "Controle",
+vida: 4300,
+ataque: 1000,
+defesa: 60,
+velocidade: 80,
+especial: "Dispara um raio que pode ricochetear.",
+super: "Cria uma grande explosão elétrica.",
+passivo: "Cada acerto aumenta seu próximo ataque."
+},
+
+{
+nome: "Kairo",
+emoji: "⏳",
+raridade: "Mítico",
+tipo: "Controle",
+vida: 5600,
+ataque: 1250,
+defesa: 65,
+velocidade: 70,
+especial: "Dispara um relógio de energia.",
+super: "Diminui a velocidade dos inimigos.",
+passivo: "Seus ataques carregam o Super mais rápido."
+},
+
+{
+nome: "Miko",
+emoji: "🎭",
+raridade: "Super-Raro",
+tipo: "Suporte",
+vida: 5000,
+ataque: 950,
+defesa: 60,
+velocidade: 85,
+especial: "Lança máscaras mágicas.",
+super: "Cria uma área que aumenta o ataque dos aliados.",
+passivo: "Aliados próximos recebem um pequeno bônus."
+},
+
+{
+nome: "Raven",
+emoji: "🐦‍⬛",
 raridade: "Lendário",
 tipo: "Atirador",
-vida: 6400,
-ataque: 2100,
-defesa: 55,
-velocidade: 75,
-
-foto: "pierce.png",
-
-especial:
-"Pierce dispara projéteis que podem atravessar Brawlers.",
-
-super:
-"Pierce dispara duas ondas de projéteis contra seus inimigos.",
-
-passivo:
-"Seus ataques podem atingir vários inimigos em sequência."
+vida: 4400,
+ataque: 1900,
+defesa: 50,
+velocidade: 90,
+especial: "Dispara penas sombrias de longo alcance.",
+super: "Invoca uma tempestade de penas.",
+passivo: "Ataques consecutivos causam dano adicional."
 },
 
 {
+nome: "Titan",
+emoji: "🗿",
+raridade: "Lendário",
+tipo: "Tanque",
+vida: 10000,
+ataque: 1400,
+defesa: 100,
+velocidade: 45,
+especial: "Dá um soco que empurra o inimigo.",
+super: "Pula e causa uma enorme onda de choque.",
+passivo: "Não pode ser empurrado facilmente."
+},
 
-nome: "Sirius",
-raridade: "Ultra Lendário",
-tipo: "Controlador",
-vida: 3400,
-ataque: 1800,
-defesa: 60,
-velocidade: 72,
+{
+nome: "Luna",
+emoji: "🌙",
+raridade: "Épico",
+tipo: "Suporte",
+vida: 5300,
+ataque: 900,
+defesa: 70,
+velocidade: 80,
+especial: "Dispara estrelas mágicas.",
+super: "Cria um campo que cura seus aliados.",
+passivo: "Recebe mais velocidade durante a noite."
+},
 
-foto: "sirius.png",
-
-especial:
-"Sirius dispara dois projéteis: uma bomba que causa dano em área e um ataque direto.",
-
-super:
-"Sirius invoca Sombras de Brawlers derrotados para lutar ao seu lado.",
-
-passivo:
-"A cada quarto acerto, Sirius pode armazenar uma Sombra."
+{
+nome: "Cyber",
+emoji: "🤖",
+raridade: "Mítico",
+tipo: "Atirador",
+vida: 6000,
+ataque: 1600,
+defesa: 75,
+velocidade: 70,
+especial: "Dispara mísseis inteligentes.",
+super: "Invoca um robô auxiliar.",
+passivo: "Seus ataques podem procurar inimigos próximos."
 }
 
 ];
@@ -333,8 +478,8 @@ card.style.animation = "aparecer .4s ease";
 
 const brawler = aleatorio(brawlers);
 
-document.getElementById("fotoBrawler").src =
-brawler.foto;
+document.getElementById("personagem").textContent =
+brawler.emoji;
 
 document.getElementById("nome").textContent =
 brawler.nome;
