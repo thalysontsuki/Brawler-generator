@@ -1,78 +1,342 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brawler Generator - Crie seu Brawler Único!</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brawler Generator 2.0</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    background:
+        radial-gradient(circle at top, #3b1b69, transparent 45%),
+        linear-gradient(135deg, #101020, #171735);
+    color: white;
+    display: flex;
+    justify-content: center;
+    padding: 25px 12px;
+}
+
+.container {
+    width: 100%;
+    max-width: 520px;
+    text-align: center;
+}
+
+h1 {
+    margin: 5px 0;
+    font-size: 36px;
+    text-shadow: 0 4px 0 #000;
+}
+
+.subtitle {
+    color: #ddd;
+    margin-bottom: 20px;
+}
+
+button {
+    border: none;
+    border-radius: 15px;
+    padding: 16px 22px;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(#ffcf33, #ff7b00);
+    box-shadow: 0 6px 0 #9b4300;
+    cursor: pointer;
+    transition: .15s;
+}
+
+button:hover {
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: translateY(4px);
+    box-shadow: 0 2px 0 #9b4300;
+}
+
+.card {
+    margin-top: 25px;
+    padding: 22px;
+    border-radius: 25px;
+    background: linear-gradient(145deg, #27274d, #15152d);
+    border: 3px solid #ffffff22;
+    box-shadow: 0 12px 35px #0008;
+    animation: aparecer .4s ease;
+}
+
+.hidden {
+    display: none;
+}
+
+.nome {
+    font-size: 34px;
+    font-weight: 900;
+    text-shadow: 0 4px 0 #000;
+}
+
+.raridade {
+    display: inline-block;
+    margin: 8px 0 20px;
+    padding: 7px 14px;
+    border-radius: 20px;
+    font-weight: bold;
+    background: #7c3aed;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.stat {
+    background: #ffffff12;
+    border-radius: 15px;
+    padding: 15px 8px;
+}
+
+.stat span {
+    display: block;
+    font-size: 26px;
+    margin-bottom: 5px;
+}
+
+.stat b {
+    font-size: 14px;
+    color: #ddd;
+}
+
+.section {
+    margin-top: 20px;
+    text-align: left;
+    padding: 15px;
+    background: #ffffff0d;
+    border-radius: 15px;
+}
+
+.section h3 {
+    margin-top: 0;
+    color: #ffd43b;
+}
+
+.section p {
+    margin-bottom: 0;
+    color: #eee;
+    line-height: 1.5;
+}
+
+.tipo {
+    margin-top: 18px;
+    font-weight: bold;
+    color: #66e3ff;
+}
+
+.creditos {
+    margin-top: 22px;
+    font-size: 13px;
+    color: #aaa;
+}
+
+@keyframes aparecer {
+    from {
+        opacity: 0;
+        transform: scale(.85) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+</style>
 </head>
+
 <body>
-    <div class="container">
-        <header>
-            <h1>🎮 BRAWLER GENERATOR 🎮</h1>
-            <p>Gere seu Brawler único com poderes aleatórios!</p>
-        </header>
 
-        <main>
-            <div class="generator-section">
-                <button id="generateBtn" class="generate-btn">
-                    ⚡ GERAR NOVO BRAWLER ⚡
-                </button>
+<div class="container">
+
+    <h1>🎮 BRAWLER GENERATOR</h1>
+    <div class="subtitle">Crie seu próprio Brawler!</div>
+
+    <button onclick="gerarBrawler()">
+        ⚡ GERAR NOVO BRAWLER ⚡
+    </button>
+
+    <div id="card" class="card hidden">
+
+        <div id="nome" class="nome"></div>
+        <div id="raridade" class="raridade"></div>
+
+        <div class="stats">
+
+            <div class="stat">
+                <span>❤️</span>
+                <b>VIDA</b>
+                <div id="vida"></div>
             </div>
 
-            <div class="brawler-card" id="brawlerCard">
-                <div class="brawler-image" id="brawlerImage">
-                    <canvas id="brawlerCanvas" width="250" height="250"></canvas>
-                </div>
-                
-                <div class="brawler-info">
-                    <h2 id="brawlerName">Clique para gerar um Brawler!</h2>
-                    
-                    <div class="stats">
-                        <div class="stat">
-                            <span class="stat-label">❤️ Vida:</span>
-                            <span class="stat-value" id="health">-</span>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-label">⚔️ Ataque:</span>
-                            <span class="stat-value" id="attack">-</span>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-label">🛡️ Defesa:</span>
-                            <span class="stat-value" id="defense">-</span>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-label">⚡ Velocidade:</span>
-                            <span class="stat-value" id="speed">-</span>
-                        </div>
-                    </div>
-
-                    <div class="abilities">
-                        <h3>🔥 Habilidades</h3>
-                        <div class="ability" id="ability1">
-                            <strong>Ataque Especial:</strong> <span id="ability1Text">-</span>
-                        </div>
-                        <div class="ability" id="ability2">
-                            <strong>Super Poder:</strong> <span id="ability2Text">-</span>
-                        </div>
-                        <div class="ability" id="ability3">
-                            <strong>Poder Passivo:</strong> <span id="ability3Text">-</span>
-                        </div>
-                    </div>
-
-                    <div class="type-badge" id="typeBadge">
-                        Tipo: <span id="typeText">-</span>
-                    </div>
-                </div>
+            <div class="stat">
+                <span>⚔️</span>
+                <b>ATAQUE</b>
+                <div id="ataque"></div>
             </div>
-        </main>
 
-        <footer>
-            <p>🎨 Cada Brawler é gerado aleatoriamente com cores e poderes únicos!</p>
-            <p>Criado com ❤️ para fãs de Brawl Stars</p>
-        </footer>
+            <div class="stat">
+                <span>🛡️</span>
+                <b>DEFESA</b>
+                <div id="defesa"></div>
+            </div>
+
+            <div class="stat">
+                <span>⚡</span>
+                <b>VELOCIDADE</b>
+                <div id="velocidade"></div>
+            </div>
+
+        </div>
+
+        <div class="section">
+            <h3>🔥 Ataque Especial</h3>
+            <p id="especial"></p>
+        </div>
+
+        <div class="section">
+            <h3>💥 Super Poder</h3>
+            <p id="super"></p>
+        </div>
+
+        <div class="section">
+            <h3>🟢 Poder Passivo</h3>
+            <p id="passivo"></p>
+        </div>
+
+        <div class="tipo">
+            🎭 Tipo: <span id="tipo"></span>
+        </div>
+
     </div>
 
-    <script src="script.js"></script>
+    <div class="creditos">
+        Criado por Thalyson e ChatGPT ❤️
+    </div>
+
+</div>
+
+<script>
+
+const nomes = [
+    "Volt",
+    "Shadow",
+    "SpikeX",
+    "Blaze",
+    "Nox",
+    "Tsunki",
+    "Rex",
+    "Zappy",
+    "Kairo",
+    "Drako",
+    "Miko",
+    "Frost"
+];
+
+const raridades = [
+    "Raro",
+    "Super-Raro",
+    "Épico",
+    "Mítico",
+    "Lendário"
+];
+
+const tipos = [
+    "Tanque",
+    "Assassino",
+    "Atirador",
+    "Suporte",
+    "Controle",
+    "Dano"
+];
+
+const ataques = [
+    "Dispara uma rajada de energia contra o inimigo.",
+    "Lança três projéteis explosivos.",
+    "Ataca rapidamente com lâminas de energia.",
+    "Dispara um poderoso raio de longo alcance.",
+    "Arremessa uma bomba que causa dano em área.",
+    "Invoca uma onda de choque."
+];
+
+const supers = [
+    "Fica extremamente rápido durante alguns segundos.",
+    "Cria uma explosão gigante ao redor do Brawler.",
+    "Recupera uma grande quantidade de vida.",
+    "Invoca um aliado temporário para ajudar na batalha.",
+    "Fica invisível por alguns segundos.",
+    "Lança um ataque que atravessa paredes."
+];
+
+const passivos = [
+    "Ganha velocidade quando fica com pouca vida.",
+    "Recupera vida lentamente depois de alguns segundos.",
+    "Causa mais dano contra inimigos próximos.",
+    "Recebe menos dano enquanto estiver parado.",
+    "Aumenta o alcance do ataque.",
+    "Carrega o Super mais rapidamente."
+];
+
+function aleatorio(lista) {
+    return lista[Math.floor(Math.random() * lista.length)];
+}
+
+function numero(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function gerarBrawler() {
+
+    const card = document.getElementById("card");
+
+    card.classList.remove("hidden");
+
+    card.style.animation = "none";
+    void card.offsetWidth;
+    card.style.animation = "aparecer .4s ease";
+
+    document.getElementById("nome").textContent = aleatorio(nomes);
+    document.getElementById("raridade").textContent = aleatorio(raridades);
+
+    document.getElementById("vida").textContent =
+        numero(2500, 10000);
+
+    document.getElementById("ataque").textContent =
+        numero(500, 2500);
+
+    document.getElementById("defesa").textContent =
+        numero(20, 100);
+
+    document.getElementById("velocidade").textContent =
+        numero(50, 100);
+
+    document.getElementById("especial").textContent =
+        aleatorio(ataques);
+
+    document.getElementById("super").textContent =
+        aleatorio(supers);
+
+    document.getElementById("passivo").textContent =
+        aleatorio(passivos);
+
+    document.getElementById("tipo").textContent =
+        aleatorio(tipos);
+}
+
+</script>
+
 </body>
 </html>
