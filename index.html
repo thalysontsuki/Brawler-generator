@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Brawl Tsuki 3.0 - Meu Perfil</title>
+  <title>Brawl Tsuki</title>
 
   <style>
     * {
@@ -16,7 +16,7 @@
 
     body {
       min-height: 100vh;
-      background: linear-gradient(135deg, #151515, #242424);
+      background: linear-gradient(135deg, #111, #292929);
       color: white;
       padding: 20px;
     }
@@ -28,7 +28,7 @@
 
     h1 {
       text-align: center;
-      font-size: 36px;
+      font-size: 38px;
       margin-bottom: 8px;
     }
 
@@ -38,10 +38,12 @@
       margin-bottom: 25px;
     }
 
-    .busca {
+    .busca,
+    .card {
       background: #202020;
       padding: 20px;
       border-radius: 18px;
+      margin-bottom: 18px;
       box-shadow: 0 8px 25px #0008;
     }
 
@@ -85,17 +87,12 @@
       color: #ccc;
     }
 
-    .perfil {
-      display: none;
-      margin-top: 20px;
+    .erro {
+      color: #ff6666 !important;
     }
 
-    .card {
-      background: #202020;
-      border-radius: 18px;
-      padding: 20px;
-      margin-bottom: 15px;
-      box-shadow: 0 8px 25px #0007;
+    .perfil {
+      display: none;
     }
 
     .nome {
@@ -106,7 +103,7 @@
 
     .tag {
       color: #aaa;
-      margin-bottom: 15px;
+      margin-bottom: 18px;
     }
 
     .estatisticas {
@@ -148,22 +145,18 @@
 
     .brawler strong {
       display: block;
-      font-size: 17px;
+      font-size: 18px;
       margin-bottom: 5px;
     }
 
-    .erro {
-      color: #ff6666 !important;
-    }
-
     @media (max-width: 500px) {
-      h1 {
-        font-size: 30px;
-      }
-
       .estatisticas,
       .brawlers {
         grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 30px;
       }
     }
   </style>
@@ -176,7 +169,7 @@
     <h1>🔥 BRAWL TSUKI</h1>
 
     <p class="subtitulo">
-      Veja seu próprio perfil do Brawl Stars
+      Veja seu perfil
     </p>
 
     <div class="busca">
@@ -250,7 +243,7 @@
 
   <script>
 
-    async function buscarPerfil() {
+    function buscarPerfil() {
 
       const campo = document.getElementById("tag");
       const status = document.getElementById("status");
@@ -268,113 +261,127 @@
         tag = "#" + tag;
       }
 
+      const jogador = {
+
+        name: "Thalyson",
+
+        tag: tag,
+
+        trophies: 12500,
+
+        highestTrophies: 14000,
+
+        expLevel: 120,
+
+        brawlers: [
+
+          {
+            name: "Shelly",
+            trophies: 800,
+            power: 11,
+            highestTrophies: 850
+          },
+
+          {
+            name: "Colt",
+            trophies: 750,
+            power: 10,
+            highestTrophies: 820
+          },
+
+          {
+            name: "Spike",
+            trophies: 900,
+            power: 11,
+            highestTrophies: 950
+          },
+
+          {
+            name: "Leon",
+            trophies: 700,
+            power: 10,
+            highestTrophies: 780
+          },
+
+          {
+            name: "El Primo",
+            trophies: 650,
+            power: 10,
+            highestTrophies: 720
+          },
+
+          {
+            name: "Charlie",
+            trophies: 600,
+            power: 9,
+            highestTrophies: 690
+          }
+
+        ]
+
+      };
+
+      document.getElementById("nome").textContent =
+        jogador.name;
+
+      document.getElementById("tagJogador").textContent =
+        jogador.tag;
+
+      document.getElementById("trofeus").textContent =
+        jogador.trophies;
+
+      document.getElementById("recorde").textContent =
+        jogador.highestTrophies;
+
+      document.getElementById("xp").textContent =
+        jogador.expLevel;
+
+      document.getElementById("brawlerCount").textContent =
+        jogador.brawlers.length;
+
+      const lista =
+        document.getElementById("listaBrawlers");
+
+      lista.innerHTML = "";
+
+      jogador.brawlers.forEach(brawler => {
+
+        const div = document.createElement("div");
+
+        div.className = "brawler";
+
+        div.innerHTML = `
+          <strong>👊 ${brawler.name}</strong>
+          🏆 ${brawler.trophies} troféus<br>
+          ⭐ Poder ${brawler.power}<br>
+          📈 Recorde ${brawler.highestTrophies}
+        `;
+
+        lista.appendChild(div);
+
+      });
+
+      perfil.style.display = "block";
+
+      status.textContent =
+        "✅ Perfil carregado!";
+
       status.className = "";
-      status.textContent = "🔄 Procurando seu perfil...";
 
-      perfil.style.display = "none";
-
-      try {
-
-        /*
-         * IMPORTANTE:
-         * O endereço abaixo será o seu servidor.
-         *
-         * Depois vamos criar o servidor para conversar
-         * com a API oficial do Brawl Stars.
-         */
-
-        const resposta = await fetch(
-          "https://SEU-SERVIDOR-AQUI.com/player/" +
-          encodeURIComponent(tag)
-        );
-
-        if (!resposta.ok) {
-          throw new Error("Jogador não encontrado");
-        }
-
-        const jogador = await resposta.json();
-
-        document.getElementById("nome").textContent =
-          jogador.name || "Jogador";
-
-        document.getElementById("tagJogador").textContent =
-          jogador.tag || tag;
-
-        document.getElementById("trofeus").textContent =
-          jogador.trophies ?? 0;
-
-        document.getElementById("recorde").textContent =
-          jogador.highestTrophies ?? 0;
-
-        document.getElementById("xp").textContent =
-          jogador.expLevel ?? 0;
-
-        const brawlers = jogador.brawlers || [];
-
-        document.getElementById("brawlerCount").textContent =
-          brawlers.length;
-
-        const lista =
-          document.getElementById("listaBrawlers");
-
-        lista.innerHTML = "";
-
-        brawlers.forEach(brawler => {
-
-          const div = document.createElement("div");
-
-          div.className = "brawler";
-
-          div.innerHTML = `
-            <strong>👊 ${escapeHTML(brawler.name)}</strong>
-            🏆 ${brawler.trophies ?? 0} troféus<br>
-            ⭐ Poder ${brawler.power ?? 0}<br>
-            📈 Recorde ${brawler.highestTrophies ?? 0}
-          `;
-
-          lista.appendChild(div);
-
-        });
-
-        perfil.style.display = "block";
-
-        status.textContent =
-          "✅ Perfil carregado!";
-
-      } catch (erro) {
-
-        console.error(erro);
-
-        status.textContent =
-          "❌ Não consegui encontrar esse perfil.";
-
-        status.className = "erro";
-
-      }
     }
 
-
-    function escapeHTML(text) {
-
-      const div = document.createElement("div");
-
-      div.textContent = text;
-
-      return div.innerHTML;
-    }
-
-
-    document.getElementById("tag")
-      .addEventListener("keydown", function(event) {
+    document.getElementById("tag").addEventListener(
+      "keydown",
+      function(event) {
 
         if (event.key === "Enter") {
           buscarPerfil();
         }
 
-      });
+      }
+    );
 
   </script>
 
 </body>
 </html>
-
