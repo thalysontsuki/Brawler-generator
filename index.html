@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brawler Generator - Crie seu Brawler Único!</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎮 BRAWLER GENERATOR 🎮</h1>
+            <p>Gere seu Brawler único com poderes aleatórios!</p>
+        </header>
+
+        <main>
+            <div class="generator-section">
+                <button id="generateBtn" class="generate-btn">
+                    ⚡ GERAR NOVO BRAWLER ⚡
+                </button>
+            </div>
+
+            <div class="brawler-card" id="brawlerCard">
+                <div class="brawler-image" id="brawlerImage">
+                    <canvas id="brawlerCanvas" width="250" height="250"></canvas>
+                </div>
+                
+                <div class="brawler-info">
+                    <h2 id="brawlerName">Clique para gerar um Brawler!</h2>
+                    
+                    <div class="stats">
+                        <div class="stat">
+                            <span class="stat-label">❤️ Vida:</span>
+                            <span class="stat-value" id="health">-</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">⚔️ Ataque:</span>
+                            <span class="stat-value" id="attack">-</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">🛡️ Defesa:</span>
+                            <span class="stat-value" id="defense">-</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">⚡ Velocidade:</span>
+                            <span class="stat-value" id="speed">-</span>
+                        </div>
+                    </div>
+
+                    <div class="abilities">
+                        <h3>🔥 Habilidades</h3>
+                        <div class="ability" id="ability1">
+                            <strong>Ataque Especial:</strong> <span id="ability1Text">-</span>
+                        </div>
+                        <div class="ability" id="ability2">
+                            <strong>Super Poder:</strong> <span id="ability2Text">-</span>
+                        </div>
+                        <div class="ability" id="ability3">
+                            <strong>Poder Passivo:</strong> <span id="ability3Text">-</span>
+                        </div>
+                    </div>
+
+                    <div class="type-badge" id="typeBadge">
+                        Tipo: <span id="typeText">-</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>🎨 Cada Brawler é gerado aleatoriamente com cores e poderes únicos!</p>
+            <p>Criado com ❤️ para fãs de Brawl Stars</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
