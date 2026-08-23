@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+
+    <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -14,9 +15,8 @@ body {
     margin: 0;
     min-height: 100vh;
     font-family: Arial, sans-serif;
-    background:
-        radial-gradient(circle at top, #3b1b69, transparent 45%),
-        linear-gradient(135deg, #101020, #171735);
+    background: radial-gradient(circle at top, #3b1b69, transparent 45%),
+                linear-gradient(135deg, #101020, #171735);
     color: white;
     display: flex;
     justify-content: center;
@@ -50,11 +50,6 @@ button {
     background: linear-gradient(#ffcf33, #ff7b00);
     box-shadow: 0 6px 0 #9b4300;
     cursor: pointer;
-    transition: .15s;
-}
-
-button:hover {
-    transform: translateY(-2px);
 }
 
 button:active {
@@ -74,6 +69,15 @@ button:active {
 
 .hidden {
     display: none;
+}
+
+.foto-brawler {
+    width: 190px;
+    height: 190px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto 10px;
+    filter: drop-shadow(0 8px 8px #0008);
 }
 
 .nome {
@@ -162,178 +166,230 @@ button:active {
 
 <div class="container">
 
-    <h1>🎮 BRAWLER GENERATOR</h1>
-    <div class="subtitle">Crie seu próprio Brawler!</div>
+<h1>🎮 BRAWLER GENERATOR</h1>
+<div class="subtitle">Crie seu próprio Brawler!</div>
 
-    <button onclick="gerarBrawler()">
-        ⚡ GERAR NOVO BRAWLER ⚡
-    </button>
+<button onclick="gerarBrawler()">
+⚡ GERAR NOVO BRAWLER ⚡
+</button>
 
-    <div id="card" class="card hidden">
+<div id="card" class="card hidden">
 
-        <div id="nome" class="nome"></div>
-        <div id="raridade" class="raridade"></div>
+<img id="fotoBrawler" class="foto-brawler" src="" alt="Brawler">
 
-        <div class="stats">
+<div id="nome" class="nome"></div>
+<div id="raridade" class="raridade"></div>
 
-            <div class="stat">
-                <span>❤️</span>
-                <b>VIDA</b>
-                <div id="vida"></div>
-            </div>
+<div class="stats">
 
-            <div class="stat">
-                <span>⚔️</span>
-                <b>ATAQUE</b>
-                <div id="ataque"></div>
-            </div>
+<div class="stat">
+<span>❤️</span>
+<b>VIDA</b>
+<div id="vida"></div>
+</div>
 
-            <div class="stat">
-                <span>🛡️</span>
-                <b>DEFESA</b>
-                <div id="defesa"></div>
-            </div>
+<div class="stat">
+<span>⚔️</span>
+<b>ATAQUE</b>
+<div id="ataque"></div>
+</div>
 
-            <div class="stat">
-                <span>⚡</span>
-                <b>VELOCIDADE</b>
-                <div id="velocidade"></div>
-            </div>
+<div class="stat">
+<span>🛡️</span>
+<b>DEFESA</b>
+<div id="defesa"></div>
+</div>
 
-        </div>
+<div class="stat">
+<span>⚡</span>
+<b>VELOCIDADE</b>
+<div id="velocidade"></div>
+</div>
 
-        <div class="section">
-            <h3>🔥 Ataque Especial</h3>
-            <p id="especial"></p>
-        </div>
+</div>
 
-        <div class="section">
-            <h3>💥 Super Poder</h3>
-            <p id="super"></p>
-        </div>
+<div class="section">
+<h3>🔥 Ataque Especial</h3>
+<p id="especial"></p>
+</div>
 
-        <div class="section">
-            <h3>🟢 Poder Passivo</h3>
-            <p id="passivo"></p>
-        </div>
+<div class="section">
+<h3>💥 Super Poder</h3>
+<p id="super"></p>
+</div>
 
-        <div class="tipo">
-            🎭 Tipo: <span id="tipo"></span>
-        </div>
+<div class="section">
+<h3>🟢 Poder Passivo</h3>
+<p id="passivo"></p>
+</div>
 
-    </div>
+<div class="tipo">
+🎭 Tipo: <span id="tipo"></span>
+</div>
 
-    <div class="creditos">
-        Criado por Thalyson e ChatGPT ❤️
-    </div>
+</div>
+
+<div class="creditos">
+Criado por Thalyson e ChatGPT ❤️
+</div>
 
 </div>
 
 <script>
 
-const nomes = [
-    "Volt",
-    "Shadow",
-    "SpikeX",
-    "Blaze",
-    "Nox",
-    "Tsunki",
-    "Rex",
-    "Zappy",
-    "Kairo",
-    "Drako",
-    "Miko",
-    "Frost"
+const brawlers = [
+
+{
+nome: "Volt",
+foto: "https://via.placeholder.com/190?text=Volt"
+},
+
+{
+nome: "Shadow",
+foto: "https://via.placeholder.com/190?text=Shadow"
+},
+
+{
+nome: "Blaze",
+foto: "https://via.placeholder.com/190?text=Blaze"
+},
+
+{
+nome: "Nox",
+foto: "https://via.placeholder.com/190?text=Nox"
+},
+
+{
+nome: "Tsunki",
+foto: "https://via.placeholder.com/190?text=Tsunki"
+},
+
+{
+nome: "Rex",
+foto: "https://via.placeholder.com/190?text=Rex"
+},
+
+{
+nome: "Zappy",
+foto: "https://via.placeholder.com/190?text=Zappy"
+},
+
+{
+nome: "Kairo",
+foto: "https://via.placeholder.com/190?text=Kairo"
+},
+
+{
+nome: "Drako",
+foto: "https://via.placeholder.com/190?text=Drako"
+},
+
+{
+nome: "Miko",
+foto: "https://via.placeholder.com/190?text=Miko"
+},
+
+{
+nome: "Frost",
+foto: "https://via.placeholder.com/190?text=Frost"
+}
+
 ];
 
 const raridades = [
-    "Raro",
-    "Super-Raro",
-    "Épico",
-    "Mítico",
-    "Lendário"
+"Raro",
+"Super-Raro",
+"Épico",
+"Mítico",
+"Lendário"
 ];
 
 const tipos = [
-    "Tanque",
-    "Assassino",
-    "Atirador",
-    "Suporte",
-    "Controle",
-    "Dano"
+"Tanque",
+"Assassino",
+"Atirador",
+"Suporte",
+"Controle",
+"Dano"
 ];
 
 const ataques = [
-    "Dispara uma rajada de energia contra o inimigo.",
-    "Lança três projéteis explosivos.",
-    "Ataca rapidamente com lâminas de energia.",
-    "Dispara um poderoso raio de longo alcance.",
-    "Arremessa uma bomba que causa dano em área.",
-    "Invoca uma onda de choque."
+"Dispara uma rajada de energia contra o inimigo.",
+"Lança três projéteis explosivos.",
+"Ataca rapidamente com lâminas de energia.",
+"Dispara um poderoso raio de longo alcance.",
+"Arremessa uma bomba que causa dano em área.",
+"Invoca uma onda de choque."
 ];
 
 const supers = [
-    "Fica extremamente rápido durante alguns segundos.",
-    "Cria uma explosão gigante ao redor do Brawler.",
-    "Recupera uma grande quantidade de vida.",
-    "Invoca um aliado temporário para ajudar na batalha.",
-    "Fica invisível por alguns segundos.",
-    "Lança um ataque que atravessa paredes."
+"Fica extremamente rápido durante alguns segundos.",
+"Cria uma explosão gigante ao redor do Brawler.",
+"Recupera uma grande quantidade de vida.",
+"Invoca um aliado temporário para ajudar na batalha.",
+"Fica invisível por alguns segundos.",
+"Lança um ataque que atravessa paredes."
 ];
 
 const passivos = [
-    "Ganha velocidade quando fica com pouca vida.",
-    "Recupera vida lentamente depois de alguns segundos.",
-    "Causa mais dano contra inimigos próximos.",
-    "Recebe menos dano enquanto estiver parado.",
-    "Aumenta o alcance do ataque.",
-    "Carrega o Super mais rapidamente."
+"Ganha velocidade quando fica com pouca vida.",
+"Recupera vida lentamente depois de alguns segundos.",
+"Causa mais dano contra inimigos próximos.",
+"Recebe menos dano enquanto estiver parado.",
+"Aumenta o alcance do ataque.",
+"Carrega o Super mais rapidamente."
 ];
 
 function aleatorio(lista) {
-    return lista[Math.floor(Math.random() * lista.length)];
+return lista[Math.floor(Math.random() * lista.length)];
 }
 
 function numero(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
+return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 function gerarBrawler() {
 
-    const card = document.getElementById("card");
+const card = document.getElementById("card");
 
-    card.classList.remove("hidden");
+card.classList.remove("hidden");
 
-    card.style.animation = "none";
-    void card.offsetWidth;
-    card.style.animation = "aparecer .4s ease";
+card.style.animation = "none";
+void card.offsetWidth;
+card.style.animation = "aparecer .4s ease";
 
-    document.getElementById("nome").textContent = aleatorio(nomes);
-    document.getElementById("raridade").textContent = aleatorio(raridades);
+const brawler = aleatorio(brawlers);
 
-    document.getElementById("vida").textContent =
-        numero(2500, 10000);
+document.getElementById("fotoBrawler").src = brawler.foto;
+document.getElementById("nome").textContent = brawler.nome;
 
-    document.getElementById("ataque").textContent =
-        numero(500, 2500);
+document.getElementById("raridade").textContent =
+aleatorio(raridades);
 
-    document.getElementById("defesa").textContent =
-        numero(20, 100);
+document.getElementById("vida").textContent =
+numero(2500, 10000);
 
-    document.getElementById("velocidade").textContent =
-        numero(50, 100);
+document.getElementById("ataque").textContent =
+numero(500, 2500);
 
-    document.getElementById("especial").textContent =
-        aleatorio(ataques);
+document.getElementById("defesa").textContent =
+numero(20, 100);
 
-    document.getElementById("super").textContent =
-        aleatorio(supers);
+document.getElementById("velocidade").textContent =
+numero(50, 100);
 
-    document.getElementById("passivo").textContent =
-        aleatorio(passivos);
+document.getElementById("especial").textContent =
+aleatorio(ataques);
 
-    document.getElementById("tipo").textContent =
-        aleatorio(tipos);
+document.getElementById("super").textContent =
+aleatorio(supers);
+
+document.getElementById("passivo").textContent =
+aleatorio(passivos);
+
+document.getElementById("tipo").textContent =
+aleatorio(tipos);
+
 }
 
 </script>
