@@ -201,4 +201,88 @@ document.getElementById('generateBtn').addEventListener('click', function() {
 window.addEventListener('load', function() {
     const initialBrawler = generateBrawler();
     updateBrawlerDisplay(initialBrawler);
+});async function buscarPerfil() {
+    const campo = document.getElementById("tag");
+    const status = document.getElementById("status");
+    const perfil = document.getElementById("perfil");
+
+    let tag = campo.value.trim().toUpperCase();
+
+    if (!tag) {
+        status.textContent = "Digite sua tag primeiro!";
+        return;
+    }
+
+    if (!tag.startsWith("#")) {
+        tag = "#" + tag;
+    }
+
+    status.textContent = "🔄 Procurando seu perfil...";
+    perfil.style.display = "none";
+
+    try {
+        const resposta = await fetch(
+            "https://SEU-SERVIDOR-AQUI.com/player/" +
+            encodeURIComponent(tag)
+        );
+
+        if (!resposta.ok) {
+            throw new Error("Perfil não encontrado");
+        }
+
+        const jogador = await resposta.json();
+
+        document.getElementById("nome").textContent =
+            jogador.name || "Jogador";
+
+        document.getElementById("tagJogador").textContent =
+            jogador.tag || tag;
+
+        document.getElementById("trofeus").textContent =
+            jogador.trophies || 0;
+
+        document.getElementById("recorde").textContent =
+            jogador.highestTrophies || 0;
+
+        document.getElementById("xp").textContent =
+            jogador.expLevel || 0;
+
+        const brawlers = jogador.brawlers || [];
+
+        document.getElementById("brawlerCount").textContent =
+            brawlers.length;
+
+        const lista = document.getElementById("listaBrawlers");
+
+        lista.innerHTML = "";
+
+        brawlers.forEach(brawler => {
+            const div = document.createElement("div");
+
+            div.className = "brawler";
+
+            div.innerHTML = `
+                <strong>👊 ${brawler.name}</strong>
+                🏆 ${brawler.trophies || 0} troféus<br>
+                ⭐ Poder ${brawler.power || 0}<br>
+                📈 Recorde ${brawler.highestTrophies || 0}
+            `;
+
+            lista.appendChild(div);
+        });
+
+        perfil.style.display = "block";
+        status.textContent = "✅ Perfil carregado!";
+
+    } catch (erro) {
+        console.error(erro);
+        status.textContent =
+            "❌ Não consegui encontrar esse perfil.";
+    }
+}
+
+document.getElementById("tag").addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+        buscarPerfil();
+    }
 });
