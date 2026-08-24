@@ -1,309 +1,308 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Brawl Tsuki 1v1</title>
-
-<style>
-* {
-  box-sizing: border-box;
-  user-select: none;
-}
-
-body {
-  margin: 0;
-  background: #111;
-  color: white;
-  font-family: Arial, sans-serif;
-  text-align: center;
-}
-
-h1 {
-  margin: 15px 0 5px;
-}
-
-#arena {
-  position: relative;
-  width: 95%;
-  max-width: 800px;
-  height: 450px;
-  margin: 15px auto;
-  background: #5b9e43;
-  border: 6px solid #222;
-  border-radius: 20px;
-  overflow: hidden;
-}
-
-.player {
-  position: absolute;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  border: 4px solid white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 25px;
-}
-
-#p1 {
-  background: #2878ff;
-  left: 60px;
-  top: 200px;
-}
-
-#p2 {
-  background: #ff3d3d;
-  right: 60px;
-  top: 200px;
-}
-
-.bullet {
-  position: absolute;
-  width: 13px;
-  height: 13px;
-  background: yellow;
-  border-radius: 50%;
-}
-
-.bar {
-  width: 45%;
-  height: 18px;
-  background: #333;
-  border-radius: 10px;
-  overflow: hidden;
-  display: inline-block;
-  margin: 5px;
-}
-
-.hp {
-  height: 100%;
-  width: 100%;
-  background: #28d34d;
-}
-
-button {
-  padding: 12px 18px;
-  margin: 5px;
-  border: 0;
-  border-radius: 12px;
-  font-weight: bold;
-  font-size: 16px;
-}
-
-#controles {
-  max-width: 800px;
-  margin: auto;
-}
-
-.controle {
-  display: inline-grid;
-  grid-template-columns: repeat(3, 55px);
-  gap: 5px;
-}
-
-.controle button {
-  width: 55px;
-  height: 55px;
-  padding: 0;
-  background: #333;
-  color: white;
-}
-
-.acao {
-  background: #e5b900 !important;
-  color: black !important;
-}
-
-#mensagem {
-  font-size: 22px;
-  font-weight: bold;
-  margin: 10px;
-}
-</style>
-</head>
-
-<body>
-
-<h1>🔥 BRAWL TSUKI 1V1</h1>
-
-<div>
-  P1 ❤️
-  <div class="bar">
-    <div id="hp1" class="hp"></div>
-  </div>
-
-  P2 ❤️
-  <div class="bar">
-    <div id="hp2" class="hp"></div>
-  </div>
-</div>
-
-<div id="arena">
-  <div id="p1" class="player">👊</div>
-  <div id="p2" class="player">👊</div>
-</div>
-
-<div id="mensagem">⚔️ Batalha!</div>
-
-<div id="controles">
-
-  <h3>🔵 Jogador 1</h3>
-
-  <div class="controle">
-    <span></span>
-    <button onclick="mover(1,0,-15)">⬆️</button>
-    <span></span>
-
-    <button onclick="mover(1,-15,0)">⬅️</button>
-    <button onclick="atacar(1)">💥</button>
-    <button onclick="mover(1,15,0)">➡️</button>
-
-    <span></span>
-    <button onclick="mover(1,0,15)">⬇️</button>
-    <span></span>
-  </div>
-
-  <h3>🔴 Jogador 2</h3>
-
-  <div class="controle">
-    <span></span>
-    <button onclick="mover(2,0,-15)">⬆️</button>
-    <span></span>
-
-    <button onclick="mover(2,-15,0)">⬅️</button>
-    <button onclick="atacar(2)">💥</button>
-    <button onclick="mover(2,15,0)">➡️</button>
-
-    <span></span>
-    <button onclick="mover(2,0,15)">⬇️</button>
-    <span></span>
-  </div>
-
-</div>
-
-<br>
-
-<button class="acao" onclick="reiniciar()">
-  🔄 RECOMEÇAR
-</button>
+  https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
 
 <script>
+let peer = null;
+let connection = null;
 
-let jogadores = {
-  1: {
-    x: 60,
-    y: 200,
-    hp: 100
-  },
+let myHealth = 100;
+let enemyHealth = 100;
+let position = 13;
 
-  2: {
-    x: 690,
-    y: 200,
-    hp: 100
+const $ = id => document.getElementById(id);
+
+function showPage(id){
+  document.querySelectorAll(".page").forEach(page=>{
+    page.classList.remove("active");
+  });
+
+  $(id).classList.add("active");
+}
+
+function home(){
+  showPage("home");
+}
+
+function startGame(){
+
+  showPage("battlePage");
+
+  myHealth = 100;
+  enemyHealth = 100;
+
+  $("myHealth").style.width = "100%";
+  $("enemyHealth").style.width = "100%";
+
+  $("message").textContent = "🔎 Procurando oponente...";
+
+  setTimeout(()=>{
+    $("message").textContent = "⚔️ Oponente encontrado!";
+  },1200);
+}
+
+function attack(){
+
+  if(enemyHealth <= 0) return;
+
+  const damage = Math.floor(Math.random()*9)+10;
+
+  enemyHealth -= damage;
+
+  if(enemyHealth < 0){
+    enemyHealth = 0;
   }
-};
 
-function atualizar() {
+  $("enemyHealth").style.width = enemyHealth + "%";
 
-  document.getElementById("p1").style.left =
-    jogadores[1].x + "px";
+  $("message").textContent =
+    "💥 Você causou " + damage + " de dano!";
 
-  document.getElementById("p1").style.top =
-    jogadores[1].y + "px";
+  send({
+    type:"attack",
+    damage:damage
+  });
 
-  document.getElementById("p2").style.left =
-    jogadores[2].x + "px";
+  if(enemyHealth <= 0){
 
-  document.getElementById("p2").style.top =
-    jogadores[2].y + "px";
+    $("message").textContent =
+      "🏆 VOCÊ VENCEU!";
 
-  document.getElementById("hp1").style.width =
-    jogadores[1].hp + "%";
+    let trophies =
+      Number($("trophies").textContent) + 8;
 
-  document.getElementById("hp2").style.width =
-    jogadores[2].hp + "%";
-}
+    $("trophies").textContent = trophies;
+    $("statTrophies").textContent = trophies;
 
-function mover(jogador, dx, dy) {
-
-  if (jogadores[jogador].hp <= 0) return;
-
-  jogadores[jogador].x += dx;
-  jogadores[jogador].y += dy;
-
-  jogadores[jogador].x =
-    Math.max(0, Math.min(750, jogadores[jogador].x));
-
-  jogadores[jogador].y =
-    Math.max(0, Math.min(400, jogadores[jogador].y));
-
-  atualizar();
-}
-
-function atacar(jogador) {
-
-  const inimigo = jogador === 1 ? 2 : 1;
-
-  const dx =
-    jogadores[inimigo].x -
-    jogadores[jogador].x;
-
-  const dy =
-    jogadores[inimigo].y -
-    jogadores[jogador].y;
-
-  const distancia =
-    Math.sqrt(dx * dx + dy * dy);
-
-  if (distancia < 180) {
-
-    jogadores[inimigo].hp -= 20;
-
-    if (jogadores[inimigo].hp < 0) {
-      jogadores[inimigo].hp = 0;
-    }
-
-    atualizar();
-
-    if (jogadores[inimigo].hp === 0) {
-
-      document.getElementById("mensagem").textContent =
-        jogador === 1
-        ? "🏆 JOGADOR 1 VENCEU!"
-        : "🏆 JOGADOR 2 VENCEU!";
-    }
-
-  } else {
-
-    document.getElementById("mensagem").textContent =
-      "💨 Muito longe!";
+    $("wins").textContent =
+      Number($("wins").textContent) + 1;
   }
 }
 
-function reiniciar() {
+function superAttack(){
 
-  jogadores[1] = {
-    x: 60,
-    y: 200,
-    hp: 100
-  };
+  if(enemyHealth <= 0) return;
 
-  jogadores[2] = {
-    x: 690,
-    y: 200,
-    hp: 100
-  };
+  const damage = 25;
 
-  document.getElementById("mensagem").textContent =
-    "⚔️ Batalha!";
+  enemyHealth -= damage;
 
-  atualizar();
+  if(enemyHealth < 0){
+    enemyHealth = 0;
+  }
+
+  $("enemyHealth").style.width =
+    enemyHealth + "%";
+
+  $("message").textContent =
+    "⚡ SUPER ATAQUE! -" + damage;
+
+  send({
+    type:"attack",
+    damage:damage
+  });
 }
 
-atualizar();
+function move(direction){
 
+  position += direction * 7;
+
+  if(position < 2)
+    position = 2;
+
+  if(position > 70)
+    position = 70;
+
+  $("me").style.left =
+    position + "%";
+
+  send({
+    type:"move",
+    position:position
+  });
+}
+
+function openRoom(){
+
+  $("roomModal").classList.add("show");
+}
+
+function closeRoom(){
+
+  $("roomModal").classList.remove("show");
+}
+
+function createRoom(){
+
+  const code =
+    Math.random()
+    .toString(36)
+    .substring(2,7)
+    .toUpperCase();
+
+  $("roomCode").value = code;
+
+  peer = new Peer(
+    "brawl-tsuki-" + code
+  );
+
+  peer.on("open",()=>{
+
+    showPage("battlePage");
+
+    closeRoom();
+
+    $("message").textContent =
+      "👥 Sala criada: " + code +
+      " — mande o código para seu amigo!";
+  });
+
+  peer.on("connection",conn=>{
+
+    connection = conn;
+
+    setupConnection();
+
+    $("message").textContent =
+      "🟢 Seu amigo entrou na sala!";
+  });
+
+  peer.on("error",error=>{
+
+    console.log(error);
+
+    $("message").textContent =
+      "❌ Não foi possível criar a sala.";
+  });
+}
+
+function joinRoom(){
+
+  const code =
+    $("roomCode")
+    .value
+    .trim()
+    .toUpperCase();
+
+  if(!code){
+
+    alert("Digite o código da sala!");
+
+    return;
+  }
+
+  peer = new Peer();
+
+  peer.on("open",()=>{
+
+    connection =
+      peer.connect(
+        "brawl-tsuki-" + code
+      );
+
+    setupConnection();
+
+    showPage("battlePage");
+
+    closeRoom();
+
+    $("message").textContent =
+      "🔄 Entrando na sala...";
+  });
+
+  peer.on("error",error=>{
+
+    console.log(error);
+
+    alert(
+      "Não consegui entrar nessa sala."
+    );
+  });
+}
+
+function setupConnection(){
+
+  if(!connection) return;
+
+  connection.on("open",()=>{
+
+    $("message").textContent =
+      "🟢 ONLINE! Seu amigo está conectado.";
+  });
+
+  connection.on("data",data=>{
+
+    if(data.type === "attack"){
+
+      myHealth -= data.damage;
+
+      if(myHealth < 0)
+        myHealth = 0;
+
+      $("myHealth").style.width =
+        myHealth + "%";
+
+      if(myHealth <= 0){
+
+        $("message").textContent =
+          "💀 VOCÊ PERDEU!";
+      }else{
+
+        $("message").textContent =
+          "💥 Você recebeu " +
+          data.damage +
+          " de dano!";
+      }
+    }
+
+    if(data.type === "move"){
+
+      // Movimento do adversário.
+      // Pode ser expandido para sincronizar
+      // a posição do segundo jogador.
+    }
+  });
+}
+
+function send(data){
+
+  if(
+    connection &&
+    connection.open
+  ){
+
+    connection.send(data);
+  }
+}
+
+function editName(){
+
+  const name =
+    prompt(
+      "Digite seu nome:",
+      $("playerName").textContent
+    );
+
+  if(name && name.trim()){
+
+    $("playerName").textContent =
+      name.trim();
+
+    localStorage.setItem(
+      "brawlTsukiName",
+      name.trim()
+    );
+  }
+}
+
+const savedName =
+  localStorage.getItem(
+    "brawlTsukiName"
+  );
+
+if(savedName){
+
+  $("playerName").textContent =
+    savedName;
+}
 </script>
 
 </body>
