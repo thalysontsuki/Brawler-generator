@@ -3,346 +3,288 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
-<title>Brawl Tsuki 2.0</title>
+<title>Tsuki RPG</title>
 
 <style>
 *{
   box-sizing:border-box;
   margin:0;
-  padding:0;
-}
-
-html,body{
-  width:100%;
-  height:100%;
+  padding:0
 }
 
 body{
   font-family:Arial,sans-serif;
-  background:#07101d;
-  color:white;
+  background:#080b12;
+  color:#fff;
   overflow:hidden;
-  touch-action:none;
+  touch-action:none
 }
 
 button{
   border:0;
-  color:white;
-  font-weight:900;
-  font-size:15px;
-  cursor:pointer;
+  color:#fff;
+  font-weight:bold;
+  cursor:pointer
 }
 
-#app{
-  width:100%;
-  min-height:100vh;
-  background:radial-gradient(circle at top,#347eb4,#07101d 75%);
-}
-
-header{
-  height:65px;
-  padding:8px 13px;
-  background:#071525ee;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
+#game{
+  width:100vw;
+  height:100vh;
+  background:
+    radial-gradient(circle at 50% 20%,#405b72,#101722 70%);
   position:relative;
-  z-index:20;
-}
-
-.logo{
-  font-size:23px;
-  font-weight:1000;
-  text-shadow:0 3px #000;
-}
-
-.logo span{
-  color:#ffd83d;
-}
-
-.profile{
-  display:flex;
-  align-items:center;
-  gap:8px;
-}
-
-.avatar{
-  width:43px;
-  height:43px;
-  border-radius:13px;
-  background:#214b70;
-  display:grid;
-  place-items:center;
-  font-size:23px;
-  border:2px solid white;
-}
-
-.trophies{
-  color:#ffd83d;
-  font-size:12px;
-}
-
-.screen{
-  display:none;
-  width:100%;
-  height:calc(100vh - 65px);
-  overflow:auto;
-}
-
-.screen.active{
-  display:block;
+  overflow:hidden
 }
 
 /* MENU */
 
-.home{
-  width:min(900px,100%);
-  margin:auto;
-  padding:14px;
-}
-
-.hero{
-  min-height:280px;
-  padding:25px 18px;
-  border-radius:25px;
-  background:
-    radial-gradient(circle at 80% 20%,#ffd53d55,transparent 30%),
-    linear-gradient(145deg,#205f93,#10253e);
-  border:2px solid #ffffff18;
-  box-shadow:0 15px 35px #0007;
-  text-align:center;
-}
-
-.hero h1{
-  font-size:38px;
-  text-shadow:0 5px #000;
-  margin-top:25px;
-}
-
-.hero p{
-  color:#c8d6e5;
-  margin-top:8px;
-}
-
-.play{
-  width:100%;
-  max-width:430px;
-  padding:17px;
-  margin-top:25px;
-  border-radius:16px;
-  color:#291900;
-  background:linear-gradient(#ffe94b,#ffb416);
-  box-shadow:0 5px #956000;
-  font-size:21px;
-}
-
-.play:active{
-  transform:translateY(4px);
-  box-shadow:0 1px #956000;
-}
-
-.section{
-  margin-top:14px;
-  padding:15px;
-  border-radius:20px;
-  background:#102642ee;
-  border:2px solid #ffffff10;
-}
-
-.section h2{
-  margin-bottom:12px;
-}
-
-.brawlerGrid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:8px;
-}
-
-.brawler{
-  padding:6px;
-  border-radius:14px;
-  background:#183957;
-  border:2px solid #ffffff10;
-  cursor:pointer;
-}
-
-.brawler.selected{
-  border:3px solid #ffd83d;
-  box-shadow:0 0 15px #ffd83d88;
-}
-
-.brawler img{
-  width:100%;
-  height:110px;
-  object-fit:cover;
-  border-radius:10px;
-}
-
-.brawler b{
-  display:block;
-  font-size:13px;
-  margin-top:5px;
-}
-
-.brawler small{
-  color:#ffd83d;
-}
-
-/* JOGO */
-
-#game{
-  position:relative;
-  height:100vh;
-  overflow:hidden;
-  background:#07101d;
-}
-
-.arena{
-  position:absolute;
-  inset:0;
-  background:
-    linear-gradient(
-      90deg,
-      transparent 49.5%,
-      #ffffff66 49.5%,
-      #ffffff66 50.5%,
-      transparent 50.5%
-    ),
-    repeating-linear-gradient(
-      90deg,
-      #38954b 0 80px,
-      #419e51 80px 160px
-    );
-  border:5px solid white;
-}
-
-.arena:before{
-  content:"";
-  position:absolute;
-  width:115px;
-  height:115px;
-  border:4px solid #ffffff88;
-  border-radius:50%;
-  left:50%;
-  top:50%;
-  transform:translate(-50%,-50%);
-}
-
-.goal{
-  position:absolute;
-  width:38px;
-  height:150px;
-  top:50%;
-  transform:translateY(-50%);
-  border:4px solid white;
-}
-
-.goal.left{
-  left:-5px;
-}
-
-.goal.right{
-  right:-5px;
-}
-
-.score{
-  position:absolute;
-  left:50%;
-  top:12px;
-  transform:translateX(-50%);
-  padding:8px 25px;
-  background:#071525ee;
-  border-radius:14px;
-  z-index:20;
-  font-size:23px;
-  font-weight:1000;
-}
-
-.topInfo{
-  position:absolute;
-  top:12px;
-  left:12px;
-  background:#071525dd;
-  border-radius:12px;
-  padding:7px 10px;
-  z-index:20;
-}
-
-.hp{
-  width:130px;
-  height:10px;
-  background:#35171b;
-  border-radius:10px;
-  overflow:hidden;
-  margin-top:4px;
-}
-
-.hp i{
-  display:block;
+#menu{
   width:100%;
   height:100%;
-  background:#44db54;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px
 }
 
-.unit{
+.menuBox{
+  width:min(480px,100%);
+  padding:28px;
+  text-align:center;
+  border-radius:25px;
+  background:#111c2aee;
+  border:2px solid #ffffff18;
+  box-shadow:0 20px 60px #0009
+}
+
+.logo{
+  font-size:44px;
+  font-weight:1000;
+  color:#d9a441;
+  text-shadow:0 4px #000;
+  margin-bottom:8px
+}
+
+.subtitle{
+  color:#aebdcc;
+  margin-bottom:25px
+}
+
+.heroPreview{
+  width:180px;
+  height:230px;
+  margin:auto;
+  display:block;
+  object-fit:contain
+}
+
+.btn{
+  width:100%;
+  padding:15px;
+  margin-top:10px;
+  border-radius:13px;
+  background:#253c55;
+  font-size:16px
+}
+
+.start{
+  background:linear-gradient(#dcb653,#9c6b20);
+  font-size:20px;
+  box-shadow:0 4px #60420f
+}
+
+.btn:active{
+  transform:translateY(2px)
+}
+
+/* HUD */
+
+#hud{
   position:absolute;
-  width:62px;
-  height:76px;
-  border-radius:16px;
-  object-fit:cover;
+  top:0;
+  left:0;
+  right:0;
+  height:70px;
+  background:#0a1019dd;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:8px 12px;
+  z-index:20;
+  border-bottom:1px solid #ffffff18
+}
+
+.playerInfo{
+  display:flex;
+  align-items:center;
+  gap:9px
+}
+
+.miniAvatar{
+  width:48px;
+  height:48px;
+  object-fit:contain;
+  border-radius:12px;
+  background:#172638
+}
+
+.name{
+  font-weight:900
+}
+
+.level{
+  font-size:12px;
+  color:#dcb653
+}
+
+.resources{
+  text-align:right;
+  font-size:13px;
+  line-height:20px
+}
+
+.gold{
+  color:#ffd45a
+}
+
+/* MAP */
+
+#world{
+  position:absolute;
+  inset:70px 0 0;
+  background:
+    radial-gradient(circle at 30% 30%,#477f48,transparent 25%),
+    radial-gradient(circle at 75% 60%,#355e3c,transparent 30%),
+    linear-gradient(#263d2d,#17251d);
+  overflow:hidden
+}
+
+.grass{
+  position:absolute;
+  inset:0;
+  opacity:.35;
+  background-image:
+    radial-gradient(#89a85b 1px,transparent 1px);
+  background-size:28px 28px
+}
+
+.road{
+  position:absolute;
+  width:140%;
+  height:130px;
+  left:-20%;
+  top:48%;
+  background:#8b7657;
+  transform:rotate(-8deg);
+  box-shadow:0 0 15px #0005
+}
+
+.road2{
+  position:absolute;
+  width:130%;
+  height:100px;
+  left:-10%;
+  top:25%;
+  background:#806c50;
+  transform:rotate(12deg);
+  opacity:.8
+}
+
+.tree{
+  position:absolute;
+  width:70px;
+  height:95px;
+  z-index:2
+}
+
+.tree:before{
+  content:"";
+  position:absolute;
+  left:29px;
+  bottom:0;
+  width:16px;
+  height:45px;
+  background:#503823;
+  border-radius:8px
+}
+
+.tree:after{
+  content:"";
+  position:absolute;
+  left:5px;
+  top:0;
+  width:65px;
+  height:65px;
+  border-radius:50%;
+  background:#214f2b;
+  box-shadow:
+    25px -15px 0 #2e6938,
+    35px 15px 0 #1b4726
+}
+
+/* PLAYER */
+
+.character{
+  position:absolute;
+  width:82px;
+  height:105px;
+  object-fit:contain;
   z-index:10;
-  border:3px solid white;
-  transition:left .04s,top .04s;
+  transition:left .06s,top .06s
+}
+
+#player{
+  left:48%;
+  top:60%;
+  transform:translate(-50%,-50%)
 }
 
 .enemy{
-  border-color:#ff4444;
-  z-index:9;
+  z-index:8
 }
 
-.ball{
+/* NPC / CHEST */
+
+.chest{
   position:absolute;
-  width:25px;
-  height:25px;
-  border-radius:50%;
-  background:white;
-  border:4px solid #222;
-  z-index:11;
+  width:50px;
+  height:45px;
+  background:#7a421c;
+  border:4px solid #d89c40;
+  border-radius:7px;
+  z-index:4
 }
 
-.attackRange{
+.chest:after{
+  content:"";
   position:absolute;
-  width:95px;
-  height:70px;
-  border:4px solid #ffdf3e;
-  border-radius:50%;
-  opacity:0;
-  z-index:8;
-  pointer-events:none;
+  width:8px;
+  height:12px;
+  background:#ffd45a;
+  left:50%;
+  top:15px;
+  transform:translateX(-50%)
 }
 
-.attackRange.show{
-  opacity:.45;
-}
+/* CONTROLS */
 
-.controls{
+#controls{
   position:absolute;
   inset:0;
   z-index:30;
-  pointer-events:none;
+  pointer-events:none
 }
 
 .joystick{
+  pointer-events:auto;
   position:absolute;
   left:18px;
-  bottom:22px;
+  bottom:20px;
   width:105px;
   height:105px;
   border-radius:50%;
-  background:#ffffff20;
-  border:3px solid #ffffff50;
-  pointer-events:auto;
+  background:#ffffff18;
+  border:3px solid #ffffff38
 }
 
 .stick{
@@ -352,775 +294,812 @@ header{
   width:48px;
   height:48px;
   border-radius:50%;
-  background:#ffffffbb;
-  border:3px solid white;
-  transform:translate(-50%,-50%);
+  background:#ffffff9c;
+  border:3px solid #fff;
+  transform:translate(-50%,-50%)
 }
 
 .actions{
+  pointer-events:auto;
   position:absolute;
   right:15px;
   bottom:18px;
   display:flex;
-  align-items:end;
-  gap:7px;
-  pointer-events:auto;
+  gap:8px;
+  align-items:end
 }
 
 .action{
-  width:63px;
-  height:63px;
+  width:62px;
+  height:62px;
   border-radius:50%;
-  border:3px solid #ffffff99;
-  font-size:10px;
+  border:3px solid #ffffff55;
+  font-size:11px
 }
 
 .attack{
-  background:#df3838;
   width:72px;
   height:72px;
+  background:#b93737
 }
 
-.jump{
-  background:#278fd0;
+.skill{
+  background:#385da0
 }
 
-.super{
-  background:#8b42d6;
+.heal{
+  background:#27834a
 }
 
-.locked{
-  filter:grayscale(1);
-  opacity:.4;
-}
+/* STATUS */
 
-.superBar{
+.status{
   position:absolute;
   left:50%;
-  bottom:12px;
+  top:82px;
   transform:translateX(-50%);
-  width:170px;
-  height:10px;
-  background:#071525;
-  border-radius:10px;
-  z-index:25;
-  overflow:hidden;
-}
-
-.superBar i{
-  display:block;
-  width:0;
-  height:100%;
-  background:#db4dff;
-}
-
-.message{
-  position:absolute;
-  left:50%;
-  top:58px;
-  transform:translateX(-50%);
-  background:#071525dd;
-  padding:8px 14px;
+  background:#07101bdd;
+  padding:8px 15px;
   border-radius:12px;
   z-index:25;
-  font-weight:900;
-  color:#ffd83d;
-  white-space:nowrap;
+  font-size:13px;
+  color:#e6c968;
+  white-space:nowrap
 }
 
-.hit{
-  position:absolute;
-  z-index:50;
-  color:white;
-  font-size:26px;
-  font-weight:1000;
-  pointer-events:none;
-  animation:hit .4s ease-out forwards;
-}
-
-@keyframes hit{
-  0%{
-    transform:translateY(0) scale(.7);
-    opacity:1;
-  }
-
-  100%{
-    transform:translateY(-55px) scale(1.2);
-    opacity:0;
-  }
-}
-
-.boom{
+.hpBox{
   position:absolute;
   left:50%;
-  top:50%;
-  width:30px;
-  height:30px;
-  border:9px solid #ee8cff;
-  border-radius:50%;
-  transform:translate(-50%,-50%);
-  z-index:40;
-  pointer-events:none;
-  animation:boom .6s ease-out forwards;
+  top:108px;
+  transform:translateX(-50%);
+  width:180px;
+  height:9px;
+  background:#281417;
+  border-radius:10px;
+  overflow:hidden;
+  z-index:25
 }
 
-@keyframes boom{
-  0%{
-    width:30px;
-    height:30px;
-    opacity:1;
-  }
-
-  100%{
-    width:450px;
-    height:450px;
-    opacity:0;
-  }
+.hpBar{
+  height:100%;
+  width:100%;
+  background:#42c95a
 }
 
-.jumpAnim{
-  animation:jump .28s ease;
-}
+/* PANEL */
 
-@keyframes jump{
-  50%{
-    transform:translateY(-35px) scale(.9);
-  }
-}
-
-.overlay{
+.panel{
   position:absolute;
   inset:0;
-  background:#0008;
+  background:#000a;
   display:none;
   align-items:center;
   justify-content:center;
   z-index:100;
+  padding:15px
 }
 
-.overlay.show{
+.panel.show{
+  display:flex
+}
+
+.panelBox{
+  width:min(430px,100%);
+  max-height:90vh;
+  overflow:auto;
+  background:#111c2a;
+  border:2px solid #ffffff18;
+  border-radius:22px;
+  padding:18px
+}
+
+.panelBox h2{
+  margin-bottom:12px;
+  color:#e2c263
+}
+
+.item{
   display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:10px;
+  background:#1b2b3e;
+  border-radius:10px;
+  margin:6px 0
 }
 
-.resultBox{
-  width:min(360px,90%);
-  padding:25px;
-  border-radius:24px;
-  background:#102642;
-  border:3px solid #ffd83d;
-  text-align:center;
+.close{
+  background:#673333
 }
 
-.resultBox h1{
-  font-size:34px;
-  margin-bottom:10px;
-}
-
-.smallBtn{
+input{
   width:100%;
-  padding:13px;
-  margin-top:9px;
-  border-radius:12px;
-  background:#1d3c5d;
+  padding:12px;
+  border-radius:9px;
+  border:1px solid #ffffff20;
+  background:#07101b;
+  color:white;
+  margin:5px 0 10px
 }
 
-/* CELULAR */
+select{
+  width:100%;
+  padding:12px;
+  background:#07101b;
+  color:#fff;
+  border-radius:9px;
+  margin-bottom:10px
+}
+
+.notification{
+  position:absolute;
+  left:50%;
+  bottom:145px;
+  transform:translateX(-50%);
+  background:#101b28ee;
+  padding:11px 16px;
+  border-radius:12px;
+  z-index:80;
+  opacity:0;
+  transition:.2s
+}
+
+.notification.show{
+  opacity:1
+}
+
+/* COMBAT */
+
+.damage{
+  position:absolute;
+  color:#ffdc58;
+  font-size:25px;
+  font-weight:1000;
+  z-index:50;
+  animation:damage .5s forwards;
+  pointer-events:none
+}
+
+@keyframes damage{
+  from{
+    transform:translateY(0) scale(.7);
+    opacity:1
+  }
+  to{
+    transform:translateY(-55px) scale(1.15);
+    opacity:0
+  }
+}
+
+.attackAnim{
+  animation:attack .2s
+}
+
+@keyframes attack{
+  50%{
+    transform:translate(-50%,-50%) scale(1.25)
+  }
+}
+
+.enemyHit{
+  animation:enemyHit .18s
+}
+
+@keyframes enemyHit{
+  50%{
+    filter:brightness(2)
+  }
+}
+
+.magic{
+  position:absolute;
+  width:25px;
+  height:25px;
+  border-radius:50%;
+  background:#8e62ff;
+  box-shadow:0 0 25px #9b73ff;
+  z-index:40;
+  animation:magic .45s linear forwards
+}
+
+@keyframes magic{
+  to{
+    left:50%;
+    top:50%;
+    opacity:0
+  }
+}
 
 @media(max-width:600px){
 
-  .brawlerGrid{
-    grid-template-columns:repeat(3,1fr);
-  }
+.logo{
+  font-size:34px
+}
 
-  .brawler img{
-    height:90px;
-  }
+.character{
+  width:70px;
+  height:90px
+}
 
-  .unit{
-    width:56px;
-    height:68px;
-  }
+.joystick{
+  width:95px;
+  height:95px
+}
 
-  .message{
-    top:65px;
-    font-size:12px;
-  }
 }
 </style>
 </head>
 
 <body>
 
-<div id="app">
-
-<header>
-  <div class="logo">
-    BRAWL <span>TSUKI</span>
-  </div>
-
-  <div>
-    <b id="playerName">Thalyson</b>
-
-    <div class="trophies">
-      🏆 <span id="trophies">1280</span>
-    </div>
-  </div>
-</header>
+<div id="game">
 
 <!-- MENU -->
 
-<section id="home" class="screen active">
+<div id="menu">
 
-  <div class="home">
+<div class="menuBox">
 
-    <div class="hero">
+<div class="logo">TSUKI RPG</div>
 
-      <h1>🔥 BRAWL TSUKI</h1>
+<div class="subtitle">
+A aventura começa agora.
+</div>
 
-      <p>
-        Entre na arena e mostre quem é o melhor!
-      </p>
+<img id="heroPreview"
+class="heroPreview">
 
-      <button
-        id="playButton"
-        class="play">
-        🎮 JOGAR
-      </button>
+<button class="btn start"
+onclick="startGame()">
+⚔️ COMEÇAR AVENTURA
+</button>
 
-    </div>
+<button class="btn"
+onclick="openInventory()">
+🎒 INVENTÁRIO
+</button>
 
-    <div class="section">
-
-      <h2>🎲 Escolha seu Brawler</h2>
-
-      <div
-        id="brawlerGrid"
-        class="brawlerGrid">
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-<!-- JOGO -->
-
-<section id="game" class="screen">
-
-  <div
-    class="arena"
-    id="arena">
-
-    <div class="score">
-      <span id="myScore">0</span>
-      -
-      <span id="enemyScore">0</span>
-    </div>
-
-    <div class="topInfo">
-
-      ❤️ <span id="hpText">1000</span>
-
-      <div class="hp">
-        <i id="hpBar"></i>
-      </div>
-
-    </div>
-
-    <div
-      id="message"
-      class="message">
-      Chegue perto do inimigo!
-    </div>
-
-    <div class="goal left"></div>
-    <div class="goal right"></div>
-
-    <img
-      id="player"
-      class="unit">
-
-    <img
-      id="enemy"
-      class="unit enemy">
-
-    <div
-      id="range"
-      class="attackRange">
-    </div>
-
-    <div
-      id="ball"
-      class="ball">
-    </div>
-
-    <div class="controls">
-
-      <div
-        id="joystick"
-        class="joystick">
-
-        <div
-          id="stick"
-          class="stick">
-        </div>
-
-      </div>
-
-      <div class="actions">
-
-        <button
-          id="attackButton"
-          class="action attack">
-          👊<br>
-          ATAQUE
-        </button>
-
-        <button
-          id="jumpButton"
-          class="action jump">
-          🦘<br>
-          PULAR
-        </button>
-
-        <button
-          id="superButton"
-          class="action super locked">
-          ⚡<br>
-          SUPER
-        </button>
-
-      </div>
-
-      <div class="superBar">
-        <i id="superBar"></i>
-      </div>
-
-    </div>
-
-  </div>
-
-  <div
-    id="result"
-    class="overlay">
-
-    <div class="resultBox">
-
-      <h1 id="resultTitle">
-        🏆 VITÓRIA!
-      </h1>
-
-      <p id="resultText">
-        Você venceu!
-      </p>
-
-      <button
-        id="againButton"
-        class="play">
-        🔄 JOGAR NOVAMENTE
-      </button>
-
-      <button
-        id="menuButton"
-        class="smallBtn">
-        🏠 MENU
-      </button>
-
-    </div>
-
-  </div>
-
-</section>
+<button class="btn"
+onclick="openDev()">
+🛠️ DESENVOLVEDOR
+</button>
 
 </div>
+
+</div>
+
+
+<!-- HUD -->
+
+<div id="hud" style="display:none">
+
+<div class="playerInfo">
+
+<img id="miniAvatar"
+class="miniAvatar">
+
+<div>
+<div class="name" id="hudName">
+Aventureiro
+</div>
+
+<div class="level">
+Nível <span id="level">1</span>
+</div>
+</div>
+
+</div>
+
+<div class="resources">
+
+<div>
+❤️ <span id="hp">100</span>/100
+</div>
+
+<div class="gold">
+💰 <span id="gold">100</span>
+</div>
+
+</div>
+
+</div>
+
+
+<!-- WORLD -->
+
+<div id="world" style="display:none">
+
+<div class="grass"></div>
+
+<div class="road"></div>
+<div class="road2"></div>
+
+<div class="tree" style="left:5%;top:12%"></div>
+<div class="tree" style="left:80%;top:15%"></div>
+<div class="tree" style="left:15%;top:72%"></div>
+<div class="tree" style="left:85%;top:70%"></div>
+
+<div class="chest"
+style="left:72%;top:43%"
+onclick="openChest()">
+</div>
+
+<img id="player"
+class="character">
+
+<img id="enemy"
+class="character enemy"
+style="left:72%;top:50%;display:none">
+
+</div>
+
+
+<!-- STATUS -->
+
+<div id="status"
+class="status"
+style="display:none">
+Explore o mapa
+</div>
+
+<div id="enemyHpBox"
+class="hpBox"
+style="display:none">
+
+<div id="enemyHpBar"
+class="hpBar">
+</div>
+
+</div>
+
+
+<!-- CONTROLS -->
+
+<div id="controls"
+style="display:none">
+
+<div id="joystick"
+class="joystick">
+
+<div id="stick"
+class="stick">
+</div>
+
+</div>
+
+<div class="actions">
+
+<button
+class="action attack"
+onclick="attack()">
+⚔️<br>ATACAR
+</button>
+
+<button
+class="action skill"
+onclick="skill()">
+✨<br>MAGIA
+</button>
+
+<button
+class="action heal"
+onclick="heal()">
+💚<br>CURA
+</button>
+
+</div>
+
+</div>
+
+
+<!-- INVENTÁRIO -->
+
+<div id="inventory"
+class="panel">
+
+<div class="panelBox">
+
+<h2>🎒 Inventário</h2>
+
+<div id="inventoryList">
+</div>
+
+<button
+class="btn close"
+onclick="closePanels()">
+FECHAR
+</button>
+
+</div>
+
+</div>
+
+
+<!-- DEV -->
+
+<div id="dev"
+class="panel">
+
+<div class="panelBox">
+
+<h2>🛠️ MODO DESENVOLVEDOR</h2>
+
+<p style="color:#9facba;font-size:13px">
+Área para testar o jogo.
+</p>
+
+<label>💰 Moedas</label>
+
+<input
+id="devGold"
+type="number"
+value="100">
+
+<button
+class="btn"
+onclick="giveGold()">
+Adicionar moedas
+</button>
+
+
+<label>📈 Nível</label>
+
+<input
+id="devLevel"
+type="number"
+value="1">
+
+<button
+class="btn"
+onclick="setLevel()">
+Alterar nível
+</button>
+
+
+<label>❤️ Vida</label>
+
+<button
+class="btn"
+onclick="fullHeal()">
+Vida máxima
+</button>
+
+
+<label>⚔️ Arma</label>
+
+<select id="devWeapon">
+
+<option>Espada de Ferro</option>
+<option>Machado do Guardião</option>
+<option>Arco Lunar</option>
+<option>Cajado Arcano</option>
+<option>Lança Sombria</option>
+<option>Espada Lendária</option>
+
+</select>
+
+<button
+class="btn"
+onclick="giveWeapon()">
+Adicionar arma
+</button>
+
+
+<button
+class="btn"
+onclick="spawnEnemy()">
+👾 Criar inimigo
+</button>
+
+
+<button
+class="btn"
+onclick="clearSave()">
+🗑️ Resetar progresso
+</button>
+
+
+<button
+class="btn close"
+onclick="closePanels()">
+FECHAR
+</button>
+
+</div>
+
+</div>
+
+
+<div id="notification"
+class="notification">
+</div>
+
+</div>
+
 
 <script>
 
 /* =========================
-   BRAWLERS
+   DADOS
 ========================= */
 
-const names = [
-  "Tsuki","Volt","Ghost","Blaze","Frost",
-  "Rex","Luna","Nova","Titan","Raven",
-  "Kiro","Zeta","Mako","Storm","Ninja",
-  "Pixel","Jade","Bolt","Skull","Flare",
-  "Cosmo","Viper","Rocky","Echo","Sora",
-  "Maxi","Zero","Onyx","Comet","Turbo",
-  "Myst","Ryu","Kai","Zion","Axel",
-  "Neko","Cyber","Inferno","Aero","Venom",
-  "Sonic","Omega","Hunter","Dusk","Solar",
-  "Argo","Phantom","Atlas","Blitz","Cobra",
-  "Fenix","Orbit","Giga","Drako","Moon",
-  "Razor","Fury","Toxic","Crystal","Meteor",
-  "GhostX","Darko","Lynx","Thunder","Ash",
-  "Samurai","Dragon","Shadow","Vortex","OmegaX"
+const weapons=[
+{
+name:"Espada de Ferro",
+damage:20,
+rarity:"Comum"
+},
+{
+name:"Machado do Guardião",
+damage:35,
+rarity:"Raro"
+},
+{
+name:"Arco Lunar",
+damage:45,
+rarity:"Épico"
+},
+{
+name:"Cajado Arcano",
+damage:55,
+rarity:"Mítico"
+},
+{
+name:"Lança Sombria",
+damage:65,
+rarity:"Lendário"
+},
+{
+name:"Espada Lendária",
+damage:90,
+rarity:"Lendário"
+}
 ];
 
-const colors = [
-  "#36a4ff",
-  "#8d45e8",
-  "#e845a7",
-  "#ff9f25",
-  "#3dd06b"
-];
+let player={
+name:"Aventureiro",
+level:1,
+xp:0,
+gold:100,
+hp:100,
+maxHp:100,
+weapon:weapons[0],
+inventory:[weapons[0].name]
+};
 
-function makeArt(name,index){
+let enemy={
+hp:100,
+maxHp:100,
+damage:10,
+alive:false
+};
 
-  const c = colors[index % colors.length];
+let playing=false;
 
-  const svg = `
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="400"
-    height="450">
+let px=48;
+let py=60;
 
-    <defs>
+let enemyX=72;
+let enemyY=50;
 
-      <linearGradient
-        id="g"
-        x1="0"
-        y1="0"
-        x2="1"
-        y2="1">
+let moving=false;
 
-        <stop
-          stop-color="${c}"/>
-
-        <stop
-          offset="1"
-          stop-color="#101827"/>
-
-      </linearGradient>
-
-    </defs>
-
-    <rect
-      width="400"
-      height="450"
-      rx="45"
-      fill="url(#g)"/>
-
-    <circle
-      cx="200"
-      cy="165"
-      r="100"
-      fill="#f0c5a5"/>
-
-    <path
-      d="
-      M95 150
-      Q200 35 305 150
-      Q280 75 200 75
-      Q120 75 95 150"
-      fill="#18202c"/>
-
-    <circle
-      cx="160"
-      cy="165"
-      r="14"
-      fill="#111"/>
-
-    <circle
-      cx="240"
-      cy="165"
-      r="14"
-      fill="#111"/>
-
-    <path
-      d="
-      M150 220
-      Q200 250 250 220"
-      fill="none"
-      stroke="#111"
-      stroke-width="11"
-      stroke-linecap="round"/>
-
-    <path
-      d="
-      M95 430
-      Q110 270 200 270
-      Q290 270 305 430"
-      fill="${c}"/>
-
-    <text
-      x="200"
-      y="400"
-      text-anchor="middle"
-      fill="white"
-      font-size="27"
-      font-family="Arial"
-      font-weight="bold">
-      ${name}
-    </text>
-
-  </svg>
-  `;
-
-  return "data:image/svg+xml;charset=UTF-8," +
-    encodeURIComponent(svg);
-}
-
-const brawlers = names.map((name,i) => ({
-
-  name:name,
-
-  hp:850 + (i % 8) * 40,
-
-  damage:65 + (i % 9) * 7,
-
-  speed:3.4 + (i % 6) * .2,
-
-  image:makeArt(name,i)
-
-}));
-
-let selected = 0;
 
 /* =========================
-   VARIÁVEIS DO JOGO
+   SVG DO PERSONAGEM
 ========================= */
 
-let playing = false;
+function createCharacter(){
 
-let px = 20;
-let py = 50;
+let svg=`
 
-let ex = 75;
-let ey = 50;
+<svg
+xmlns="http://www.w3.org/2000/svg"
+width="300"
+height="400">
 
-let ballX = 50;
-let ballY = 50;
+<defs>
 
-let myScore = 0;
-let enemyScore = 0;
+<linearGradient
+id="armor"
+x1="0"
+y1="0"
+x2="1"
+y2="1">
 
-let hp = 1000;
-let enemyHp = 1000;
+<stop
+stop-color="#4f83c2"/>
 
-let superHits = 0;
-let superReady = false;
+<stop
+offset="1"
+stop-color="#172b48"/>
 
-let jumping = false;
+</linearGradient>
 
-let lastEnemyAttack = 0;
+</defs>
 
-/* =========================
-   ELEMENTOS
-========================= */
+<ellipse
+cx="150"
+cy="375"
+rx="90"
+ry="18"
+fill="#0005"/>
 
-const home =
-  document.getElementById("home");
+<!-- pernas -->
 
-const game =
-  document.getElementById("game");
+<path
+d="M105 270 L105 360 L135 360 L145 275"
+fill="#202b3b"/>
 
-const arena =
-  document.getElementById("arena");
+<path
+d="M155 275 L165 360 L195 360 L190 270"
+fill="#202b3b"/>
 
-const player =
-  document.getElementById("player");
+<!-- corpo -->
 
-const enemy =
-  document.getElementById("enemy");
+<path
+d="M85 175 Q150 145 215 175
+L205 285 Q150 310 95 285 Z"
+fill="url(#armor)"
+stroke="#111"
+stroke-width="8"/>
 
-const ball =
-  document.getElementById("ball");
+<!-- capa -->
 
-const result =
-  document.getElementById("result");
+<path
+d="M90 180 Q55 230 70 320
+Q110 305 120 285
+L110 180"
+fill="#4b2028"/>
 
-const range =
-  document.getElementById("range");
+<!-- pescoço -->
 
-const hpText =
-  document.getElementById("hpText");
+<rect
+x="132"
+y="135"
+width="36"
+height="45"
+rx="10"
+fill="#d69c7b"/>
 
-const hpBar =
-  document.getElementById("hpBar");
+<!-- cabeça -->
 
-const messageBox =
-  document.getElementById("message");
+<circle
+cx="150"
+cy="105"
+r="65"
+fill="#e2ad89"
+stroke="#171717"
+stroke-width="7"/>
 
-const superBar =
-  document.getElementById("superBar");
+<!-- cabelo -->
 
-const superButton =
-  document.getElementById("superButton");
+<path
+d="M88 105
+Q82 25 150 25
+Q220 25 215 110
+L190 70
+L170 95
+L145 62
+L120 100
+L100 75 Z"
+fill="#20242b"/>
 
-const attackButton =
-  document.getElementById("attackButton");
+<!-- olhos -->
 
-/* =========================
-   MENU
-========================= */
+<circle
+cx="125"
+cy="112"
+r="8"
+fill="#17212c"/>
 
-function makeBrawlers(){
+<circle
+cx="175"
+cy="112"
+r="8"
+fill="#17212c"/>
 
-  let html = "";
+<!-- nariz -->
 
-  brawlers.forEach((b,i)=>{
+<path
+d="M150 115 L142 137 L155 137"
+fill="none"
+stroke="#9d6d58"
+stroke-width="5"/>
 
-    html += `
-      <div
-        class="brawler ${i === selected ? "selected" : ""}"
-        data-index="${i}">
+<!-- boca -->
 
-        <img src="${b.image}">
+<path
+d="M130 150 Q150 162 170 150"
+fill="none"
+stroke="#713f3c"
+stroke-width="5"/>
 
-        <b>${b.name}</b>
+<!-- braço -->
 
-        <small>
-          ❤️ ${b.hp}
-        </small>
+<path
+d="M95 190 Q50 220 65 270"
+fill="none"
+stroke="#355c87"
+stroke-width="28"
+stroke-linecap="round"/>
 
-      </div>
-    `;
+<!-- espada -->
 
-  });
+<path
+d="M70 270 L20 205"
+stroke="#ddd"
+stroke-width="13"/>
 
-  document.getElementById(
-    "brawlerGrid"
-  ).innerHTML = html;
+<path
+d="M52 250 L75 230"
+stroke="#9c6a2e"
+stroke-width="12"/>
 
-  document
-    .querySelectorAll(".brawler")
-    .forEach(card => {
+</svg>
+`;
 
-      card.addEventListener(
-        "click",
-        () => {
-
-          selectBrawler(
-            Number(card.dataset.index)
-          );
-
-        }
-      );
-
-    });
+return "data:image/svg+xml;charset=UTF-8,"
++encodeURIComponent(svg);
 
 }
 
-function selectBrawler(i){
-
-  selected = i;
-
-  document.getElementById(
-    "playerName"
-  ).textContent =
-    brawlers[i].name;
-
-  document
-    .querySelectorAll(".brawler")
-    .forEach(card => {
-
-      card.classList.toggle(
-        "selected",
-        Number(card.dataset.index) === i
-      );
-
-    });
-
-}
 
 /* =========================
-   COMEÇAR JOGO
+   INÍCIO
+========================= */
+
+const characterArt=createCharacter();
+
+document.getElementById(
+"heroPreview"
+).src=characterArt;
+
+document.getElementById(
+"miniAvatar"
+).src=characterArt;
+
+document.getElementById(
+"player"
+).src=characterArt;
+
+
+/* =========================
+   JOGO
 ========================= */
 
 function startGame(){
 
-  playing = true;
+playing=true;
 
-  myScore = 0;
-  enemyScore = 0;
+document.getElementById(
+"menu"
+).style.display="none";
 
-  hp = 1000;
-  enemyHp = 1000;
+document.getElementById(
+"hud"
+).style.display="flex";
 
-  superHits = 0;
-  superReady = false;
+document.getElementById(
+"world"
+).style.display="block";
 
-  px = 20;
-  py = 50;
+document.getElementById(
+"controls"
+).style.display="block";
 
-  ex = 75;
-  ey = 50;
+document.getElementById(
+"status"
+).style.display="block";
 
-  ballX = 50;
-  ballY = 50;
+updateHUD();
 
-  document.getElementById(
-    "myScore"
-  ).textContent = "0";
-
-  document.getElementById(
-    "enemyScore"
-  ).textContent = "0";
-
-  result.classList.remove("show");
-
-  player.src =
-    brawlers[selected].image;
-
-  enemy.src =
-    brawlers[
-      (selected + 17) % brawlers.length
-    ].image;
-
-  messageBox.textContent =
-    "Chegue perto do inimigo!";
-
-  home.classList.remove("active");
-
-  game.classList.add("active");
-
-  update();
-  updateSuper();
+notify(
+"⚔️ A aventura começou!"
+);
 
 }
 
-/* =========================
-   ATUALIZAR TELA
-========================= */
-
-function update(){
-
-  player.style.left =
-    px + "%";
-
-  player.style.top =
-    py + "%";
-
-  enemy.style.left =
-    ex + "%";
-
-  enemy.style.top =
-    ey + "%";
-
-  ball.style.left =
-    ballX + "%";
-
-  ball.style.top =
-    ballY + "%";
-
-  range.style.left =
-    (px - 4) + "%";
-
-  range.style.top =
-    (py + 1) + "%";
-
-  hpText.textContent =
-    Math.max(0,Math.floor(hp));
-
-  hpBar.style.width =
-    Math.max(
-      0,
-      Math.min(100,hp / 10)
-    ) + "%";
-
-}
 
 /* =========================
    MOVIMENTO
@@ -1128,70 +1107,262 @@ function update(){
 
 function move(dx,dy){
 
-  if(!playing) return;
+if(!playing)return;
 
-  const speed =
-    brawlers[selected].speed * .22;
+let speed=.18;
 
-  px += dx * speed;
-  py += dy * speed;
+px+=dx*speed;
+py+=dy*speed;
 
-  px =
-    Math.max(
-      3,
-      Math.min(89,px)
-    );
+px=Math.max(4,Math.min(92,px));
+py=Math.max(8,Math.min(88,py));
 
-  py =
-    Math.max(
-      5,
-      Math.min(82,py)
-    );
+updatePlayer();
 
-  update();
+checkEnemyDistance();
 
 }
+
+
+function updatePlayer(){
+
+let p=
+document.getElementById("player");
+
+p.style.left=
+px+"%";
+
+p.style.top=
+py+"%";
+
+}
+
+
+/* =========================
+   INIMIGO
+========================= */
+
+function spawnEnemy(){
+
+enemy.alive=true;
+
+enemy.hp=100;
+
+enemy.damage=10;
+
+enemyX=72;
+
+enemyY=50;
+
+let el=
+document.getElementById("enemy");
+
+el.style.display="block";
+
+el.src=createEnemy();
+
+el.style.left=
+enemyX+"%";
+
+el.style.top=
+enemyY+"%";
+
+document.getElementById(
+"enemyHpBox"
+).style.display="block";
+
+updateEnemy();
+
+notify(
+"👾 Um inimigo apareceu!"
+);
+
+}
+
+
+function createEnemy(){
+
+let svg=`
+
+<svg
+xmlns="http://www.w3.org/2000/svg"
+width="300"
+height="400">
+
+<ellipse
+cx="150"
+cy="370"
+rx="95"
+ry="20"
+fill="#0005"/>
+
+<path
+d="M75 180 Q150 140 225 180
+L210 300 Q150 330 90 300Z"
+fill="#7c3030"
+stroke="#171717"
+stroke-width="8"/>
+
+<circle
+cx="150"
+cy="105"
+r="65"
+fill="#9c654e"
+stroke="#151515"
+stroke-width="8"/>
+
+<path
+d="M85 100 Q95 20 150 25
+Q215 20 220 105
+L185 70 L160 95
+L130 65 L105 100Z"
+fill="#111"/>
+
+<circle
+cx="125"
+cy="115"
+r="10"
+fill="#ff4444"/>
+
+<circle
+cx="175"
+cy="115"
+r="10"
+fill="#ff4444"/>
+
+<path
+d="M120 155 Q150 175 180 155"
+fill="none"
+stroke="#351616"
+stroke-width="8"/>
+
+</svg>
+`;
+
+return "data:image/svg+xml;charset=UTF-8,"
++encodeURIComponent(svg);
+
+}
+
+
+function updateEnemy(){
+
+let el=
+document.getElementById("enemy");
+
+el.style.left=
+enemyX+"%";
+
+el.style.top=
+enemyY+"%";
+
+document.getElementById(
+"enemyHpBar"
+).style.width=
+(enemy.hp/enemy.maxHp*100)+"%";
+
+}
+
+
+function checkEnemyDistance(){
+
+if(!enemy.alive)return;
+
+let dx=px-enemyX;
+let dy=py-enemyY;
+
+let distance=
+Math.hypot(dx,dy);
+
+if(distance<28){
+
+document.getElementById(
+"status"
+).textContent=
+"👾 Inimigo perto!";
+
+}else{
+
+document.getElementById(
+"status"
+).textContent=
+"Explore o mapa";
+
+}
+
+}
+
 
 /* =========================
    IA INIMIGO
 ========================= */
 
-function enemyAI(){
+setInterval(()=>{
 
-  if(!playing) return;
+if(!playing||!enemy.alive)return;
 
-  const dx = px - ex;
-  const dy = py - ey;
+let dx=px-enemyX;
+let dy=py-enemyY;
 
-  const distance =
-    Math.hypot(dx,dy);
+let distance=
+Math.hypot(dx,dy);
 
-  if(distance > 14){
+if(distance>14){
 
-    const speed = .09;
+enemyX+=(dx/distance)*.08;
+enemyY+=(dy/distance)*.08;
 
-    ex +=
-      (dx / distance) * speed;
+updateEnemy();
 
-    ey +=
-      (dy / distance) * speed;
+}else{
 
-  }
-
-  if(distance < 13){
-
-    enemyAttack();
-
-  }
-
-  update();
+enemyAttack();
 
 }
 
-setInterval(
-  enemyAI,
-  45
+},60);
+
+
+let lastEnemyAttack=0;
+
+function enemyAttack(){
+
+let now=Date.now();
+
+if(now-lastEnemyAttack<900)return;
+
+lastEnemyAttack=now;
+
+player.hp-=enemy.damage;
+
+if(player.hp<0)
+player.hp=0;
+
+updateHUD();
+
+showDamage(
+px,
+py,
+"-"+enemy.damage
 );
+
+if(player.hp<=0){
+
+notify(
+"💀 Você foi derrotado!"
+);
+
+player.hp=player.maxHp;
+
+px=48;
+py=60;
+
+updatePlayer();
+
+}
+
+}
+
 
 /* =========================
    ATAQUE
@@ -1199,279 +1370,364 @@ setInterval(
 
 function attack(){
 
-  if(!playing) return;
+if(!playing){
 
-  const distance =
-    Math.hypot(
-      px - ex,
-      py - ey
-    );
-
-  range.classList.add("show");
-
-  setTimeout(()=>{
-    range.classList.remove("show");
-  },100);
-
-  if(distance > 16){
-
-    showMessage(
-      "❌ Muito longe!"
-    );
-
-    return;
-
-  }
-
-  player.style.transform =
-    "scale(1.2)";
-
-  setTimeout(()=>{
-    player.style.transform =
-      "scale(1)";
-  },100);
-
-  enemyHp -=
-    brawlers[selected].damage;
-
-  showHit(
-    ex,
-    ey,
-    "-" +
-    brawlers[selected].damage
-  );
-
-  superHits++;
-
-  if(enemyHp <= 0){
-
-    enemyHp = 1000;
-
-    ex = 75;
-    ey =
-      Math.random() * 60 + 20;
-
-    showMessage(
-      "💥 INIMIGO DERRUBADO!"
-    );
-
-  }
-
-  if(superHits >= 2){
-
-    superReady = true;
-
-    showMessage(
-      "⚡ SUPER CARREGADA!"
-    );
-
-  }
-
-  updateSuper();
-  update();
+return;
 
 }
+
+if(!enemy.alive){
+
+notify(
+"Não há inimigo aqui."
+);
+
+return;
+
+}
+
+let dx=px-enemyX;
+
+let dy=py-enemyY;
+
+let distance=
+Math.hypot(dx,dy);
+
+if(distance>16){
+
+notify(
+"⚔️ Chegue mais perto!"
+);
+
+return;
+
+}
+
+let playerEl=
+document.getElementById(
+"player"
+);
+
+playerEl.classList.add(
+"attackAnim"
+);
+
+setTimeout(()=>{
+playerEl.classList.remove(
+"attackAnim"
+);
+},200);
+
+let damage=
+player.weapon.damage;
+
+enemy.hp-=damage;
+
+showDamage(
+enemyX,
+enemyY,
+"-"+damage
+);
+
+let enemyEl=
+document.getElementById(
+"enemy"
+);
+
+enemyEl.classList.add(
+"enemyHit"
+);
+
+setTimeout(()=>{
+enemyEl.classList.remove(
+"enemyHit"
+);
+},200);
+
+updateEnemy();
+
+if(enemy.hp<=0){
+
+defeatEnemy();
+
+}
+
+}
+
 
 /* =========================
-   ATAQUE INIMIGO
+   MAGIA
 ========================= */
 
-function enemyAttack(){
+function skill(){
 
-  const now = Date.now();
+if(!playing)return;
 
-  if(
-    now - lastEnemyAttack <
-    900
-  ) return;
+if(!enemy.alive){
 
-  lastEnemyAttack = now;
+notify(
+"✨ Nenhum inimigo."
+);
 
-  hp -= 45;
-
-  showHit(
-    px,
-    py,
-    "-45"
-  );
-
-  showMessage(
-    "👊 O inimigo te acertou!"
-  );
-
-  if(hp <= 0){
-
-    hp = 1000;
-
-    enemyScore++;
-
-    document.getElementById(
-      "enemyScore"
-    ).textContent =
-      enemyScore;
-
-    px = 20;
-    py = 50;
-
-    showMessage(
-      "💀 Você caiu!"
-    );
-
-    if(enemyScore >= 3){
-
-      lose();
-      return;
-
-    }
-
-  }
-
-  update();
+return;
 
 }
+
+let magic=
+document.createElement("div");
+
+magic.className="magic";
+
+magic.style.left=
+px+"%";
+
+magic.style.top=
+py+"%";
+
+document.getElementById(
+"world"
+).appendChild(magic);
+
+setTimeout(()=>{
+magic.remove();
+},500);
+
+let dx=px-enemyX;
+let dy=py-enemyY;
+
+let distance=
+Math.hypot(dx,dy);
+
+if(distance<45){
+
+enemy.hp-=45;
+
+showDamage(
+enemyX,
+enemyY,
+"-45 ✨"
+);
+
+updateEnemy();
+
+if(enemy.hp<=0){
+
+defeatEnemy();
+
+}
+
+}else{
+
+notify(
+"✨ A magia errou!"
+);
+
+}
+
+}
+
 
 /* =========================
-   SUPER
+   CURA
 ========================= */
 
-function updateSuper(){
+function heal(){
 
-  const value =
-    Math.min(
-      100,
-      superHits * 50
-    );
+if(!playing)return;
 
-  superBar.style.width =
-    value + "%";
+if(player.hp>=player.maxHp){
 
-  superButton.classList.toggle(
-    "locked",
-    !superReady
-  );
+notify(
+"❤️ Sua vida já está cheia."
+);
+
+return;
 
 }
 
-function useSuper(){
+player.hp+=30;
 
-  if(!playing) return;
+if(player.hp>player.maxHp)
+player.hp=player.maxHp;
 
-  if(!superReady){
+updateHUD();
 
-    showMessage(
-      "⚡ Acerte 2 ataques para carregar!"
-    );
-
-    return;
-
-  }
-
-  const distance =
-    Math.hypot(
-      px - ex,
-      py - ey
-    );
-
-  if(distance > 22){
-
-    showMessage(
-      "❌ Chegue perto para usar a Super!"
-    );
-
-    return;
-
-  }
-
-  superReady = false;
-  superHits = 0;
-
-  updateSuper();
-
-  const boom =
-    document.createElement("div");
-
-  boom.className = "boom";
-
-  arena.appendChild(boom);
-
-  setTimeout(()=>{
-    boom.remove();
-  },650);
-
-  enemyHp -= 300;
-
-  showHit(
-    ex,
-    ey,
-    "-300 ⚡"
-  );
-
-  showMessage(
-    "💥 SUPER DEVASTADORA!"
-  );
-
-  if(enemyHp <= 0){
-
-    enemyHp = 1000;
-
-    ex = 75;
-
-    ey =
-      Math.random() * 60 + 20;
-
-  }
-
-  update();
+notify(
+"💚 Você recuperou vida!"
+);
 
 }
+
 
 /* =========================
-   PULO
+   INIMIGO DERROTADO
 ========================= */
 
-function jump(){
+function defeatEnemy(){
 
-  if(!playing || jumping)
-    return;
+enemy.alive=false;
 
-  jumping = true;
+enemy.hp=0;
 
-  player.classList.add(
-    "jumpAnim"
-  );
+document.getElementById(
+"enemy"
+).style.display="none";
 
-  setTimeout(()=>{
+document.getElementById(
+"enemyHpBox"
+).style.display="none";
 
-    player.classList.remove(
-      "jumpAnim"
-    );
+player.xp+=50;
 
-    jumping = false;
+player.gold+=25;
 
-  },300);
+checkLevel();
+
+updateHUD();
+
+notify(
+"🏆 Inimigo derrotado! +50 XP +25 💰"
+);
 
 }
 
+
 /* =========================
-   DANO
+   XP
 ========================= */
 
-function showHit(x,y,text){
+function checkLevel(){
 
-  const el =
-    document.createElement("div");
+let needed=
+player.level*100;
 
-  el.className = "hit";
+if(player.xp>=needed){
 
-  el.textContent = text;
+player.xp-=needed;
 
-  el.style.left =
-    x + "%";
+player.level++;
 
-  el.style.top =
-    y + "%";
+player.maxHp+=20;
 
-  arena.appendChild(el);
+player.hp=
+player.maxHp;
 
-  setTimeout(()=>{
-        
+notify(
+"🎉 VOCÊ SUBIU PARA O NÍVEL "
++player.level+"!"
+);
+
+}
+
+}
+
+
+/* =========================
+   BAÚ
+========================= */
+
+function openChest(){
+
+let weapon=
+weapons[
+Math.floor(
+Math.random()*weapons.length
+)
+];
+
+if(!player.inventory.includes(
+weapon.name
+)){
+
+player.inventory.push(
+weapon.name
+);
+
+player.weapon=weapon;
+
+notify(
+"🎁 Você encontrou: "
++weapon.name
+);
+
+}else{
+
+player.gold+=50;
+
+notify(
+"💰 O baú tinha 50 moedas!"
+);
+
+}
+
+updateHUD();
+
+}
+
+
+/* =========================
+   INVENTÁRIO
+========================= */
+
+function openInventory(){
+
+let html="";
+
+player.inventory.forEach(name=>{
+
+let weapon=
+weapons.find(
+w=>w.name===name
+);
+
+html+=`
+
+<div class="item">
+
+<div>
+<b>${weapon.name}</b>
+<br>
+<small>
+⚔️ ${weapon.damage}
+• ${weapon.rarity}
+</small>
+</div>
+
+<button
+class="smallBtn"
+style="width:100px;margin:0"
+onclick="equip('${weapon.name}')">
+EQUIPAR
+</button>
+
+</div>
+
+`;
+
+});
+
+document.getElementById(
+"inventoryList"
+).innerHTML=
+html;
+
+document.getElementById(
+"inventory"
+).classList.add("show");
+
+}
+
+
+function equip(name){
+
+let weapon=
+weapons.find(
+w=>w.name===name
+);
+
+if(!weapon)return;
+
+player.weapon=weapon;
+
+notify(
+"⚔️ Equipa
