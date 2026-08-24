@@ -4,1389 +4,463 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Brawl Tsuki</title>
-
 <style>
-*{
- box-sizing:border-box;
- margin:0;
- padding:0;
- font-family:Arial,sans-serif;
-}
-
-body{
- background:#050c18;
- color:#fff;
- min-height:100vh;
-}
-
-button{
- border:0;
- cursor:pointer;
- font-weight:900;
-}
-
-.app{
- min-height:100vh;
- background:
- radial-gradient(circle at 50% -10%,#3e79ad 0,#17365a 35%,#07111f 75%);
-}
-
-header{
- height:74px;
- padding:10px 16px;
- display:flex;
- align-items:center;
- justify-content:space-between;
- background:#071525ee;
- border-bottom:2px solid #ffffff18;
- position:sticky;
- top:0;
- z-index:20;
-}
-
-.logo{
- font-size:25px;
- font-weight:1000;
- text-shadow:0 3px #000;
-}
-
-.logo span{
- color:#ffd83d;
-}
-
-.profile{
- display:flex;
- align-items:center;
- gap:9px;
-}
-
-.avatar{
- width:46px;
- height:46px;
- border-radius:14px;
- object-fit:cover;
- border:3px solid #fff;
- background:#ff9e21;
-}
-
-.name{
- font-weight:900;
-}
-
-.trophies{
- color:#ffd83d;
- font-size:13px;
- font-weight:900;
-}
-
-main{
- width:min(900px,100%);
- margin:auto;
- padding:16px;
-}
-
-.screen{
- display:none;
-}
-
-.screen.active{
- display:block;
-}
-
-.panel{
- background:#102742ee;
- border:2px solid #ffffff12;
- border-radius:24px;
- padding:18px;
- margin-bottom:16px;
- box-shadow:0 12px 35px #0007;
-}
-
-.hero{
- background:
- linear-gradient(145deg,#205287,#0c1d34);
-}
-
-.hero h1{
- font-size:32px;
- margin-bottom:7px;
-}
-
-.sub{
- color:#bdcada;
-}
-
-.play{
- width:100%;
- padding:18px;
- margin-top:18px;
- border-radius:18px;
- background:linear-gradient(#ffe94d,#ffb719);
- color:#2b1900;
- font-size:22px;
- box-shadow:0 6px #9c6000;
- transition:.08s;
-}
-
-.play:active{
- transform:translateY(5px);
- box-shadow:0 1px #9c6000;
-}
-
-.row{
- display:flex;
- gap:10px;
- margin-top:11px;
-}
-
-.btn{
- flex:1;
- padding:14px;
- border-radius:15px;
- background:#1a3656;
- color:white;
-}
-
-.btn:active{
- transform:scale(.96);
-}
-
-h2{
- margin-bottom:13px;
-}
-
-.cards{
- display:grid;
- grid-template-columns:repeat(3,1fr);
- gap:10px;
-}
-
-.card{
- padding:10px;
- border-radius:20px;
- border:2px solid #ffffff18;
- overflow:hidden;
- transition:.15s;
-}
-
-.card:hover{
- transform:translateY(-5px);
-}
-
-.card img{
- width:100%;
- height:145px;
- object-fit:cover;
- border-radius:14px;
- display:block;
-}
-
-.card b{
- display:block;
- font-size:17px;
- margin-top:8px;
-}
-
-.rarity{
- font-size:11px;
- opacity:.8;
-}
-
-.common{
- background:linear-gradient(145deg,#657789,#293744);
-}
-
-.rare{
- background:linear-gradient(145deg,#178ddd,#123d69);
-}
-
-.epic{
- background:linear-gradient(145deg,#a348e7,#481875);
-}
-
-.mythic{
- background:linear-gradient(145deg,#e345d8,#63165f);
-}
-
-.legendary{
- background:linear-gradient(145deg,#e69b35,#75431b);
-}
-
-.generator{
- text-align:center;
-}
-
-.generated{
- padding:16px;
- border-radius:21px;
- background:
- linear-gradient(145deg,#285d91,#142d4a);
- transition:.12s;
-}
-
-.generated.pop{
- transform:scale(1.04);
-}
-
-.generated img{
- width:190px;
- height:205px;
- object-fit:cover;
- border-radius:18px;
- border:3px solid #ffffff30;
-}
-
-.generated h2{
- margin:9px 0 4px;
-}
-
-.generated p{
- color:#ffd83d;
- font-weight:900;
-}
-
-.stats{
- display:grid;
- grid-template-columns:repeat(3,1fr);
- gap:8px;
- margin-top:12px;
-}
-
-.stat{
- background:#0a1d33;
- padding:12px;
- border-radius:15px;
- text-align:center;
-}
-
-.stat b{
- display:block;
- font-size:23px;
- color:#ffd83d;
- margin-bottom:3px;
-}
-
-.stat span{
- font-size:11px;
- color:#aebed0;
-}
-
-.save{
- width:100%;
- margin-top:10px;
- padding:13px;
- border-radius:14px;
- background:#263f5d;
- color:#fff;
-}
-
-.battle{
- height:390px;
- border-radius:24px;
- position:relative;
- overflow:hidden;
- background:
- linear-gradient(
-  #67c6ed 0 53%,
-  #8ac64d 53%
- );
- border:3px solid #ffffff18;
- box-shadow:0 15px 35px #0008;
-}
-
-.cloud{
- position:absolute;
- width:90px;
- height:30px;
- border-radius:30px;
- background:#ffffff66;
- top:70px;
- left:20%;
-}
-
-.cloud.two{
- left:65%;
- top:110px;
- transform:scale(.7);
-}
-
-.ground{
- position:absolute;
- bottom:0;
- width:100%;
- height:85px;
- background:#5ba53b;
-}
-
-.ground:before{
- content:"";
- position:absolute;
- width:100%;
- height:12px;
- top:0;
- background:#75bd4b;
-}
-
-.fighter{
- position:absolute;
- bottom:66px;
- width:105px;
- height:120px;
- object-fit:cover;
- border-radius:20px;
- z-index:4;
- transition:left .035s,right .035s;
- box-shadow:0 8px 15px #0007;
-}
-
-.player{
- left:10%;
-}
-
-.enemy{
- right:10%;
-}
-
-.health{
- position:absolute;
- top:12px;
- width:38%;
- height:17px;
- background:#3b1111;
- border:2px solid white;
- border-radius:10px;
- overflow:hidden;
- z-index:8;
-}
-
-.health i{
- display:block;
- width:100%;
- height:100%;
- background:#42df51;
- transition:.07s;
-}
-
-.left{
- left:10px;
-}
-
-.right{
- right:10px;
-}
-
-.battleNames{
- display:flex;
- justify-content:space-between;
- padding:8px 2px;
- font-weight:900;
-}
-
-.message{
- text-align:center;
- color:#ffd83d;
- font-weight:900;
- padding:7px;
-}
-
-.controls{
- display:grid;
- grid-template-columns:repeat(4,1fr);
- gap:8px;
-}
-
-.control{
- padding:17px 8px;
- border-radius:16px;
- background:#193653;
- color:white;
- font-size:16px;
-}
-
-.attack{
- background:#dd3935;
-}
-
-.super{
- background:#8743d5;
-}
-
-.move{
- background:#21496e;
-}
-
-.modal{
- position:fixed;
- inset:0;
- background:#000b;
- display:none;
- align-items:center;
- justify-content:center;
- padding:18px;
- z-index:50;
-}
-
-.modal.show{
- display:flex;
-}
-
-.modalBox{
- width:min(430px,100%);
- background:#102642;
- border-radius:23px;
- padding:20px;
- box-shadow:0 20px 60px #000;
-}
-
-.input{
- width:100%;
- padding:15px;
- margin:8px 0;
- border-radius:13px;
- border:2px solid #ffffff15;
- background:#071525;
- color:#fff;
- font-size:17px;
-}
-
-.close{
- width:100%;
- margin-top:8px;
- padding:13px;
- border-radius:13px;
- background:#273f5c;
- color:#fff;
-}
-
-.back{
- padding:11px 15px;
- border-radius:13px;
- background:#1a3656;
- color:white;
- margin-bottom:12px;
-}
-
-.result{
- text-align:center;
- font-size:25px;
- font-weight:1000;
- padding:15px;
-}
-
-.hidden{
- display:none;
-}
-
-@media(max-width:650px){
-
- main{
-  padding:11px;
- }
-
- .logo{
-  font-size:21px;
- }
-
- .cards{
-  grid-template-columns:repeat(2,1fr);
- }
-
- .card img{
-  height:125px;
- }
-
- .controls{
-  grid-template-columns:repeat(2,1fr);
- }
-
- .fighter{
-  width:82px;
-  height:100px;
- }
-
- .battle{
-  height:350px;
- }
-
- .hero h1{
-  font-size:27px;
- }
-
-}
-
-@media(min-width:651px){
-
- .fighter{
-  width:115px;
-  height:130px;
- }
-
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial;background:#07111f;color:white}
+button{border:0;font-weight:bold;cursor:pointer}
+.app{min-height:100vh;background:radial-gradient(circle at top,#3975a8,#07111f 70%)}
+header{height:72px;padding:10px 15px;background:#071525ee;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:5}
+.logo{font-size:24px;font-weight:1000;text-shadow:0 3px #000}
+.logo span{color:#ffd83d}
+.profile{display:flex;align-items:center;gap:8px}
+.avatar{width:45px;height:45px;border-radius:14px;object-fit:cover;border:3px solid white}
+.name{font-weight:900}
+.trophies{color:#ffd83d;font-size:13px}
+main{max-width:900px;margin:auto;padding:15px}
+.screen{display:none}.active{display:block}
+.panel{background:#102642ed;border:2px solid #ffffff12;border-radius:22px;padding:18px;margin-bottom:15px;box-shadow:0 10px 30px #0007}
+.hero{background:linear-gradient(145deg,#245989,#0d2038)}
+h1{font-size:30px;margin:0 0 7px}
+h2{margin:5px 0 14px}
+.sub{color:#bfccdb}
+.play{width:100%;margin-top:17px;padding:17px;border-radius:17px;background:linear-gradient(#ffe94e,#ffb718);font-size:21px;color:#2a1800;box-shadow:0 5px #956000}
+.play:active{transform:translateY(4px);box-shadow:0 1px #956000}
+.row{display:flex;gap:9px;margin-top:10px}
+.btn{flex:1;padding:14px;border-radius:14px;background:#1b3858;color:white}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.card{padding:9px;border-radius:18px;border:2px solid #ffffff15;overflow:hidden}
+.card img{width:100%;height:140px;object-fit:cover;border-radius:13px}
+.card b{display:block;margin-top:7px}
+.rarity{font-size:11px;opacity:.8}
+.common{background:linear-gradient(145deg,#657787,#293745)}
+.rare{background:linear-gradient(145deg,#178ddd,#123e69)}
+.epic{background:linear-gradient(145deg,#a448e6,#481875)}
+.mythic{background:linear-gradient(145deg,#df46d2,#60155c)}
+.legendary{background:linear-gradient(145deg,#e5a038,#713f19)}
+.generator{text-align:center}
+.generated{padding:15px;border-radius:20px;background:linear-gradient(145deg,#285d91,#142d4b);transition:.12s}
+.generated.pop{transform:scale(1.04)}
+.generated img{width:180px;height:200px;object-fit:cover;border-radius:17px;border:3px solid #ffffff25}
+.generated h2{margin:8px 0 3px}
+.generated p{color:#ffd83d;font-weight:bold}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:11px}
+.stat{background:#0a1d33;padding:12px;border-radius:14px;text-align:center}
+.stat b{display:block;color:#ffd83d;font-size:22px}
+.stat span{font-size:11px;color:#aebed0}
+.battle{height:390px;border-radius:22px;overflow:hidden;position:relative;background:linear-gradient(#66c5ed 0 54%,#8ac64c 54%);border:3px solid #ffffff18}
+.ground{position:absolute;bottom:0;width:100%;height:85px;background:#5ba63b}
+.fighter{position:absolute;bottom:65px;width:100px;height:120px;object-fit:cover;border-radius:18px;z-index:2;transition:left .035s}
+.player{left:10%}.enemy{right:10%}
+.health{position:absolute;top:12px;width:38%;height:16px;background:#401313;border:2px solid white;border-radius:10px;overflow:hidden;z-index:4}
+.health i{display:block;width:100%;height:100%;background:#40df50;transition:.07s}
+.left{left:10px}.right{right:10px}
+.message{text-align:center;color:#ffd83d;font-weight:bold;padding:8px}
+.controls{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.control{padding:16px 7px;border-radius:15px;background:#1b3858;color:white}
+.attack{background:#df3c37}.super{background:#8b45d7}
+.back{padding:11px 15px;border-radius:12px;background:#1b3858;color:white;margin-bottom:10px}
+.result{text-align:center;font-size:24px;font-weight:1000;padding:12px}
+.hidden{display:none}
+.modal{position:fixed;inset:0;background:#000b;display:none;align-items:center;justify-content:center;padding:15px;z-index:20}
+.modal.show{display:flex}
+.box{width:min(420px,100%);background:#102642;border-radius:22px;padding:20px}
+.input{width:100%;padding:14px;border-radius:12px;background:#071525;border:2px solid #ffffff15;color:white;font-size:17px;margin:8px 0}
+.close{width:100%;padding:13px;margin-top:8px;border-radius:12px;background:#293f5a;color:white}
+@media(max-width:600px){
+.cards{grid-template-columns:repeat(2,1fr)}
+.card img{height:125px}
+.controls{grid-template-columns:repeat(2,1fr)}
+.fighter{width:82px;height:100px}
+.battle{height:350px}
+h1{font-size:26px}
 }
 </style>
 </head>
 
 <body>
-
 <div class="app">
 
 <header>
-
-<div class="logo">
-BRAWL <span>TSUKI</span>
-</div>
+<div class="logo">BRAWL <span>TSUKI</span></div>
 
 <div class="profile">
-
 <div>
-
-<div class="name" id="playerName">
-Thalyson
+<div class="name" id="playerName">Thalyson</div>
+<div class="trophies">🏆 <span id="trophies">1280</span></div>
 </div>
-
-<div class="trophies">
-🏆 <span id="trophies">1280</span>
+<img id="avatar" class="avatar">
 </div>
-
-</div>
-
-<img
-id="profileAvatar"
-class="avatar"
-alt="Avatar"
->
-
-</div>
-
 </header>
 
 <main>
 
-<section
-id="home"
-class="screen active"
->
+<section id="home" class="screen active">
 
 <div class="panel hero">
+<h1>Pronto para a batalha? 🔥</h1>
+<div class="sub">Crie seu Brawler e entre na arena!</div>
 
-<h1>
-Pronto para a batalha? 🔥
-</h1>
-
-<div class="sub">
-Crie seu próprio Brawler e entre na arena.
-</div>
-
-<button
-class="play"
-onclick="startBattle()"
->
-🎮 JOGAR
-</button>
+<button class="play" onclick="startBattle()">🎮 JOGAR</button>
 
 <div class="row">
-
-<button
-class="btn"
-onclick="generateBrawler()"
->
-🎲 GERAR BRAWLER
-</button>
-
-<button
-class="btn"
-onclick="openProfile()"
->
-👤 PERFIL
-</button>
-
+<button class="btn" onclick="generateBrawler()">🎲 GERAR BRAWLER</button>
+<button class="btn" onclick="openProfile()">👤 PERFIL</button>
 </div>
-
 </div>
-
 
 <div class="panel generator">
 
-<h2>
-🎨 GERADOR DE BRAWLER
-</h2>
+<h2>🎨 GERADOR DE BRAWLER</h2>
 
-<div
-id="generated"
-class="generated"
->
+<div id="generated" class="generated">
 
-<img
-id="generatedImage"
-alt="Brawler gerado"
->
+<img id="generatedImage">
 
-<h2 id="generatedName">
-Tsuki
-</h2>
-
-<p id="generatedRarity">
-LENDÁRIO
-</p>
+<h2 id="generatedName">Tsuki</h2>
+<p id="generatedRarity">COMUM</p>
 
 <div class="stats">
 
 <div class="stat">
-
-<b id="generatedHp">
-800
-</b>
-
-<span>
-❤️ VIDA
-</span>
-
+<b id="generatedHp">650</b>
+<span>❤️ VIDA</span>
 </div>
 
 <div class="stat">
-
-<b id="generatedDamage">
-90
-</b>
-
-<span>
-⚔️ DANO
-</span>
-
+<b id="generatedDamage">55</b>
+<span>⚔️ DANO</span>
 </div>
 
 <div class="stat">
-
-<b id="generatedSpeed">
-5.0
-</b>
-
-<span>
-⚡ VELOCIDADE
-</span>
-
+<b id="generatedSpeed">4.2</b>
+<span>⚡ VELOCIDADE</span>
 </div>
 
 </div>
-
 </div>
 
-<button
-class="play"
-onclick="generateBrawler()"
->
-✨ GERAR NOVO
-</button>
-
+<button class="play" onclick="generateBrawler()">✨ GERAR NOVO</button>
 </div>
-
 
 <div class="panel">
-
-<h2>
-🥊 BRAWLERS
-</h2>
+<h2>🥊 BRAWLERS</h2>
 
 <div class="cards">
 
 <div class="card common">
-
-<img
-src="https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=500&q=85"
-alt="Tsuki"
->
-
-<b>
-Tsuki
-</b>
-
-<span class="rarity">
-COMUM
-</span>
-
+<img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=500&q=85">
+<b>Tsuki</b>
+<span class="rarity">COMUM</span>
 </div>
-
 
 <div class="card rare">
-
-<img
-src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=500&q=85"
-alt="T-Bot"
->
-
-<b>
-T-Bot
-</b>
-
-<span class="rarity">
-RARO
-</span>
-
+<img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=500&q=85">
+<b>T-Bot</b>
+<span class="rarity">RARO</span>
 </div>
-
 
 <div class="card epic">
-
-<img
-src="https://images.unsplash.com/photo-1535378917042-10a22c95931a?auto=format&fit=crop&w=500&q=85"
-alt="Ghost"
->
-
-<b>
-Ghost
-</b>
-
-<span class="rarity">
-ÉPICO
-</span>
-
+<img src="https://images.unsplash.com/photo-1535378917042-10a22c95931a?auto=format&fit=crop&w=500&q=85">
+<b>Ghost</b>
+<span class="rarity">ÉPICO</span>
 </div>
-
 
 <div class="card mythic">
-
-<img
-src="https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=500&q=85"
-alt="Volt"
->
-
-<b>
-Volt
-</b>
-
-<span class="rarity">
-MÍTICO
-</span>
-
+<img src="https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=500&q=85">
+<b>Volt</b>
+<span class="rarity">MÍTICO</span>
 </div>
-
 
 <div class="card legendary">
-
-<img
-src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=500&q=85"
-alt="Dragon"
->
-
-<b>
-Dragon
-</b>
-
-<span class="rarity">
-LENDÁRIO
-</span>
-
+<img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=500&q=85">
+<b>Dragon</b>
+<span class="rarity">LENDÁRIO</span>
 </div>
 
 </div>
-
 </div>
-
 
 <div class="panel">
-
-<h2>
-🏆 ESTATÍSTICAS
-</h2>
+<h2>🏆 ESTATÍSTICAS</h2>
 
 <div class="stats">
 
 <div class="stat">
-
-<b id="wins">
-42
-</b>
-
-<span>
-VITÓRIAS
-</span>
-
+<b id="wins">42</b>
+<span>VITÓRIAS</span>
 </div>
 
 <div class="stat">
-
-<b id="statTrophies">
-1280
-</b>
-
-<span>
-TROFÉUS
-</span>
-
+<b id="statTrophies">1280</b>
+<span>TROFÉUS</span>
 </div>
 
 <div class="stat">
-
-<b>
-18
-</b>
-
-<span>
-BRAWLERS
-</span>
-
+<b>18</b>
+<span>BRAWLERS</span>
 </div>
 
 </div>
-
 </div>
 
 </section>
 
+<section id="battleScreen" class="screen">
 
-<section
-id="battleScreen"
-class="screen"
->
+<button class="back" onclick="goHome()">← VOLTAR</button>
 
-<button
-class="back"
-onclick="goHome()"
->
-← VOLTAR
-</button>
-
-<div
-id="battle"
-class="battle"
->
-
-<div class="cloud"></div>
-
-<div class="cloud two"></div>
+<div class="battle">
 
 <div class="health left">
-
 <i id="myHealth"></i>
-
 </div>
 
 <div class="health right">
-
 <i id="enemyHealth"></i>
-
 </div>
 
-<img
-id="myFighter"
-class="fighter player"
-alt="Seu Brawler"
->
+<img id="myFighter" class="fighter player">
 
-<img
-id="enemyFighter"
-class="fighter enemy"
-alt="Oponente"
->
+<img id="enemyFighter" class="fighter enemy">
 
 <div class="ground"></div>
 
 </div>
 
-<div class="battleNames">
-
-<span>
-👤 Thalyson
-</span>
-
-<span>
-🤖 Oponente
-</span>
-
-</div>
-
-<div
-id="message"
-class="message"
->
+<div class="message" id="message">
 ⚔️ Oponente encontrado!
 </div>
 
 <div class="controls">
 
-<button
-class="control move"
-onclick="movePlayer(-1)"
->
-⬅️ MOVER
-</button>
+<button class="control" onclick="movePlayer(-1)">⬅️ MOVER</button>
 
-<button
-class="control move"
-onclick="movePlayer(1)"
->
-MOVER ➡️
-</button>
+<button class="control" onclick="movePlayer(1)">MOVER ➡️</button>
 
-<button
-class="control attack"
-onclick="attack(10)"
->
-💥 ATAQUE
-</button>
+<button class="control attack" onclick="attack(10)">💥 ATAQUE</button>
 
-<button
-class="control super"
-onclick="attack(25)"
->
-⚡ SUPER
-</button>
+<button class="control super" onclick="attack(25)">⚡ SUPER</button>
 
 </div>
 
-<div
-id="result"
-class="result hidden"
-></div>
+<div id="result" class="result hidden"></div>
 
-<button
-id="restart"
-class="play hidden"
-onclick="startBattle()"
->
-🔄 JOGAR NOVAMENTE
-</button>
+<button id="restart" class="play hidden" onclick="startBattle()">🔄 JOGAR NOVAMENTE</button>
 
 </section>
 
 </main>
-
 </div>
 
+<div id="profileModal" class="modal">
 
-<div
-id="profileModal"
-class="modal"
->
+<div class="box">
 
-<div class="modalBox">
+<h2>👤 PERFIL</h2>
 
-<h2>
-👤 SEU PERFIL
-</h2>
+<input id="nameInput" class="input" placeholder="Seu nome">
 
-<input
-id="nameInput"
-class="input"
-placeholder="Digite seu nome"
->
+<button class="play" onclick="saveProfile()">SALVAR</button>
 
-<button
-class="play"
-onclick="saveProfile()"
->
-SALVAR
-</button>
-
-<button
-class="close"
-onclick="closeProfile()"
->
-FECHAR
-</button>
+<button class="close" onclick="closeProfile()">FECHAR</button>
 
 </div>
-
 </div>
-
 
 <script>
 
-const brawlerImages = [
-
+const images=[
 "https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=700&q=90",
-
 "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=700&q=90",
-
 "https://images.unsplash.com/photo-1535378917042-10a22c95931a?auto=format&fit=crop&w=700&q=90",
-
 "https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=700&q=90",
-
 "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=700&q=90"
-
 ];
 
-const brawlers = [
-
-{
- name:"Tsuki",
- rarity:"COMUM",
- hp:650,
- damage:55,
- speed:4.2,
- image:brawlerImages[0]
-},
-
-{
- name:"T-Bot",
- rarity:"RARO",
- hp:720,
- damage:62,
- speed:4.5,
- image:brawlerImages[1]
-},
-
-{
- name:"Ghost",
- rarity:"ÉPICO",
- hp:760,
- damage:70,
- speed:4.8,
- image:brawlerImages[2]
-},
-
-{
- name:"Volt",
- rarity:"MÍTICO",
- hp:820,
- damage:78,
- speed:5.2,
- image:brawlerImages[3]
-},
-
-{
- name:"Dragon",
- rarity:"LENDÁRIO",
- hp:900,
- damage:92,
- speed:5.5,
- image:brawlerImages[4]
-}
-
+const brawlers=[
+["Tsuki","COMUM",650,55,4.2,images[0]],
+["T-Bot","RARO",720,62,4.5,images[1]],
+["Ghost","ÉPICO",760,70,4.8,images[2]],
+["Volt","MÍTICO",820,78,5.2,images[3]],
+["Dragon","LENDÁRIO",900,92,5.5,images[4]]
 ];
 
-let myHealth = 100;
+let current=brawlers[0];
+let enemyHp=100;
+let myHp=100;
+let position=10;
+let attacking=false;
 
-let enemyHealth = 100;
-
-let playerPosition = 10;
-
-let currentBrawler = brawlers[0];
-
-let attacking = false;
-
-
-function $(id){
-
- return document.getElementById(id);
-
+function id(x){
+return document.getElementById(x);
 }
 
-
-function showScreen(id){
-
- document
- .querySelectorAll(".screen")
- .forEach(screen => {
-
-  screen.classList.remove("active");
-
- });
-
- $(id).classList.add("active");
-
+function show(screen){
+document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));
+id(screen).classList.add("active");
 }
-
 
 function goHome(){
-
- showScreen("home");
-
+show("home");
 }
-
 
 function startBattle(){
 
- myHealth = 100;
+enemyHp=100;
+myHp=100;
+position=10;
 
- enemyHealth = 100;
+id("enemyHealth").style.width="100%";
+id("myHealth").style.width="100%";
 
- playerPosition = 10;
+id("myFighter").src=current[5];
+id("enemyFighter").src=images[1];
 
- $("myHealth").style.width = "100%";
+id("myFighter").style.left=position+"%";
 
- $("enemyHealth").style.width = "100%";
+id("message").textContent="⚔️ Oponente encontrado!";
 
- $("myFighter").src =
- currentBrawler.image;
+id("result").classList.add("hidden");
+id("restart").classList.add("hidden");
 
- $("enemyFighter").src =
- brawlerImages[1];
-
- $("myFighter").style.left =
- playerPosition + "%";
-
- $("result").classList.add("hidden");
-
- $("restart").classList.add("hidden");
-
- $("message").textContent =
- "⚔️ Oponente encontrado!";
-
- showScreen("battleScreen");
-
+show("battleScreen");
 }
-
 
 function movePlayer(direction){
 
- const amount =
- currentBrawler.speed * 1.9;
+let speed=current[4]*2;
 
- playerPosition +=
- direction * amount;
+position+=direction*speed;
 
- if(playerPosition < 2){
+if(position<2)position=2;
+if(position>78)position=78;
 
-  playerPosition = 2;
-
- }
-
- if(playerPosition > 78){
-
-  playerPosition = 78;
-
- }
-
- $("myFighter").style.left =
- playerPosition + "%";
-
+id("myFighter").style.left=position+"%";
 }
-
 
 function attack(damage){
 
- if(enemyHealth <= 0){
+if(enemyHp<=0)return;
 
-  return;
+if(attacking)return;
 
- }
+attacking=true;
 
- if(attacking){
+id("myFighter").style.transform="scale(1.12)";
 
-  return;
+setTimeout(()=>{
+id("myFighter").style.transform="scale(1)";
+attacking=false;
+},70);
 
- }
+enemyHp-=damage;
 
- attacking = true;
+if(enemyHp<0)enemyHp=0;
 
- $("myFighter").style.transform =
- "scale(1.12)";
+id("enemyHealth").style.width=enemyHp+"%";
 
- setTimeout(() => {
+id("message").textContent="💥 -"+damage+" DE DANO!";
 
-  $("myFighter").style.transform =
-  "scale(1)";
-
-  attacking = false;
-
- },80);
-
- enemyHealth -= damage;
-
- if(enemyHealth < 0){
-
-  enemyHealth = 0;
-
- }
-
- $("enemyHealth").style.width =
- enemyHealth + "%";
-
- $("message").textContent =
- "💥 -" + damage + " DE DANO!";
-
- if(enemyHealth === 0){
-
-  winBattle();
-
- }
+if(enemyHp===0)win();
 
 }
 
+function win(){
 
-function winBattle(){
+id("message").textContent="🏆 VOCÊ VENCEU!";
 
- $("message").textContent =
- "🏆 VOCÊ VENCEU!";
+id("result").textContent="🎉 VITÓRIA! +8 TROFÉUS";
 
- $("result").textContent =
- "🎉 VITÓRIA! +8 TROFÉUS";
+id("result").classList.remove("hidden");
 
- $("result").classList.remove("hidden");
+id("restart").classList.remove("hidden");
 
- $("restart").classList.remove("hidden");
+let trophies=Number(id("trophies").textContent)+8;
 
- let trophies =
- Number($("trophies").textContent);
+let wins=Number(id("wins").textContent)+1;
 
- trophies += 8;
+id("trophies").textContent=trophies;
+id("statTrophies").textContent=trophies;
+id("wins").textContent=wins;
 
- $("trophies").textContent =
- trophies;
-
- $("statTrophies").textContent =
- trophies;
-
- let wins =
- Number($("wins").textContent);
-
- wins++;
-
- $("wins").textContent =
- wins;
-
- localStorage.setItem(
- "tsukiTrophies",
- trophies
- );
-
- localStorage.setItem(
- "tsukiWins",
- wins
- );
-
+localStorage.trophies=trophies;
+localStorage.wins=wins;
 }
-
 
 function generateBrawler(){
 
- const index =
- Math.floor(
-  Math.random() *
-  brawlers.length
- );
+let b=brawlers[Math.floor(Math.random()*brawlers.length)];
 
- currentBrawler =
- brawlers[index];
+current=b;
 
- $("generatedImage").src =
- currentBrawler.image;
+id("generatedImage").src=b[5];
+id("generatedName").textContent=b[0];
+id("generatedRarity").textContent=b[1];
+id("generatedHp").textContent=b[2];
+id("generatedDamage").textContent=b[3];
+id("generatedSpeed").textContent=b[4];
 
- $("generatedName").textContent =
- currentBrawler.name;
+id("generated").classList.add("pop");
 
- $("generatedRarity").textContent =
- currentBrawler.rarity;
-
- $("generatedHp").textContent =
- currentBrawler.hp;
-
- $("generatedDamage").textContent =
- currentBrawler.damage;
-
- $("generatedSpeed").textContent =
- currentBrawler.speed;
-
- $("generated").classList.add("pop");
-
- setTimeout(() => {
-
-  $("generated").classList.remove("pop");
-
- },130);
+setTimeout(()=>{
+id("generated").classList.remove("pop");
+},130);
 
 }
-
 
 function openProfile(){
 
- $("nameInput").value =
- $("playerName").textContent;
+id("nameInput").value=id("playerName").textContent;
 
- $("profileModal")
- .classList.add("show");
+id("profileModal").classList.add("show");
 
 }
-
 
 function closeProfile(){
 
- $("profileModal")
- .classList.remove("show");
+id("profileModal").classList.remove("show");
 
 }
-
 
 function saveProfile(){
 
- const name =
- $("nameInput")
- .value
- .trim();
+let name=id("nameInput").value.trim();
 
- if(name){
+if(name){
 
-  $("playerName").textContent =
-  name;
+id("playerName").textContent=name;
 
-  localStorage.setItem(
-   "tsukiName",
-   name
-  );
-
- }
-
- closeProfile();
+localStorage.name=name;
 
 }
 
-
-function loadData(){
-
- const name =
- localStorage.getItem(
-  "tsukiName"
- );
-
- const trophies =
- localStorage.getItem(
-  "tsukiTrophies"
- );
-
- const wins =
- localStorage.getItem(
-  "tsukiWins"
- );
-
- if(name){
-
-  $("playerName").textContent =
-  name;
-
- }
-
- if(trophies){
-
-  $("trophies").textContent =
-  trophies;
-
-  $("statTrophies").textContent =
-  trophies;
-
- }
-
- if(wins){
-
-  $("wins").textContent =
-  wins;
-
- }
+closeProfile();
 
 }
 
+function load(){
 
-$("profileAvatar").src =
- brawlerImages[0];
+let name=localStorage.name;
+let trophies=localStorage.trophies;
+let wins=localStorage.wins;
 
-$("myFighter").src =
- brawlerImages[0];
+if(name)id("playerName").textContent=name;
 
-$("enemyFighter").src =
- brawlerImages[1];
+if(trophies){
+id("trophies").textContent=trophies;
+id("statTrophies").textContent=trophies;
+}
+
+if(wins){
+id("wins").textContent=wins;
+}
+
+}
+
+id("avatar").src=images[0];
 
 generateBrawler();
-
-loadData();
+load();
 
 </script>
 
