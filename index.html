@@ -4,26 +4,41 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
 <title>Brawl Tsuki 2.0</title>
+
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html,body{
+  width:100%;
+  height:100%;
+}
+
 body{
   font-family:Arial,sans-serif;
   background:#07101d;
-  color:#fff;
+  color:white;
   overflow:hidden;
-  touch-action:none
+  touch-action:none;
 }
+
 button{
   border:0;
-  color:#fff;
+  color:white;
   font-weight:900;
-  font-size:15px
+  font-size:15px;
+  cursor:pointer;
 }
+
 #app{
   width:100%;
   min-height:100vh;
-  background:radial-gradient(circle at top,#347eb4,#07101d 75%)
+  background:radial-gradient(circle at top,#347eb4,#07101d 75%);
 }
+
 header{
   height:65px;
   padding:8px 13px;
@@ -32,19 +47,25 @@ header{
   align-items:center;
   justify-content:space-between;
   position:relative;
-  z-index:20
+  z-index:20;
 }
+
 .logo{
   font-size:23px;
   font-weight:1000;
-  text-shadow:0 3px #000
+  text-shadow:0 3px #000;
 }
-.logo span{color:#ffd83d}
+
+.logo span{
+  color:#ffd83d;
+}
+
 .profile{
   display:flex;
   align-items:center;
-  gap:8px
+  gap:8px;
 }
+
 .avatar{
   width:43px;
   height:43px;
@@ -53,24 +74,33 @@ header{
   display:grid;
   place-items:center;
   font-size:23px;
-  border:2px solid #fff
+  border:2px solid white;
 }
+
 .trophies{
   color:#ffd83d;
-  font-size:12px
+  font-size:12px;
 }
+
 .screen{
   display:none;
   width:100%;
   height:calc(100vh - 65px);
-  overflow:auto
+  overflow:auto;
 }
-.screen.active{display:block}
+
+.screen.active{
+  display:block;
+}
+
+/* MENU */
+
 .home{
   width:min(900px,100%);
   margin:auto;
-  padding:14px
+  padding:14px;
 }
+
 .hero{
   min-height:280px;
   padding:25px 18px;
@@ -80,17 +110,20 @@ header{
     linear-gradient(145deg,#205f93,#10253e);
   border:2px solid #ffffff18;
   box-shadow:0 15px 35px #0007;
-  text-align:center
+  text-align:center;
 }
+
 .hero h1{
   font-size:38px;
   text-shadow:0 5px #000;
-  margin-top:25px
+  margin-top:25px;
 }
+
 .hero p{
   color:#c8d6e5;
-  margin-top:8px
+  margin-top:8px;
 }
+
 .play{
   width:100%;
   max-width:430px;
@@ -100,58 +133,77 @@ header{
   color:#291900;
   background:linear-gradient(#ffe94b,#ffb416);
   box-shadow:0 5px #956000;
-  font-size:21px
+  font-size:21px;
 }
+
 .play:active{
   transform:translateY(4px);
-  box-shadow:0 1px #956000
+  box-shadow:0 1px #956000;
 }
+
 .section{
   margin-top:14px;
   padding:15px;
   border-radius:20px;
   background:#102642ee;
-  border:2px solid #ffffff10
+  border:2px solid #ffffff10;
 }
-.section h2{margin-bottom:12px}
+
+.section h2{
+  margin-bottom:12px;
+}
+
 .brawlerGrid{
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  gap:8px
+  gap:8px;
 }
+
 .brawler{
   padding:6px;
   border-radius:14px;
   background:#183957;
-  border:2px solid #ffffff10
+  border:2px solid #ffffff10;
+  cursor:pointer;
 }
+
+.brawler.selected{
+  border:3px solid #ffd83d;
+  box-shadow:0 0 15px #ffd83d88;
+}
+
 .brawler img{
   width:100%;
   height:110px;
   object-fit:cover;
-  border-radius:10px
+  border-radius:10px;
 }
+
 .brawler b{
   display:block;
   font-size:13px;
-  margin-top:5px
-}
-.brawler small{
-  color:#ffd83d
+  margin-top:5px;
 }
 
-/* ARENA */
+.brawler small{
+  color:#ffd83d;
+}
+
+/* JOGO */
+
 #game{
   position:relative;
   height:100vh;
   overflow:hidden;
-  background:#07101d
+  background:#07101d;
 }
+
 .arena{
   position:absolute;
   inset:0;
   background:
-    linear-gradient(90deg,
+    linear-gradient(
+      90deg,
       transparent 49.5%,
       #ffffff66 49.5%,
       #ffffff66 50.5%,
@@ -162,8 +214,9 @@ header{
       #38954b 0 80px,
       #419e51 80px 160px
     );
-  border:5px solid #fff
+  border:5px solid white;
 }
+
 .arena:before{
   content:"";
   position:absolute;
@@ -173,18 +226,26 @@ header{
   border-radius:50%;
   left:50%;
   top:50%;
-  transform:translate(-50%,-50%)
+  transform:translate(-50%,-50%);
 }
+
 .goal{
   position:absolute;
   width:38px;
   height:150px;
   top:50%;
   transform:translateY(-50%);
-  border:4px solid #fff
+  border:4px solid white;
 }
-.goal.left{left:-5px}
-.goal.right{right:-5px}
+
+.goal.left{
+  left:-5px;
+}
+
+.goal.right{
+  right:-5px;
+}
+
 .score{
   position:absolute;
   left:50%;
@@ -195,8 +256,9 @@ header{
   border-radius:14px;
   z-index:20;
   font-size:23px;
-  font-weight:1000
+  font-weight:1000;
 }
+
 .topInfo{
   position:absolute;
   top:12px;
@@ -204,22 +266,25 @@ header{
   background:#071525dd;
   border-radius:12px;
   padding:7px 10px;
-  z-index:20
+  z-index:20;
 }
+
 .hp{
   width:130px;
   height:10px;
   background:#35171b;
   border-radius:10px;
   overflow:hidden;
-  margin-top:4px
+  margin-top:4px;
 }
+
 .hp i{
   display:block;
   width:100%;
   height:100%;
-  background:#44db54
+  background:#44db54;
 }
+
 .unit{
   position:absolute;
   width:62px;
@@ -227,22 +292,25 @@ header{
   border-radius:16px;
   object-fit:cover;
   z-index:10;
-  border:3px solid #fff;
-  transition:left .04s,top .04s
+  border:3px solid white;
+  transition:left .04s,top .04s;
 }
+
 .enemy{
   border-color:#ff4444;
-  z-index:9
+  z-index:9;
 }
+
 .ball{
   position:absolute;
   width:25px;
   height:25px;
   border-radius:50%;
-  background:#fff;
+  background:white;
   border:4px solid #222;
-  z-index:11
+  z-index:11;
 }
+
 .attackRange{
   position:absolute;
   width:95px;
@@ -251,17 +319,20 @@ header{
   border-radius:50%;
   opacity:0;
   z-index:8;
-  pointer-events:none
+  pointer-events:none;
 }
+
 .attackRange.show{
-  opacity:.45
+  opacity:.45;
 }
+
 .controls{
   position:absolute;
   inset:0;
   z-index:30;
-  pointer-events:none
+  pointer-events:none;
 }
+
 .joystick{
   position:absolute;
   left:18px;
@@ -271,8 +342,9 @@ header{
   border-radius:50%;
   background:#ffffff20;
   border:3px solid #ffffff50;
-  pointer-events:auto
+  pointer-events:auto;
 }
+
 .stick{
   position:absolute;
   left:50%;
@@ -281,9 +353,10 @@ header{
   height:48px;
   border-radius:50%;
   background:#ffffffbb;
-  border:3px solid #fff;
-  transform:translate(-50%,-50%)
+  border:3px solid white;
+  transform:translate(-50%,-50%);
 }
+
 .actions{
   position:absolute;
   right:15px;
@@ -291,26 +364,36 @@ header{
   display:flex;
   align-items:end;
   gap:7px;
-  pointer-events:auto
+  pointer-events:auto;
 }
+
 .action{
   width:63px;
   height:63px;
   border-radius:50%;
   border:3px solid #ffffff99;
-  font-size:10px
+  font-size:10px;
 }
+
 .attack{
   background:#df3838;
   width:72px;
-  height:72px
+  height:72px;
 }
-.jump{background:#278fd0}
-.super{background:#8b42d6}
+
+.jump{
+  background:#278fd0;
+}
+
+.super{
+  background:#8b42d6;
+}
+
 .locked{
   filter:grayscale(1);
-  opacity:.4
+  opacity:.4;
 }
+
 .superBar{
   position:absolute;
   left:50%;
@@ -321,14 +404,16 @@ header{
   background:#071525;
   border-radius:10px;
   z-index:25;
-  overflow:hidden
+  overflow:hidden;
 }
+
 .superBar i{
   display:block;
   width:0;
   height:100%;
-  background:#db4dff
+  background:#db4dff;
 }
+
 .message{
   position:absolute;
   left:50%;
@@ -340,21 +425,31 @@ header{
   z-index:25;
   font-weight:900;
   color:#ffd83d;
-  white-space:nowrap
+  white-space:nowrap;
 }
+
 .hit{
   position:absolute;
   z-index:50;
-  color:#fff;
+  color:white;
   font-size:26px;
   font-weight:1000;
   pointer-events:none;
-  animation:hit .4s ease-out forwards
+  animation:hit .4s ease-out forwards;
 }
+
 @keyframes hit{
-  0%{transform:translateY(0) scale(.7);opacity:1}
-  100%{transform:translateY(-55px) scale(1.2);opacity:0}
+  0%{
+    transform:translateY(0) scale(.7);
+    opacity:1;
+  }
+
+  100%{
+    transform:translateY(-55px) scale(1.2);
+    opacity:0;
+  }
 }
+
 .boom{
   position:absolute;
   left:50%;
@@ -366,18 +461,33 @@ header{
   transform:translate(-50%,-50%);
   z-index:40;
   pointer-events:none;
-  animation:boom .6s ease-out forwards
+  animation:boom .6s ease-out forwards;
 }
+
 @keyframes boom{
-  0%{width:30px;height:30px;opacity:1}
-  100%{width:450px;height:450px;opacity:0}
+  0%{
+    width:30px;
+    height:30px;
+    opacity:1;
+  }
+
+  100%{
+    width:450px;
+    height:450px;
+    opacity:0;
+  }
 }
+
 .jumpAnim{
-  animation:jump .28s ease
+  animation:jump .28s ease;
 }
+
 @keyframes jump{
-  50%{transform:translateY(-35px) scale(.9)}
+  50%{
+    transform:translateY(-35px) scale(.9);
+  }
 }
+
 .overlay{
   position:absolute;
   inset:0;
@@ -385,33 +495,56 @@ header{
   display:none;
   align-items:center;
   justify-content:center;
-  z-index:100
+  z-index:100;
 }
-.overlay.show{display:flex}
+
+.overlay.show{
+  display:flex;
+}
+
 .resultBox{
   width:min(360px,90%);
   padding:25px;
   border-radius:24px;
   background:#102642;
   border:3px solid #ffd83d;
-  text-align:center
+  text-align:center;
 }
+
 .resultBox h1{
   font-size:34px;
-  margin-bottom:10px
+  margin-bottom:10px;
 }
+
 .smallBtn{
   width:100%;
   padding:13px;
   margin-top:9px;
   border-radius:12px;
-  background:#1d3c5d
+  background:#1d3c5d;
 }
+
+/* CELULAR */
+
 @media(max-width:600px){
-  .brawlerGrid{grid-template-columns:repeat(3,1fr)}
-  .brawler img{height:90px}
-  .unit{width:56px;height:68px}
-  .message{top:65px;font-size:12px}
+
+  .brawlerGrid{
+    grid-template-columns:repeat(3,1fr);
+  }
+
+  .brawler img{
+    height:90px;
+  }
+
+  .unit{
+    width:56px;
+    height:68px;
+  }
+
+  .message{
+    top:65px;
+    font-size:12px;
+  }
 }
 </style>
 </head>
@@ -421,114 +554,182 @@ header{
 <div id="app">
 
 <header>
-  <div class="logo">BRAWL <span>TSUKI</span></div>
+  <div class="logo">
+    BRAWL <span>TSUKI</span>
+  </div>
+
   <div>
     <b id="playerName">Thalyson</b>
-    <div class="trophies">🏆 <span id="trophies">1280</span></div>
+
+    <div class="trophies">
+      🏆 <span id="trophies">1280</span>
+    </div>
   </div>
 </header>
 
 <!-- MENU -->
+
 <section id="home" class="screen active">
-<div class="home">
 
-  <div class="hero">
-    <h1>🔥 BRAWL TSUKI</h1>
-    <p>Entre na arena e mostre quem é o melhor!</p>
+  <div class="home">
 
-    <button class="play" onclick="startGame()">
-      🎮 JOGAR
-    </button>
+    <div class="hero">
+
+      <h1>🔥 BRAWL TSUKI</h1>
+
+      <p>
+        Entre na arena e mostre quem é o melhor!
+      </p>
+
+      <button
+        id="playButton"
+        class="play">
+        🎮 JOGAR
+      </button>
+
+    </div>
+
+    <div class="section">
+
+      <h2>🎲 Escolha seu Brawler</h2>
+
+      <div
+        id="brawlerGrid"
+        class="brawlerGrid">
+      </div>
+
+    </div>
+
   </div>
 
-  <div class="section">
-    <h2>🎲 Escolha seu Brawler</h2>
-    <div id="brawlerGrid" class="brawlerGrid"></div>
-  </div>
-
-</div>
 </section>
 
 <!-- JOGO -->
+
 <section id="game" class="screen">
 
-<div class="arena" id="arena">
+  <div
+    class="arena"
+    id="arena">
 
-  <div class="score">
-    <span id="myScore">0</span> -
-    <span id="enemyScore">0</span>
-  </div>
-
-  <div class="topInfo">
-    ❤️ <span id="hpText">1000</span>
-    <div class="hp">
-      <i id="hpBar"></i>
-    </div>
-  </div>
-
-  <div id="message" class="message">
-    Chegue perto do inimigo!
-  </div>
-
-  <div class="goal left"></div>
-  <div class="goal right"></div>
-
-  <img id="player" class="unit">
-  <img id="enemy" class="unit enemy">
-
-  <div id="range" class="attackRange"></div>
-  <div id="ball" class="ball"></div>
-
-  <div class="controls">
-
-    <div id="joystick" class="joystick">
-      <div id="stick" class="stick"></div>
+    <div class="score">
+      <span id="myScore">0</span>
+      -
+      <span id="enemyScore">0</span>
     </div>
 
-    <div class="actions">
+    <div class="topInfo">
+
+      ❤️ <span id="hpText">1000</span>
+
+      <div class="hp">
+        <i id="hpBar"></i>
+      </div>
+
+    </div>
+
+    <div
+      id="message"
+      class="message">
+      Chegue perto do inimigo!
+    </div>
+
+    <div class="goal left"></div>
+    <div class="goal right"></div>
+
+    <img
+      id="player"
+      class="unit">
+
+    <img
+      id="enemy"
+      class="unit enemy">
+
+    <div
+      id="range"
+      class="attackRange">
+    </div>
+
+    <div
+      id="ball"
+      class="ball">
+    </div>
+
+    <div class="controls">
+
+      <div
+        id="joystick"
+        class="joystick">
+
+        <div
+          id="stick"
+          class="stick">
+        </div>
+
+      </div>
+
+      <div class="actions">
+
+        <button
+          id="attackButton"
+          class="action attack">
+          👊<br>
+          ATAQUE
+        </button>
+
+        <button
+          id="jumpButton"
+          class="action jump">
+          🦘<br>
+          PULAR
+        </button>
+
+        <button
+          id="superButton"
+          class="action super locked">
+          ⚡<br>
+          SUPER
+        </button>
+
+      </div>
+
+      <div class="superBar">
+        <i id="superBar"></i>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div
+    id="result"
+    class="overlay">
+
+    <div class="resultBox">
+
+      <h1 id="resultTitle">
+        🏆 VITÓRIA!
+      </h1>
+
+      <p id="resultText">
+        Você venceu!
+      </p>
 
       <button
-        id="attackButton"
-        class="action attack"
-        onclick="attack()">
-        👊<br>ATAQUE
+        id="againButton"
+        class="play">
+        🔄 JOGAR NOVAMENTE
       </button>
 
       <button
-        class="action jump"
-        onclick="jump()">
-        🦘<br>PULAR
-      </button>
-
-      <button
-        id="superButton"
-        class="action super locked"
-        onclick="useSuper()">
-        ⚡<br>SUPER
+        id="menuButton"
+        class="smallBtn">
+        🏠 MENU
       </button>
 
     </div>
 
-    <div class="superBar">
-      <i id="superBar"></i>
-    </div>
-
   </div>
-
-</div>
-
-<div id="result" class="overlay">
-  <div class="resultBox">
-    <h1 id="resultTitle">🏆 VITÓRIA!</h1>
-    <p id="resultText">Você venceu!</p>
-    <button class="play" onclick="startGame()">
-      🔄 JOGAR NOVAMENTE
-    </button>
-    <button class="smallBtn" onclick="goHome()">
-      🏠 MENU
-    </button>
-  </div>
-</div>
 
 </section>
 
@@ -540,117 +741,216 @@ header{
    BRAWLERS
 ========================= */
 
-const names=[
-"Tsuki","Volt","Ghost","Blaze","Frost",
-"Rex","Luna","Nova","Titan","Raven",
-"Kiro","Zeta","Mako","Storm","Ninja",
-"Pixel","Jade","Bolt","Skull","Flare",
-"Cosmo","Viper","Rocky","Echo","Sora",
-"Maxi","Zero","Onyx","Comet","Turbo",
-"Myst","Ryu","Kai","Zion","Axel",
-"Neko","Cyber","Inferno","Aero","Venom",
-"Sonic","Omega","Hunter","Dusk","Solar",
-"Argo","Phantom","Atlas","Blitz","Cobra",
-"Fenix","Orbit","Giga","Drako","Moon",
-"Razor","Fury","Toxic","Crystal","Meteor",
-"GhostX","Darko","Lynx","Thunder","Ash",
-"Samurai","Dragon","Shadow","Vortex","OmegaX"
+const names = [
+  "Tsuki","Volt","Ghost","Blaze","Frost",
+  "Rex","Luna","Nova","Titan","Raven",
+  "Kiro","Zeta","Mako","Storm","Ninja",
+  "Pixel","Jade","Bolt","Skull","Flare",
+  "Cosmo","Viper","Rocky","Echo","Sora",
+  "Maxi","Zero","Onyx","Comet","Turbo",
+  "Myst","Ryu","Kai","Zion","Axel",
+  "Neko","Cyber","Inferno","Aero","Venom",
+  "Sonic","Omega","Hunter","Dusk","Solar",
+  "Argo","Phantom","Atlas","Blitz","Cobra",
+  "Fenix","Orbit","Giga","Drako","Moon",
+  "Razor","Fury","Toxic","Crystal","Meteor",
+  "GhostX","Darko","Lynx","Thunder","Ash",
+  "Samurai","Dragon","Shadow","Vortex","OmegaX"
 ];
 
-const colors=[
-"#36a4ff",
-"#8d45e8",
-"#e845a7",
-"#ff9f25",
-"#3dd06b"
+const colors = [
+  "#36a4ff",
+  "#8d45e8",
+  "#e845a7",
+  "#ff9f25",
+  "#3dd06b"
 ];
 
 function makeArt(name,index){
 
-let c=colors[index%colors.length];
+  const c = colors[index % colors.length];
 
-let svg=`
-<svg xmlns="http://www.w3.org/2000/svg"
-width="400" height="450">
+  const svg = `
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="400"
+    height="450">
 
-<defs>
-<linearGradient id="g"
-x1="0" y1="0"
-x2="1" y2="1">
+    <defs>
 
-<stop stop-color="${c}"/>
-<stop offset="1"
-stop-color="#101827"/>
+      <linearGradient
+        id="g"
+        x1="0"
+        y1="0"
+        x2="1"
+        y2="1">
 
-</linearGradient>
-</defs>
+        <stop
+          stop-color="${c}"/>
 
-<rect width="400"
-height="450"
-rx="45"
-fill="url(#g)"/>
+        <stop
+          offset="1"
+          stop-color="#101827"/>
 
-<circle cx="200"
-cy="165"
-r="100"
-fill="#f0c5a5"/>
+      </linearGradient>
 
-<path d="
-M95 150
-Q200 35 305 150
-Q280 75 200 75
-Q120 75 95 150"
-fill="#18202c"/>
+    </defs>
 
-<circle cx="160"
-cy="165"
-r="14"
-fill="#111"/>
+    <rect
+      width="400"
+      height="450"
+      rx="45"
+      fill="url(#g)"/>
 
-<circle cx="240"
-cy="165"
-r="14"
-fill="#111"/>
+    <circle
+      cx="200"
+      cy="165"
+      r="100"
+      fill="#f0c5a5"/>
 
-<path d="
-M150 220
-Q200 250 250 220"
-fill="none"
-stroke="#111"
-stroke-width="11"
-stroke-linecap="round"/>
+    <path
+      d="
+      M95 150
+      Q200 35 305 150
+      Q280 75 200 75
+      Q120 75 95 150"
+      fill="#18202c"/>
 
-<path d="
-M95 430
-Q110 270 200 270
-Q290 270 305 430"
-fill="${c}"/>
+    <circle
+      cx="160"
+      cy="165"
+      r="14"
+      fill="#111"/>
 
-<text x="200"
-y="400"
-text-anchor="middle"
-fill="white"
-font-size="27"
-font-family="Arial"
-font-weight="bold">
-${name}
-</text>
+    <circle
+      cx="240"
+      cy="165"
+      r="14"
+      fill="#111"/>
 
-</svg>`;
+    <path
+      d="
+      M150 220
+      Q200 250 250 220"
+      fill="none"
+      stroke="#111"
+      stroke-width="11"
+      stroke-linecap="round"/>
 
-return "data:image/svg+xml;charset=UTF-8,"
-+encodeURIComponent(svg);
+    <path
+      d="
+      M95 430
+      Q110 270 200 270
+      Q290 270 305 430"
+      fill="${c}"/>
+
+    <text
+      x="200"
+      y="400"
+      text-anchor="middle"
+      fill="white"
+      font-size="27"
+      font-family="Arial"
+      font-weight="bold">
+      ${name}
+    </text>
+
+  </svg>
+  `;
+
+  return "data:image/svg+xml;charset=UTF-8," +
+    encodeURIComponent(svg);
 }
 
-const brawlers=names.map((name,i)=>({
-name:name,
-hp:850+(i%8)*40,
-damage:65+(i%9)*7,
-speed:3.4+(i%6)*.2,
-image:makeArt(name,i)
+const brawlers = names.map((name,i) => ({
+
+  name:name,
+
+  hp:850 + (i % 8) * 40,
+
+  damage:65 + (i % 9) * 7,
+
+  speed:3.4 + (i % 6) * .2,
+
+  image:makeArt(name,i)
+
 }));
 
-let selected=0;
+let selected = 0;
+
+/* =========================
+   VARIÁVEIS DO JOGO
+========================= */
+
+let playing = false;
+
+let px = 20;
+let py = 50;
+
+let ex = 75;
+let ey = 50;
+
+let ballX = 50;
+let ballY = 50;
+
+let myScore = 0;
+let enemyScore = 0;
+
+let hp = 1000;
+let enemyHp = 1000;
+
+let superHits = 0;
+let superReady = false;
+
+let jumping = false;
+
+let lastEnemyAttack = 0;
+
+/* =========================
+   ELEMENTOS
+========================= */
+
+const home =
+  document.getElementById("home");
+
+const game =
+  document.getElementById("game");
+
+const arena =
+  document.getElementById("arena");
+
+const player =
+  document.getElementById("player");
+
+const enemy =
+  document.getElementById("enemy");
+
+const ball =
+  document.getElementById("ball");
+
+const result =
+  document.getElementById("result");
+
+const range =
+  document.getElementById("range");
+
+const hpText =
+  document.getElementById("hpText");
+
+const hpBar =
+  document.getElementById("hpBar");
+
+const messageBox =
+  document.getElementById("message");
+
+const superBar =
+  document.getElementById("superBar");
+
+const superButton =
+  document.getElementById("superButton");
+
+const attackButton =
+  document.getElementById("attackButton");
 
 /* =========================
    MENU
@@ -658,191 +958,167 @@ let selected=0;
 
 function makeBrawlers(){
 
-let html="";
+  let html = "";
 
-brawlers.forEach((b,i)=>{
+  brawlers.forEach((b,i)=>{
 
-html+=`
+    html += `
+      <div
+        class="brawler ${i === selected ? "selected" : ""}"
+        data-index="${i}">
 
-<div class="brawler"
-onclick="selectBrawler(${i})">
+        <img src="${b.image}">
 
-<img src="${b.image}">
+        <b>${b.name}</b>
 
-<b>${b.name}</b>
+        <small>
+          ❤️ ${b.hp}
+        </small>
 
-<small>
-❤️ ${b.hp}
-</small>
+      </div>
+    `;
 
-</div>
+  });
 
-`;
+  document.getElementById(
+    "brawlerGrid"
+  ).innerHTML = html;
 
-});
+  document
+    .querySelectorAll(".brawler")
+    .forEach(card => {
 
-document.getElementById(
-"brawlerGrid"
-).innerHTML=html;
+      card.addEventListener(
+        "click",
+        () => {
+
+          selectBrawler(
+            Number(card.dataset.index)
+          );
+
+        }
+      );
+
+    });
 
 }
 
 function selectBrawler(i){
 
-selected=i;
+  selected = i;
 
-document.getElementById(
-"playerName"
-).textContent=
-brawlers[i].name;
+  document.getElementById(
+    "playerName"
+  ).textContent =
+    brawlers[i].name;
+
+  document
+    .querySelectorAll(".brawler")
+    .forEach(card => {
+
+      card.classList.toggle(
+        "selected",
+        Number(card.dataset.index) === i
+      );
+
+    });
 
 }
 
 /* =========================
-   JOGO
+   COMEÇAR JOGO
 ========================= */
-
-let playing=false;
-
-let px=20;
-let py=50;
-
-let ex=75;
-let ey=50;
-
-let ballX=50;
-let ballY=50;
-
-let myScore=0;
-let enemyScore=0;
-
-let hp=1000;
-
-let enemyHp=1000;
-
-let superHits=0;
-
-let superReady=false;
-
-let jumping=false;
-
-let lastEnemyAttack=0;
 
 function startGame(){
 
-playing=true;
+  playing = true;
 
-myScore=0;
-enemyScore=0;
+  myScore = 0;
+  enemyScore = 0;
 
-hp=1000;
-enemyHp=1000;
+  hp = 1000;
+  enemyHp = 1000;
 
-superHits=0;
-superReady=false;
+  superHits = 0;
+  superReady = false;
 
-px=20;
-py=50;
+  px = 20;
+  py = 50;
 
-ex=75;
-ey=50;
+  ex = 75;
+  ey = 50;
 
-ballX=50;
-ballY=50;
+  ballX = 50;
+  ballY = 50;
 
-document.getElementById(
-"myScore"
-).textContent=0;
+  document.getElementById(
+    "myScore"
+  ).textContent = "0";
 
-document.getElementById(
-"enemyScore"
-).textContent=0;
+  document.getElementById(
+    "enemyScore"
+  ).textContent = "0";
 
-document.getElementById(
-"result"
-).classList.remove("show");
+  result.classList.remove("show");
 
-document.getElementById(
-"player"
-).src=
-brawlers[selected].image;
+  player.src =
+    brawlers[selected].image;
 
-document.getElementById(
-"enemy"
-).src=
-brawlers[(selected+17)%70].image;
+  enemy.src =
+    brawlers[
+      (selected + 17) % brawlers.length
+    ].image;
 
-document.getElementById(
-"message"
-).textContent=
-"Chegue perto do inimigo!";
+  messageBox.textContent =
+    "Chegue perto do inimigo!";
 
-update();
+  home.classList.remove("active");
 
-updateSuper();
+  game.classList.add("active");
 
-document.getElementById(
-"home"
-).classList.remove("active");
-
-document.getElementById(
-"game"
-).classList.add("active");
+  update();
+  updateSuper();
 
 }
 
 /* =========================
-   POSIÇÃO
+   ATUALIZAR TELA
 ========================= */
 
 function update(){
 
-let player=
-document.getElementById("player");
+  player.style.left =
+    px + "%";
 
-let enemy=
-document.getElementById("enemy");
+  player.style.top =
+    py + "%";
 
-let ball=
-document.getElementById("ball");
+  enemy.style.left =
+    ex + "%";
 
-player.style.left=
-px+"%";
+  enemy.style.top =
+    ey + "%";
 
-player.style.top=
-py+"%";
+  ball.style.left =
+    ballX + "%";
 
-enemy.style.left=
-ex+"%";
+  ball.style.top =
+    ballY + "%";
 
-enemy.style.top=
-ey+"%";
+  range.style.left =
+    (px - 4) + "%";
 
-ball.style.left=
-ballX+"%";
+  range.style.top =
+    (py + 1) + "%";
 
-ball.style.top=
-ballY+"%";
+  hpText.textContent =
+    Math.max(0,Math.floor(hp));
 
-document.getElementById(
-"range"
-).style.left=
-(px-4)+"%";
-
-document.getElementById(
-"range"
-).style.top=
-(py+1)+"%";
-
-document.getElementById(
-"hpText"
-).textContent=
-Math.max(0,Math.floor(hp));
-
-document.getElementById(
-"hpBar"
-).style.width=
-Math.max(0,hp/10)+"%";
+  hpBar.style.width =
+    Math.max(
+      0,
+      Math.min(100,hp / 10)
+    ) + "%";
 
 }
 
@@ -852,55 +1128,70 @@ Math.max(0,hp/10)+"%";
 
 function move(dx,dy){
 
-if(!playing)return;
+  if(!playing) return;
 
-let speed=
-brawlers[selected].speed*.22;
+  const speed =
+    brawlers[selected].speed * .22;
 
-px+=dx*speed;
-py+=dy*speed;
+  px += dx * speed;
+  py += dy * speed;
 
-px=Math.max(3,Math.min(89,px));
-py=Math.max(5,Math.min(82,py));
+  px =
+    Math.max(
+      3,
+      Math.min(89,px)
+    );
 
-update();
+  py =
+    Math.max(
+      5,
+      Math.min(82,py)
+    );
+
+  update();
 
 }
 
 /* =========================
-   INIMIGO
+   IA INIMIGO
 ========================= */
 
 function enemyAI(){
 
-if(!playing)return;
+  if(!playing) return;
 
-let dx=px-ex;
-let dy=py-ey;
+  const dx = px - ex;
+  const dy = py - ey;
 
-let distance=
-Math.hypot(dx,dy);
+  const distance =
+    Math.hypot(dx,dy);
 
-if(distance>14){
+  if(distance > 14){
 
-let speed=.09;
+    const speed = .09;
 
-ex+=(dx/distance)*speed;
-ey+=(dy/distance)*speed;
+    ex +=
+      (dx / distance) * speed;
+
+    ey +=
+      (dy / distance) * speed;
+
+  }
+
+  if(distance < 13){
+
+    enemyAttack();
+
+  }
+
+  update();
 
 }
 
-if(distance<13){
-
-enemyAttack();
-
-}
-
-update();
-
-}
-
-setInterval(enemyAI,45);
+setInterval(
+  enemyAI,
+  45
+);
 
 /* =========================
    ATAQUE
@@ -908,132 +1199,134 @@ setInterval(enemyAI,45);
 
 function attack(){
 
-if(!playing)return;
+  if(!playing) return;
 
-let distance=
-Math.hypot(px-ex,py-ey);
+  const distance =
+    Math.hypot(
+      px - ex,
+      py - ey
+    );
 
-document.getElementById(
-"range"
-).classList.add("show");
+  range.classList.add("show");
 
-setTimeout(()=>{
-document.getElementById(
-"range"
-).classList.remove("show");
-},100);
+  setTimeout(()=>{
+    range.classList.remove("show");
+  },100);
 
-if(distance>16){
+  if(distance > 16){
 
-message(
-"❌ Muito longe!"
-);
+    showMessage(
+      "❌ Muito longe!"
+    );
 
-return;
+    return;
 
-}
+  }
 
-document.getElementById(
-"player"
-).style.transform=
-"scale(1.2)";
+  player.style.transform =
+    "scale(1.2)";
 
-setTimeout(()=>{
-document.getElementById(
-"player"
-).style.transform=
-"scale(1)";
-},100);
+  setTimeout(()=>{
+    player.style.transform =
+      "scale(1)";
+  },100);
 
-enemyHp-=
-brawlers[selected].damage;
+  enemyHp -=
+    brawlers[selected].damage;
 
-showHit(
-ex,
-ey,
-"-"+brawlers[selected].damage
-);
+  showHit(
+    ex,
+    ey,
+    "-" +
+    brawlers[selected].damage
+  );
 
-superHits++;
+  superHits++;
 
-if(enemyHp<=0){
+  if(enemyHp <= 0){
 
-enemyHp=1000;
+    enemyHp = 1000;
 
-ex=75;
-ey=Math.random()*60+20;
+    ex = 75;
+    ey =
+      Math.random() * 60 + 20;
 
-message(
-"💥 INIMIGO DERRUBADO!"
-);
+    showMessage(
+      "💥 INIMIGO DERRUBADO!"
+    );
 
-}
+  }
 
-if(superHits>=2){
+  if(superHits >= 2){
 
-superReady=true;
+    superReady = true;
 
-message(
-"⚡ SUPER CARREGADA!"
-);
+    showMessage(
+      "⚡ SUPER CARREGADA!"
+    );
 
-}
+  }
 
-updateSuper();
+  updateSuper();
+  update();
 
 }
 
 /* =========================
-   ATAQUE DO INIMIGO
+   ATAQUE INIMIGO
 ========================= */
 
 function enemyAttack(){
 
-let now=Date.now();
+  const now = Date.now();
 
-if(now-lastEnemyAttack<900)return;
+  if(
+    now - lastEnemyAttack <
+    900
+  ) return;
 
-lastEnemyAttack=now;
+  lastEnemyAttack = now;
 
-hp-=45;
+  hp -= 45;
 
-showHit(
-px,
-py,
-"-45"
-);
+  showHit(
+    px,
+    py,
+    "-45"
+  );
 
-message(
-"👊 O inimigo te acertou!"
-);
+  showMessage(
+    "👊 O inimigo te acertou!"
+  );
 
-if(hp<=0){
+  if(hp <= 0){
 
-hp=1000;
+    hp = 1000;
 
-enemyScore++;
+    enemyScore++;
 
-document.getElementById(
-"enemyScore"
-).textContent=
-enemyScore;
+    document.getElementById(
+      "enemyScore"
+    ).textContent =
+      enemyScore;
 
-px=20;
-py=50;
+    px = 20;
+    py = 50;
 
-message(
-"💀 Você caiu!"
-);
+    showMessage(
+      "💀 Você caiu!"
+    );
 
-if(enemyScore>=3){
+    if(enemyScore >= 3){
 
-lose();
+      lose();
+      return;
 
-}
+    }
 
-}
+  }
 
-update();
+  update();
 
 }
 
@@ -1043,89 +1336,92 @@ update();
 
 function updateSuper(){
 
-let value=
-Math.min(100,superHits*50);
+  const value =
+    Math.min(
+      100,
+      superHits * 50
+    );
 
-document.getElementById(
-"superBar"
-).style.width=
-value+"%";
+  superBar.style.width =
+    value + "%";
 
-document.getElementById(
-"superButton"
-).classList.toggle(
-"locked",
-!superReady
-);
+  superButton.classList.toggle(
+    "locked",
+    !superReady
+  );
 
 }
 
 function useSuper(){
 
-if(!playing)return;
+  if(!playing) return;
 
-if(!superReady){
+  if(!superReady){
 
-message(
-"⚡ Acerte 2 ataques para carregar!"
-);
+    showMessage(
+      "⚡ Acerte 2 ataques para carregar!"
+    );
 
-return;
+    return;
 
-}
+  }
 
-let distance=
-Math.hypot(px-ex,py-ey);
+  const distance =
+    Math.hypot(
+      px - ex,
+      py - ey
+    );
 
-if(distance>22){
+  if(distance > 22){
 
-message(
-"❌ Chegue perto para usar a Super!"
-);
+    showMessage(
+      "❌ Chegue perto para usar a Super!"
+    );
 
-return;
+    return;
 
-}
+  }
 
-superReady=false;
-superHits=0;
+  superReady = false;
+  superHits = 0;
 
-updateSuper();
+  updateSuper();
 
-let boom=
-document.createElement("div");
+  const boom =
+    document.createElement("div");
 
-boom.className="boom";
+  boom.className = "boom";
 
-document.getElementById(
-"arena"
-).appendChild(boom);
+  arena.appendChild(boom);
 
-setTimeout(()=>{
-boom.remove();
-},650);
+  setTimeout(()=>{
+    boom.remove();
+  },650);
 
-enemyHp-=300;
+  enemyHp -= 300;
 
-showHit(
-ex,
-ey,
-"-300 ⚡"
-);
+  showHit(
+    ex,
+    ey,
+    "-300 ⚡"
+  );
 
-message(
-"💥 SUPER DEVASTADORA!"
-);
+  showMessage(
+    "💥 SUPER DEVASTADORA!"
+  );
 
-if(enemyHp<=0){
+  if(enemyHp <= 0){
 
-enemyHp=1000;
+    enemyHp = 1000;
 
-ex=75;
+    ex = 75;
 
-}
+    ey =
+      Math.random() * 60 + 20;
 
-update();
+  }
+
+  update();
 
 }
 
@@ -1135,369 +1431,47 @@ update();
 
 function jump(){
 
-if(!playing||jumping)return;
+  if(!playing || jumping)
+    return;
 
-jumping=true;
+  jumping = true;
 
-let player=
-document.getElementById("player");
+  player.classList.add(
+    "jumpAnim"
+  );
 
-player.classList.add(
-"jumpAnim"
-);
+  setTimeout(()=>{
 
-setTimeout(()=>{
+    player.classList.remove(
+      "jumpAnim"
+    );
 
-player.classList.remove(
-"jumpAnim"
-);
+    jumping = false;
 
-jumping=false;
-
-},300);
+  },300);
 
 }
 
 /* =========================
-   EFEITO DE DANO
+   DANO
 ========================= */
 
 function showHit(x,y,text){
 
-let el=
-document.createElement("div");
+  const el =
+    document.createElement("div");
 
-el.className="hit";
+  el.className = "hit";
 
-el.textContent=text;
+  el.textContent = text;
 
-el.style.left=x+"%";
-el.style.top=y+"%";
+  el.style.left =
+    x + "%";
 
-document.getElementById(
-"arena"
-).appendChild(el);
+  el.style.top =
+    y + "%";
 
-setTimeout(()=>{
-el.remove();
-},450);
+  arena.appendChild(el);
 
-}
-
-/* =========================
-   FUTEBOL
-========================= */
-
-function kickBall(){
-
-if(!playing)return;
-
-let distance=
-Math.hypot(px-ballX,py-ballY);
-
-if(distance>15){
-
-message(
-"⚽ Chegue perto da bola!"
-);
-
-return;
-
-}
-
-ballX+=
-px<50?18:-18;
-
-ballX=
-Math.max(2,Math.min(98,ballX));
-
-if(ballX>95){
-
-myScore++;
-
-document.getElementById(
-"myScore"
-).textContent=myScore;
-
-message(
-"⚽ GOOOOOOL!"
-);
-
-ballX=50;
-ballY=50;
-
-}
-
-if(ballX<5){
-
-enemyScore++;
-
-document.getElementById(
-"enemyScore"
-).textContent=
-enemyScore;
-
-ballX=50;
-ballY=50;
-
-}
-
-if(myScore>=3){
-
-win();
-
-}
-
-if(enemyScore>=3){
-
-lose();
-
-}
-
-update();
-
-}
-
-/* =========================
-   RESULTADO
-========================= */
-
-function win(){
-
-playing=false;
-
-document.getElementById(
-"resultTitle"
-).textContent=
-"🏆 VITÓRIA!";
-
-document.getElementById(
-"resultText"
-).textContent=
-"Você venceu a partida! +10 🏆";
-
-document.getElementById(
-"result"
-).classList.add("show");
-
-let trophies=
-Number(
-document.getElementById(
-"trophies"
-).textContent
-)+10;
-
-document.getElementById(
-"trophies"
-).textContent=
-trophies;
-
-localStorage.trophies=trophies;
-
-}
-
-function lose(){
-
-playing=false;
-
-document.getElementById(
-"resultTitle"
-).textContent=
-"💀 DERROTA";
-
-document.getElementById(
-"resultText"
-).textContent=
-"O inimigo venceu!";
-
-document.getElementById(
-"result"
-).classList.add("show");
-
-}
-
-/* =========================
-   MENSAGEM
-========================= */
-
-function message(text){
-
-document.getElementById(
-"message"
-).textContent=text;
-
-}
-
-/* =========================
-   MENU
-========================= */
-
-function goHome(){
-
-playing=false;
-
-document.getElementById(
-"game"
-).classList.remove("active");
-
-document.getElementById(
-"home"
-).classList.add("active");
-
-}
-
-/* =========================
-   ANALÓGICO
-========================= */
-
-let active=false;
-
-const joystick=
-document.getElementById("joystick");
-
-const stick=
-document.getElementById("stick");
-
-joystick.addEventListener(
-"pointerdown",
-e=>{
-
-active=true;
-
-joystick.setPointerCapture(
-e.pointerId
-);
-
-analog(e);
-
-}
-);
-
-joystick.addEventListener(
-"pointermove",
-e=>{
-
-if(active){
-
-analog(e);
-
-}
-
-}
-);
-
-joystick.addEventListener(
-"pointerup",
-()=>{
-
-active=false;
-
-stick.style.left="50%";
-stick.style.top="50%";
-
-}
-);
-
-function analog(e){
-
-let rect=
-joystick.getBoundingClientRect();
-
-let x=
-e.clientX-
-rect.left-
-rect.width/2;
-
-let y=
-e.clientY-
-rect.top-
-rect.height/2;
-
-let max=35;
-
-let distance=
-Math.hypot(x,y);
-
-if(distance>max){
-
-x=x/distance*max;
-y=y/distance*max;
-
-}
-
-stick.style.left=
-"calc(50% + "+x+"px)";
-
-stick.style.top=
-"calc(50% + "+y+"px)";
-
-if(distance>8){
-
-move(
-x/max,
-y/max
-);
-
-}
-
-}
-
-/* =========================
-   TECLADO
-========================= */
-
-document.addEventListener(
-"keydown",
-e=>{
-
-if(e.key==="w"||
-e.key==="ArrowUp")
-move(0,-1);
-
-if(e.key==="s"||
-e.key==="ArrowDown")
-move(0,1);
-
-if(e.key==="a"||
-e.key==="ArrowLeft")
-move(-1,0);
-
-if(e.key==="d"||
-e.key==="ArrowRight")
-move(1,0);
-
-if(e.key===" ")
-jump();
-
-if(e.key==="e")
-attack();
-
-if(e.key==="q")
-useSuper();
-
-}
-);
-
-/* =========================
-   TOQUE DUPLO NO ATAQUE
-   = CHUTE NA BOLA
-========================= */
-
-document.getElementById(
-"attackButton"
-).addEventListener(
-"pointerdown",
-e=>{
-
-e.stopPropagation();
-
-attack();
-
-}
-);
-
-/* =========================
-   CHUTE COM TOQUE
-========================= */
-
-document
+  setTimeout(()=>{
+        
