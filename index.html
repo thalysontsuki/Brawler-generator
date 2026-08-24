@@ -1,308 +1,1012 @@
-  https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brawl Tsuki</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,sans-serif;
+}
+
+body{
+  background:#07101f;
+  color:white;
+  min-height:100vh;
+}
+
+button{
+  border:0;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.app{
+  min-height:100vh;
+  background:
+  radial-gradient(circle at 50% 0%,#315b8d,#102440 38%,#07101f 75%);
+}
+
+.top{
+  height:75px;
+  padding:10px 15px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:#081526ee;
+  border-bottom:2px solid #ffffff15;
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+
+.logo{
+  font-size:25px;
+  font-weight:1000;
+  text-shadow:0 3px 0 #000;
+}
+
+.logo span{
+  color:#ffd52f;
+}
+
+.profile{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.avatar{
+  width:45px;
+  height:45px;
+  border-radius:14px;
+  background:linear-gradient(145deg,#ffd83d,#ff7b1c);
+  border:3px solid white;
+  display:grid;
+  place-items:center;
+  font-size:25px;
+}
+
+.name{
+  font-weight:900;
+}
+
+.trophies{
+  color:#ffd52f;
+  font-size:13px;
+  font-weight:bold;
+}
+
+.content{
+  width:min(900px,100%);
+  margin:auto;
+  padding:16px;
+}
+
+.page{
+  display:none;
+}
+
+.page.active{
+  display:block;
+}
+
+.hero{
+  margin-top:8px;
+  padding:22px;
+  border-radius:25px;
+  background:linear-gradient(145deg,#173b68,#0d1e36);
+  border:2px solid #ffffff15;
+  box-shadow:0 15px 40px #0007;
+}
+
+.hero h1{
+  font-size:34px;
+  margin-bottom:7px;
+}
+
+.hero p{
+  color:#b8c8dc;
+}
+
+.play{
+  width:100%;
+  margin-top:20px;
+  padding:18px;
+  border-radius:18px;
+  background:linear-gradient(#ffe94e,#ffb817);
+  color:#2d1900;
+  font-size:23px;
+  box-shadow:0 6px 0 #a66400;
+  transition:.12s;
+}
+
+.play:active{
+  transform:translateY(5px);
+  box-shadow:0 1px 0 #a66400;
+}
+
+.buttons{
+  display:flex;
+  gap:10px;
+  margin-top:13px;
+}
+
+.smallButton{
+  flex:1;
+  padding:15px;
+  border-radius:16px;
+  background:#172e4c;
+  color:white;
+  border:2px solid #ffffff12;
+}
+
+.section{
+  margin-top:24px;
+}
+
+.section h2{
+  margin-bottom:12px;
+}
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+
+.card{
+  min-height:155px;
+  padding:13px;
+  border-radius:20px;
+  overflow:hidden;
+  position:relative;
+  border:2px solid #ffffff18;
+  box-shadow:0 8px 20px #0005;
+  transition:.2s;
+}
+
+.card:hover{
+  transform:translateY(-5px) scale(1.02);
+}
+
+.common{
+  background:linear-gradient(145deg,#596b7b,#293744);
+}
+
+.rare{
+  background:linear-gradient(145deg,#168fe4,#123e6c);
+}
+
+.epic{
+  background:linear-gradient(145deg,#a448e8,#4a1874);
+}
+
+.brawler{
+  font-size:55px;
+}
+
+.brawlerName{
+  font-weight:1000;
+  font-size:17px;
+}
+
+.rarity{
+  opacity:.8;
+  font-size:11px;
+  margin-top:3px;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+
+.stat{
+  text-align:center;
+  background:#10243d;
+  border-radius:17px;
+  padding:15px;
+  border:2px solid #ffffff0d;
+}
+
+.stat b{
+  display:block;
+  font-size:24px;
+  color:#ffd52f;
+}
+
+.stat span{
+  font-size:11px;
+  color:#aebdd0;
+}
+
+.back{
+  background:#172e4c;
+  color:white;
+  padding:11px 15px;
+  border-radius:13px;
+  margin-bottom:12px;
+}
+
+.battle{
+  height:390px;
+  border-radius:25px;
+  overflow:hidden;
+  position:relative;
+  background:linear-gradient(#6bc5ef 0 52%,#86c44d 52%);
+  border:3px solid #ffffff20;
+  box-shadow:0 15px 35px #0007;
+}
+
+.ground{
+  position:absolute;
+  bottom:0;
+  width:100%;
+  height:85px;
+  background:#5da43b;
+}
+
+.player{
+  position:absolute;
+  bottom:68px;
+  font-size:58px;
+  transition:.2s;
+  z-index:2;
+}
+
+.p1{
+  left:13%;
+}
+
+.p2{
+  right:13%;
+}
+
+.health{
+  position:absolute;
+  top:15px;
+  width:38%;
+  height:16px;
+  background:#351313;
+  border:2px solid white;
+  border-radius:10px;
+  overflow:hidden;
+  z-index:3;
+}
+
+.health div{
+  width:100%;
+  height:100%;
+  background:#3ee052;
+  transition:.2s;
+}
+
+.health.left{
+  left:10px;
+}
+
+.health.right{
+  right:10px;
+}
+
+.battleNames{
+  display:flex;
+  justify-content:space-between;
+  font-weight:bold;
+  padding:8px 3px;
+}
+
+.message{
+  text-align:center;
+  color:#ffd52f;
+  font-weight:900;
+  margin:8px;
+}
+
+.controls{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.control{
+  padding:19px;
+  border-radius:17px;
+  background:#17304e;
+  color:white;
+  font-size:18px;
+  border:2px solid #ffffff12;
+}
+
+.attack{
+  background:linear-gradient(#ff6565,#d32626);
+}
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:#000b;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  z-index:50;
+}
+
+.modal.show{
+  display:flex;
+}
+
+.modalBox{
+  width:min(420px,100%);
+  background:#10243d;
+  border-radius:23px;
+  padding:20px;
+  border:2px solid #ffffff15;
+  box-shadow:0 20px 60px #000;
+}
+
+.modalBox h2{
+  margin-bottom:10px;
+}
+
+.input{
+  width:100%;
+  padding:15px;
+  margin:7px 0;
+  border-radius:13px;
+  border:2px solid #ffffff15;
+  background:#071525;
+  color:white;
+  font-size:17px;
+}
+
+.close{
+  width:100%;
+  margin-top:10px;
+  padding:13px;
+  border-radius:13px;
+  background:#263e5b;
+  color:white;
+}
+
+@media(max-width:560px){
+
+  .cards{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .hero h1{
+    font-size:29px;
+  }
+
+  .battle{
+    height:350px;
+  }
+
+  .player{
+    font-size:50px;
+  }
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header class="top">
+
+<div class="logo">
+BRAWL <span>TSUKI</span>
+</div>
+
+<div class="profile">
+
+<div>
+<div class="name" id="playerName">Thalyson</div>
+
+<div class="trophies">
+🏆 <span id="trophies">1280</span>
+</div>
+
+</div>
+
+<div class="avatar">
+😎
+</div>
+
+</div>
+
+</header>
+
+<main class="content">
+
+<section id="home" class="page active">
+
+<div class="hero">
+
+<h1>Pronto para a batalha? 🔥</h1>
+
+<p>
+Entre numa partida e mostre quem é o melhor Brawler!
+</p>
+
+<button class="play" onclick="startGame()">
+🎮 JOGAR
+</button>
+
+<div class="buttons">
+
+<button class="smallButton" onclick="openRoom()">
+👥 JOGAR COM AMIGO
+</button>
+
+<button class="smallButton" onclick="editName()">
+👤 PERFIL
+</button>
+
+</div>
+
+</div>
+
+<div class="section">
+
+<h2>🥊 Seus Brawlers</h2>
+
+<div class="cards">
+
+<div class="card common">
+
+<div class="brawler">🤠</div>
+
+<div class="brawlerName">
+Tsuki
+</div>
+
+<div class="rarity">
+COMUM
+</div>
+
+</div>
+
+<div class="card rare">
+
+<div class="brawler">🤖</div>
+
+<div class="brawlerName">
+T-Bot
+</div>
+
+<div class="rarity">
+RARO
+</div>
+
+</div>
+
+<div class="card epic">
+
+<div class="brawler">👻</div>
+
+<div class="brawlerName">
+Ghost
+</div>
+
+<div class="rarity">
+ÉPICO
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="section">
+
+<h2>🏆 Estatísticas</h2>
+
+<div class="stats">
+
+<div class="stat">
+<b id="wins">42</b>
+<span>VITÓRIAS</span>
+</div>
+
+<div class="stat">
+<b id="statTrophies">1280</b>
+<span>TROFÉUS</span>
+</div>
+
+<div class="stat">
+<b>18</b>
+<span>BRAWLERS</span>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<section id="battlePage" class="page">
+
+<button class="back" onclick="home()">
+← VOLTAR
+</button>
+
+<div class="battle">
+
+<div class="health left">
+<div id="myHealth"></div>
+</div>
+
+<div class="health right">
+<div id="enemyHealth"></div>
+</div>
+
+<div class="player p1" id="me">
+🤠
+</div>
+
+<div class="player p2" id="enemy">
+🤖
+</div>
+
+<div class="ground"></div>
+
+</div>
+
+<div class="battleNames">
+
+<span>Thalyson</span>
+<span>Oponente</span>
+
+</div>
+
+<div class="message" id="message">
+🔎 Procurando oponente...
+</div>
+
+<div class="controls">
+
+<button class="control" onclick="move(-1)">
+⬅️ MOVER
+</button>
+
+<button class="control" onclick="move(1)">
+MOVER ➡️
+</button>
+
+<button class="control attack" onclick="attack()">
+💥 ATAQUE
+</button>
+
+<button class="control" onclick="superAttack()">
+⚡ SUPER
+</button>
+
+</div>
+
+</section>
+
+</main>
+
+</div>
+
+
+<div class="modal" id="roomModal">
+
+<div class="modalBox">
+
+<h2>👥 Sala online</h2>
+
+<p>
+Crie uma sala e mande o código para seu amigo.
+</p>
+
+<input
+class="input"
+id="roomCode"
+placeholder="Código da sala"
+>
+
+<button class="play" onclick="createRoom()">
+CRIAR SALA
+</button>
+
+<button
+class="smallButton"
+style="width:100%;margin-top:10px"
+onclick="joinRoom()"
+>
+ENTRAR NA SALA
+</button>
+
+<button class="close" onclick="closeRoom()">
+FECHAR
+</button>
+
+</div>
+
+</div>
+
 
 <script>
-let peer = null;
-let connection = null;
 
-let myHealth = 100;
-let enemyHealth = 100;
-let position = 13;
+let myHealth=100;
+let enemyHealth=100;
+let position=13;
 
-const $ = id => document.getElementById(id);
+let peer=null;
+let connection=null;
+
+const $=id=>document.getElementById(id);
+
 
 function showPage(id){
-  document.querySelectorAll(".page").forEach(page=>{
-    page.classList.remove("active");
-  });
 
-  $(id).classList.add("active");
+document
+.querySelectorAll(".page")
+.forEach(page=>{
+page.classList.remove("active");
+});
+
+$(id).classList.add("active");
+
 }
+
 
 function home(){
-  showPage("home");
+
+showPage("home");
+
 }
+
 
 function startGame(){
 
-  showPage("battlePage");
+showPage("battlePage");
 
-  myHealth = 100;
-  enemyHealth = 100;
+myHealth=100;
+enemyHealth=100;
 
-  $("myHealth").style.width = "100%";
-  $("enemyHealth").style.width = "100%";
+$("myHealth").style.width="100%";
+$("enemyHealth").style.width="100%";
 
-  $("message").textContent = "🔎 Procurando oponente...";
+$("message").textContent=
+"🔎 Procurando oponente...";
 
-  setTimeout(()=>{
-    $("message").textContent = "⚔️ Oponente encontrado!";
-  },1200);
+setTimeout(()=>{
+
+$("message").textContent=
+"⚔️ Oponente encontrado!";
+
+},1200);
+
 }
+
 
 function attack(){
 
-  if(enemyHealth <= 0) return;
+if(enemyHealth<=0)return;
 
-  const damage = Math.floor(Math.random()*9)+10;
+let damage=
+Math.floor(Math.random()*9)+10;
 
-  enemyHealth -= damage;
+enemyHealth-=damage;
 
-  if(enemyHealth < 0){
-    enemyHealth = 0;
-  }
+if(enemyHealth<0)
+enemyHealth=0;
 
-  $("enemyHealth").style.width = enemyHealth + "%";
+$("enemyHealth").style.width=
+enemyHealth+"%";
 
-  $("message").textContent =
-    "💥 Você causou " + damage + " de dano!";
+$("message").textContent=
+"💥 Você causou "+
+damage+
+" de dano!";
 
-  send({
-    type:"attack",
-    damage:damage
-  });
+send({
+type:"attack",
+damage:damage
+});
 
-  if(enemyHealth <= 0){
+if(enemyHealth<=0){
 
-    $("message").textContent =
-      "🏆 VOCÊ VENCEU!";
+$("message").textContent=
+"🏆 VOCÊ VENCEU!";
 
-    let trophies =
-      Number($("trophies").textContent) + 8;
+let trophies=
+Number($("trophies").textContent)+8;
 
-    $("trophies").textContent = trophies;
-    $("statTrophies").textContent = trophies;
+$("trophies").textContent=trophies;
 
-    $("wins").textContent =
-      Number($("wins").textContent) + 1;
-  }
+$("statTrophies").textContent=trophies;
+
+$("wins").textContent=
+Number($("wins").textContent)+1;
+
 }
+
+}
+
 
 function superAttack(){
 
-  if(enemyHealth <= 0) return;
+if(enemyHealth<=0)return;
 
-  const damage = 25;
+let damage=25;
 
-  enemyHealth -= damage;
+enemyHealth-=damage;
 
-  if(enemyHealth < 0){
-    enemyHealth = 0;
-  }
+if(enemyHealth<0)
+enemyHealth=0;
 
-  $("enemyHealth").style.width =
-    enemyHealth + "%";
+$("enemyHealth").style.width=
+enemyHealth+"%";
 
-  $("message").textContent =
-    "⚡ SUPER ATAQUE! -" + damage;
+$("message").textContent=
+"⚡ SUPER ATAQUE! -"+
+damage;
 
-  send({
-    type:"attack",
-    damage:damage
-  });
+send({
+type:"attack",
+damage:damage
+});
+
 }
+
 
 function move(direction){
 
-  position += direction * 7;
+position+=direction*7;
 
-  if(position < 2)
-    position = 2;
+if(position<2)
+position=2;
 
-  if(position > 70)
-    position = 70;
+if(position>70)
+position=70;
 
-  $("me").style.left =
-    position + "%";
+$("me").style.left=
+position+"%";
 
-  send({
-    type:"move",
-    position:position
-  });
+send({
+type:"move",
+position:position
+});
+
 }
+
 
 function openRoom(){
 
-  $("roomModal").classList.add("show");
+$("roomModal")
+.classList.add("show");
+
 }
+
 
 function closeRoom(){
 
-  $("roomModal").classList.remove("show");
+$("roomModal")
+.classList.remove("show");
+
 }
+
 
 function createRoom(){
 
-  const code =
-    Math.random()
-    .toString(36)
-    .substring(2,7)
-    .toUpperCase();
+let code=
+Math.random()
+.toString(36)
+.substring(2,7)
+.toUpperCase();
 
-  $("roomCode").value = code;
+$("roomCode").value=code;
 
-  peer = new Peer(
-    "brawl-tsuki-" + code
-  );
+peer=new Peer(
+"brawl-tsuki-"+code
+);
 
-  peer.on("open",()=>{
+peer.on("open",()=>{
 
-    showPage("battlePage");
+showPage("battlePage");
 
-    closeRoom();
+closeRoom();
 
-    $("message").textContent =
-      "👥 Sala criada: " + code +
-      " — mande o código para seu amigo!";
-  });
+$("message").textContent=
+"👥 Sala criada: "+
+code+
+" — mande o código para seu amigo!";
 
-  peer.on("connection",conn=>{
+});
 
-    connection = conn;
 
-    setupConnection();
+peer.on("connection",conn=>{
 
-    $("message").textContent =
-      "🟢 Seu amigo entrou na sala!";
-  });
+connection=conn;
 
-  peer.on("error",error=>{
+setupConnection();
 
-    console.log(error);
+$("message").textContent=
+"🟢 Seu amigo entrou na sala!";
 
-    $("message").textContent =
-      "❌ Não foi possível criar a sala.";
-  });
+});
+
+
+peer.on("error",error=>{
+
+console.log(error);
+
+$("message").textContent=
+"❌ Erro ao criar sala.";
+
+});
+
 }
+
 
 function joinRoom(){
 
-  const code =
-    $("roomCode")
-    .value
-    .trim()
-    .toUpperCase();
+let code=
+$("roomCode")
+.value
+.trim()
+.toUpperCase();
 
-  if(!code){
+if(!code){
 
-    alert("Digite o código da sala!");
+alert("Digite o código da sala!");
 
-    return;
-  }
+return;
 
-  peer = new Peer();
-
-  peer.on("open",()=>{
-
-    connection =
-      peer.connect(
-        "brawl-tsuki-" + code
-      );
-
-    setupConnection();
-
-    showPage("battlePage");
-
-    closeRoom();
-
-    $("message").textContent =
-      "🔄 Entrando na sala...";
-  });
-
-  peer.on("error",error=>{
-
-    console.log(error);
-
-    alert(
-      "Não consegui entrar nessa sala."
-    );
-  });
 }
+
+peer=new Peer();
+
+peer.on("open",()=>{
+
+connection=
+peer.connect(
+"brawl-tsuki-"+code
+);
+
+setupConnection();
+
+showPage("battlePage");
+
+closeRoom();
+
+$("message").textContent=
+"🔄 Entrando na sala...";
+
+});
+
+
+peer.on("error",error=>{
+
+console.log(error);
+
+alert(
+"Não consegui entrar nessa sala."
+);
+
+});
+
+}
+
 
 function setupConnection(){
 
-  if(!connection) return;
+if(!connection)return;
 
-  connection.on("open",()=>{
+connection.on("open",()=>{
 
-    $("message").textContent =
-      "🟢 ONLINE! Seu amigo está conectado.";
-  });
+$("message").textContent=
+"🟢 ONLINE! Seu amigo está conectado.";
 
-  connection.on("data",data=>{
+});
 
-    if(data.type === "attack"){
 
-      myHealth -= data.damage;
+connection.on("data",data=>{
 
-      if(myHealth < 0)
-        myHealth = 0;
+if(data.type==="attack"){
 
-      $("myHealth").style.width =
-        myHealth + "%";
+myHealth-=data.damage;
 
-      if(myHealth <= 0){
+if(myHealth<0)
+myHealth=0;
 
-        $("message").textContent =
-          "💀 VOCÊ PERDEU!";
-      }else{
+$("myHealth").style.width=
+myHealth+"%";
 
-        $("message").textContent =
-          "💥 Você recebeu " +
-          data.damage +
-          " de dano!";
-      }
-    }
+if(myHealth<=0){
 
-    if(data.type === "move"){
+$("message").textContent=
+"💀 VOCÊ PERDEU!";
 
-      // Movimento do adversário.
-      // Pode ser expandido para sincronizar
-      // a posição do segundo jogador.
-    }
-  });
+}else{
+
+$("message").textContent=
+"💥 Você recebeu "+
+data.damage+
+" de dano!";
+
 }
+
+}
+
+
+if(data.type==="move"){
+
+$("enemy").style.right=
+(100-data.position-10)+"%";
+
+}
+
+});
+
+}
+
 
 function send(data){
 
-  if(
-    connection &&
-    connection.open
-  ){
+if(
+connection &&
+connection.open
+){
 
-    connection.send(data);
-  }
+connection.send(data);
+
 }
+
+}
+
 
 function editName(){
 
-  const name =
-    prompt(
-      "Digite seu nome:",
-      $("playerName").textContent
-    );
+let name=
+prompt(
+"Digite seu nome:",
+$("playerName").textContent
+);
 
-  if(name && name.trim()){
+if(name && name.trim()){
 
-    $("playerName").textContent =
-      name.trim();
+$("playerName").textContent=
+name.trim();
 
-    localStorage.setItem(
-      "brawlTsukiName",
-      name.trim()
-    );
-  }
+localStorage.setItem(
+"brawlTsukiName",
+name.trim()
+);
+
 }
 
-const savedName =
-  localStorage.getItem(
-    "brawlTsukiName"
-  );
+}
+
+
+let savedName=
+localStorage.getItem(
+"brawlTsukiName"
+);
 
 if(savedName){
 
-  $("playerName").textContent =
-    savedName;
+$("playerName").textContent=
+savedName;
+
 }
+
 </script>
 
 </body>
