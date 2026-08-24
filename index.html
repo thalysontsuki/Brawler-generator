@@ -4,110 +4,1391 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Brawl Tsuki</title>
+
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Arial;background:#07101f;color:#fff}
-button{border:0;border-radius:14px;padding:14px;font-weight:900;cursor:pointer}
-.app{min-height:100vh;background:radial-gradient(circle,#315b8d,#07101f 70%);padding-bottom:30px}
-header{height:70px;padding:10px 15px;background:#081526dd;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:5}
-.logo{font-size:25px;font-weight:1000;text-shadow:0 3px #000}.logo b{color:#ffd52f}
-.profile{display:flex;align-items:center;gap:8px}.avatar{font-size:27px;background:#ff9d20;border:3px solid #fff;border-radius:13px;padding:5px}.name{font-weight:900}.tro{color:#ffd52f;font-size:13px}
-main{max-width:850px;margin:auto;padding:15px}.screen{display:none}.on{display:block}
-.hero,.panel{background:#102642dd;border:2px solid #ffffff12;border-radius:22px;padding:20px;margin-bottom:15px;box-shadow:0 10px 30px #0006}
-h1{font-size:31px;margin:0 0 7px}h2{margin:5px 0 15px}.sub{color:#b9c8dc}
-.play{width:100%;margin-top:18px;background:linear-gradient(#ffe94e,#ffb817);font-size:22px;box-shadow:0 5px #a56400}
-.play:active,.btn:active{transform:translateY(3px)}
-.row{display:flex;gap:10px;margin-top:10px}.btn{flex:1;background:#1b3554;color:#fff}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.card{padding:14px;border-radius:18px;min-height:140px;border:2px solid #ffffff18}.common{background:linear-gradient(145deg,#617487,#293746)}.rare{background:linear-gradient(145deg,#188fdf,#123e6b)}.epic{background:linear-gradient(145deg,#a448e8,#481875)}
-.icon{font-size:50px}.card b{display:block;font-size:17px}.rarity{font-size:11px;opacity:.8}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{text-align:center;background:#0b1d33;padding:13px;border-radius:15px}.stat b{display:block;color:#ffd52f;font-size:23px}
-.generator{text-align:center}.generated{padding:20px;border-radius:20px;background:linear-gradient(145deg,#254f7c,#132941);transition:.12s}.generated.pop{transform:scale(1.04)}.generated .icon{font-size:70px}
-#battle{height:370px;border-radius:22px;position:relative;overflow:hidden;background:linear-gradient(#65c4ed 0 53%,#86c54e 53%);border:3px solid #ffffff18}
-.ground{position:absolute;bottom:0;width:100%;height:80px;background:#5ba63a}.fighter{position:absolute;bottom:65px;font-size:55px;z-index:2;transition:left .05s,right .05s}
-.me{left:12%}.enemy{right:12%}.hp{position:absolute;top:12px;width:38%;height:15px;background:#421515;border:2px solid #fff;border-radius:10px;overflow:hidden;z-index:3}.hp i{display:block;height:100%;background:#38df4c}.left{left:10px}.right{right:10px}
-.message{text-align:center;color:#ffd52f;font-weight:900;padding:8px}.controls{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.attack{background:#e33b36;color:#fff}.super{background:#8d45dc;color:#fff}
-@media(max-width:600px){.cards{grid-template-columns:repeat(2,1fr)}.controls{grid-template-columns:repeat(2,1fr)}}
+*{
+ box-sizing:border-box;
+ margin:0;
+ padding:0;
+ font-family:Arial,sans-serif;
+}
+
+body{
+ background:#050c18;
+ color:#fff;
+ min-height:100vh;
+}
+
+button{
+ border:0;
+ cursor:pointer;
+ font-weight:900;
+}
+
+.app{
+ min-height:100vh;
+ background:
+ radial-gradient(circle at 50% -10%,#3e79ad 0,#17365a 35%,#07111f 75%);
+}
+
+header{
+ height:74px;
+ padding:10px 16px;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ background:#071525ee;
+ border-bottom:2px solid #ffffff18;
+ position:sticky;
+ top:0;
+ z-index:20;
+}
+
+.logo{
+ font-size:25px;
+ font-weight:1000;
+ text-shadow:0 3px #000;
+}
+
+.logo span{
+ color:#ffd83d;
+}
+
+.profile{
+ display:flex;
+ align-items:center;
+ gap:9px;
+}
+
+.avatar{
+ width:46px;
+ height:46px;
+ border-radius:14px;
+ object-fit:cover;
+ border:3px solid #fff;
+ background:#ff9e21;
+}
+
+.name{
+ font-weight:900;
+}
+
+.trophies{
+ color:#ffd83d;
+ font-size:13px;
+ font-weight:900;
+}
+
+main{
+ width:min(900px,100%);
+ margin:auto;
+ padding:16px;
+}
+
+.screen{
+ display:none;
+}
+
+.screen.active{
+ display:block;
+}
+
+.panel{
+ background:#102742ee;
+ border:2px solid #ffffff12;
+ border-radius:24px;
+ padding:18px;
+ margin-bottom:16px;
+ box-shadow:0 12px 35px #0007;
+}
+
+.hero{
+ background:
+ linear-gradient(145deg,#205287,#0c1d34);
+}
+
+.hero h1{
+ font-size:32px;
+ margin-bottom:7px;
+}
+
+.sub{
+ color:#bdcada;
+}
+
+.play{
+ width:100%;
+ padding:18px;
+ margin-top:18px;
+ border-radius:18px;
+ background:linear-gradient(#ffe94d,#ffb719);
+ color:#2b1900;
+ font-size:22px;
+ box-shadow:0 6px #9c6000;
+ transition:.08s;
+}
+
+.play:active{
+ transform:translateY(5px);
+ box-shadow:0 1px #9c6000;
+}
+
+.row{
+ display:flex;
+ gap:10px;
+ margin-top:11px;
+}
+
+.btn{
+ flex:1;
+ padding:14px;
+ border-radius:15px;
+ background:#1a3656;
+ color:white;
+}
+
+.btn:active{
+ transform:scale(.96);
+}
+
+h2{
+ margin-bottom:13px;
+}
+
+.cards{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:10px;
+}
+
+.card{
+ padding:10px;
+ border-radius:20px;
+ border:2px solid #ffffff18;
+ overflow:hidden;
+ transition:.15s;
+}
+
+.card:hover{
+ transform:translateY(-5px);
+}
+
+.card img{
+ width:100%;
+ height:145px;
+ object-fit:cover;
+ border-radius:14px;
+ display:block;
+}
+
+.card b{
+ display:block;
+ font-size:17px;
+ margin-top:8px;
+}
+
+.rarity{
+ font-size:11px;
+ opacity:.8;
+}
+
+.common{
+ background:linear-gradient(145deg,#657789,#293744);
+}
+
+.rare{
+ background:linear-gradient(145deg,#178ddd,#123d69);
+}
+
+.epic{
+ background:linear-gradient(145deg,#a348e7,#481875);
+}
+
+.mythic{
+ background:linear-gradient(145deg,#e345d8,#63165f);
+}
+
+.legendary{
+ background:linear-gradient(145deg,#e69b35,#75431b);
+}
+
+.generator{
+ text-align:center;
+}
+
+.generated{
+ padding:16px;
+ border-radius:21px;
+ background:
+ linear-gradient(145deg,#285d91,#142d4a);
+ transition:.12s;
+}
+
+.generated.pop{
+ transform:scale(1.04);
+}
+
+.generated img{
+ width:190px;
+ height:205px;
+ object-fit:cover;
+ border-radius:18px;
+ border:3px solid #ffffff30;
+}
+
+.generated h2{
+ margin:9px 0 4px;
+}
+
+.generated p{
+ color:#ffd83d;
+ font-weight:900;
+}
+
+.stats{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:8px;
+ margin-top:12px;
+}
+
+.stat{
+ background:#0a1d33;
+ padding:12px;
+ border-radius:15px;
+ text-align:center;
+}
+
+.stat b{
+ display:block;
+ font-size:23px;
+ color:#ffd83d;
+ margin-bottom:3px;
+}
+
+.stat span{
+ font-size:11px;
+ color:#aebed0;
+}
+
+.save{
+ width:100%;
+ margin-top:10px;
+ padding:13px;
+ border-radius:14px;
+ background:#263f5d;
+ color:#fff;
+}
+
+.battle{
+ height:390px;
+ border-radius:24px;
+ position:relative;
+ overflow:hidden;
+ background:
+ linear-gradient(
+  #67c6ed 0 53%,
+  #8ac64d 53%
+ );
+ border:3px solid #ffffff18;
+ box-shadow:0 15px 35px #0008;
+}
+
+.cloud{
+ position:absolute;
+ width:90px;
+ height:30px;
+ border-radius:30px;
+ background:#ffffff66;
+ top:70px;
+ left:20%;
+}
+
+.cloud.two{
+ left:65%;
+ top:110px;
+ transform:scale(.7);
+}
+
+.ground{
+ position:absolute;
+ bottom:0;
+ width:100%;
+ height:85px;
+ background:#5ba53b;
+}
+
+.ground:before{
+ content:"";
+ position:absolute;
+ width:100%;
+ height:12px;
+ top:0;
+ background:#75bd4b;
+}
+
+.fighter{
+ position:absolute;
+ bottom:66px;
+ width:105px;
+ height:120px;
+ object-fit:cover;
+ border-radius:20px;
+ z-index:4;
+ transition:left .035s,right .035s;
+ box-shadow:0 8px 15px #0007;
+}
+
+.player{
+ left:10%;
+}
+
+.enemy{
+ right:10%;
+}
+
+.health{
+ position:absolute;
+ top:12px;
+ width:38%;
+ height:17px;
+ background:#3b1111;
+ border:2px solid white;
+ border-radius:10px;
+ overflow:hidden;
+ z-index:8;
+}
+
+.health i{
+ display:block;
+ width:100%;
+ height:100%;
+ background:#42df51;
+ transition:.07s;
+}
+
+.left{
+ left:10px;
+}
+
+.right{
+ right:10px;
+}
+
+.battleNames{
+ display:flex;
+ justify-content:space-between;
+ padding:8px 2px;
+ font-weight:900;
+}
+
+.message{
+ text-align:center;
+ color:#ffd83d;
+ font-weight:900;
+ padding:7px;
+}
+
+.controls{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:8px;
+}
+
+.control{
+ padding:17px 8px;
+ border-radius:16px;
+ background:#193653;
+ color:white;
+ font-size:16px;
+}
+
+.attack{
+ background:#dd3935;
+}
+
+.super{
+ background:#8743d5;
+}
+
+.move{
+ background:#21496e;
+}
+
+.modal{
+ position:fixed;
+ inset:0;
+ background:#000b;
+ display:none;
+ align-items:center;
+ justify-content:center;
+ padding:18px;
+ z-index:50;
+}
+
+.modal.show{
+ display:flex;
+}
+
+.modalBox{
+ width:min(430px,100%);
+ background:#102642;
+ border-radius:23px;
+ padding:20px;
+ box-shadow:0 20px 60px #000;
+}
+
+.input{
+ width:100%;
+ padding:15px;
+ margin:8px 0;
+ border-radius:13px;
+ border:2px solid #ffffff15;
+ background:#071525;
+ color:#fff;
+ font-size:17px;
+}
+
+.close{
+ width:100%;
+ margin-top:8px;
+ padding:13px;
+ border-radius:13px;
+ background:#273f5c;
+ color:#fff;
+}
+
+.back{
+ padding:11px 15px;
+ border-radius:13px;
+ background:#1a3656;
+ color:white;
+ margin-bottom:12px;
+}
+
+.result{
+ text-align:center;
+ font-size:25px;
+ font-weight:1000;
+ padding:15px;
+}
+
+.hidden{
+ display:none;
+}
+
+@media(max-width:650px){
+
+ main{
+  padding:11px;
+ }
+
+ .logo{
+  font-size:21px;
+ }
+
+ .cards{
+  grid-template-columns:repeat(2,1fr);
+ }
+
+ .card img{
+  height:125px;
+ }
+
+ .controls{
+  grid-template-columns:repeat(2,1fr);
+ }
+
+ .fighter{
+  width:82px;
+  height:100px;
+ }
+
+ .battle{
+  height:350px;
+ }
+
+ .hero h1{
+  font-size:27px;
+ }
+
+}
+
+@media(min-width:651px){
+
+ .fighter{
+  width:115px;
+  height:130px;
+ }
+
+}
 </style>
 </head>
+
 <body>
+
 <div class="app">
+
 <header>
-<div class="logo">BRAWL <b>TSUKI</b></div>
-<div class="profile"><div><div class="name" id="name">Thalyson</div><div class="tro">🏆 <span id="trophies">1280</span></div></div><div class="avatar">😎</div></div>
+
+<div class="logo">
+BRAWL <span>TSUKI</span>
+</div>
+
+<div class="profile">
+
+<div>
+
+<div class="name" id="playerName">
+Thalyson
+</div>
+
+<div class="trophies">
+🏆 <span id="trophies">1280</span>
+</div>
+
+</div>
+
+<img
+id="profileAvatar"
+class="avatar"
+alt="Avatar"
+>
+
+</div>
+
 </header>
 
 <main>
-<section id="home" class="screen on">
-<div class="hero">
-<h1>Pronto para a batalha? 🔥</h1>
-<div class="sub">Crie seu Brawler e entre na batalha!</div>
-<button class="play" onclick="start()">🎮 JOGAR</button>
-<div class="row"><button class="btn" onclick="generate()">🎲 GERAR BRAWLER</button><button class="btn" onclick="editName()">👤 PERFIL</button></div>
+
+<section
+id="home"
+class="screen active"
+>
+
+<div class="panel hero">
+
+<h1>
+Pronto para a batalha? 🔥
+</h1>
+
+<div class="sub">
+Crie seu próprio Brawler e entre na arena.
 </div>
+
+<button
+class="play"
+onclick="startBattle()"
+>
+🎮 JOGAR
+</button>
+
+<div class="row">
+
+<button
+class="btn"
+onclick="generateBrawler()"
+>
+🎲 GERAR BRAWLER
+</button>
+
+<button
+class="btn"
+onclick="openProfile()"
+>
+👤 PERFIL
+</button>
+
+</div>
+
+</div>
+
 
 <div class="panel generator">
-<h2>🎲 Seu Brawler</h2>
-<div id="generated" class="generated">
-<div class="icon" id="gIcon">❓</div>
-<h2 id="gName">Gere um Brawler</h2>
-<div id="gRarity">---</div>
+
+<h2>
+🎨 GERADOR DE BRAWLER
+</h2>
+
+<div
+id="generated"
+class="generated"
+>
+
+<img
+id="generatedImage"
+alt="Brawler gerado"
+>
+
+<h2 id="generatedName">
+Tsuki
+</h2>
+
+<p id="generatedRarity">
+LENDÁRIO
+</p>
+
 <div class="stats">
-<div class="stat"><b id="gHp">---</b>❤️ VIDA</div>
-<div class="stat"><b id="gDmg">---</b>⚔️ DANO</div>
-<div class="stat"><b id="gSpeed">---</b>⚡ VELOCIDADE</div>
-</div>
-</div>
-<button class="play" onclick="generate()">🎲 GERAR AGORA</button>
+
+<div class="stat">
+
+<b id="generatedHp">
+800
+</b>
+
+<span>
+❤️ VIDA
+</span>
+
 </div>
 
+<div class="stat">
+
+<b id="generatedDamage">
+90
+</b>
+
+<span>
+⚔️ DANO
+</span>
+
+</div>
+
+<div class="stat">
+
+<b id="generatedSpeed">
+5.0
+</b>
+
+<span>
+⚡ VELOCIDADE
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+<button
+class="play"
+onclick="generateBrawler()"
+>
+✨ GERAR NOVO
+</button>
+
+</div>
+
+
 <div class="panel">
-<h2>🥊 Brawlers</h2>
+
+<h2>
+🥊 BRAWLERS
+</h2>
+
 <div class="cards">
-<div class="card common"><div class="icon">🤠</div><b>Tsuki</b><span class="rarity">COMUM</span></div>
-<div class="card rare"><div class="icon">🤖</div><b>T-Bot</b><span class="rarity">RARO</span></div>
-<div class="card epic"><div class="icon">👻</div><b>Ghost</b><span class="rarity">ÉPICO</span></div>
+
+<div class="card common">
+
+<img
+src="https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=500&q=85"
+alt="Tsuki"
+>
+
+<b>
+Tsuki
+</b>
+
+<span class="rarity">
+COMUM
+</span>
+
 </div>
+
+
+<div class="card rare">
+
+<img
+src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=500&q=85"
+alt="T-Bot"
+>
+
+<b>
+T-Bot
+</b>
+
+<span class="rarity">
+RARO
+</span>
+
 </div>
+
+
+<div class="card epic">
+
+<img
+src="https://images.unsplash.com/photo-1535378917042-10a22c95931a?auto=format&fit=crop&w=500&q=85"
+alt="Ghost"
+>
+
+<b>
+Ghost
+</b>
+
+<span class="rarity">
+ÉPICO
+</span>
+
+</div>
+
+
+<div class="card mythic">
+
+<img
+src="https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=500&q=85"
+alt="Volt"
+>
+
+<b>
+Volt
+</b>
+
+<span class="rarity">
+MÍTICO
+</span>
+
+</div>
+
+
+<div class="card legendary">
+
+<img
+src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=500&q=85"
+alt="Dragon"
+>
+
+<b>
+Dragon
+</b>
+
+<span class="rarity">
+LENDÁRIO
+</span>
+
+</div>
+
+</div>
+
+</div>
+
 
 <div class="panel">
-<h2>🏆 Estatísticas</h2>
+
+<h2>
+🏆 ESTATÍSTICAS
+</h2>
+
 <div class="stats">
-<div class="stat"><b id="wins">42</b>VITÓRIAS</div>
-<div class="stat"><b id="statTro">1280</b>TROFÉUS</div>
-<div class="stat"><b>18</b>BRAWLERS</div>
+
+<div class="stat">
+
+<b id="wins">
+42
+</b>
+
+<span>
+VITÓRIAS
+</span>
+
 </div>
+
+<div class="stat">
+
+<b id="statTrophies">
+1280
+</b>
+
+<span>
+TROFÉUS
+</span>
+
 </div>
+
+<div class="stat">
+
+<b>
+18
+</b>
+
+<span>
+BRAWLERS
+</span>
+
+</div>
+
+</div>
+
+</div>
+
 </section>
 
-<section id="game" class="screen">
-<button class="btn" onclick="home()">← VOLTAR</button>
-<div id="battle">
-<div class="hp left"><i id="myHp"></i></div><div class="hp right"><i id="enemyHp"></i></div>
-<div id="me" class="fighter me">🤠</div><div id="enemy" class="fighter enemy">🤖</div><div class="ground"></div>
+
+<section
+id="battleScreen"
+class="screen"
+>
+
+<button
+class="back"
+onclick="goHome()"
+>
+← VOLTAR
+</button>
+
+<div
+id="battle"
+class="battle"
+>
+
+<div class="cloud"></div>
+
+<div class="cloud two"></div>
+
+<div class="health left">
+
+<i id="myHealth"></i>
+
 </div>
-<div class="message" id="msg">⚔️ Batalha!</div>
+
+<div class="health right">
+
+<i id="enemyHealth"></i>
+
+</div>
+
+<img
+id="myFighter"
+class="fighter player"
+alt="Seu Brawler"
+>
+
+<img
+id="enemyFighter"
+class="fighter enemy"
+alt="Oponente"
+>
+
+<div class="ground"></div>
+
+</div>
+
+<div class="battleNames">
+
+<span>
+👤 Thalyson
+</span>
+
+<span>
+🤖 Oponente
+</span>
+
+</div>
+
+<div
+id="message"
+class="message"
+>
+⚔️ Oponente encontrado!
+</div>
+
 <div class="controls">
-<button class="btn" onclick="move(-1)">⬅️</button>
-<button class="btn" onclick="move(1)">➡️</button>
-<button class="attack" onclick="hit(10)">💥 ATAQUE</button>
-<button class="super" onclick="hit(25)">⚡ SUPER</button>
+
+<button
+class="control move"
+onclick="movePlayer(-1)"
+>
+⬅️ MOVER
+</button>
+
+<button
+class="control move"
+onclick="movePlayer(1)"
+>
+MOVER ➡️
+</button>
+
+<button
+class="control attack"
+onclick="attack(10)"
+>
+💥 ATAQUE
+</button>
+
+<button
+class="control super"
+onclick="attack(25)"
+>
+⚡ SUPER
+</button>
+
 </div>
+
+<div
+id="result"
+class="result hidden"
+></div>
+
+<button
+id="restart"
+class="play hidden"
+onclick="startBattle()"
+>
+🔄 JOGAR NOVAMENTE
+</button>
+
 </section>
+
 </main>
+
 </div>
+
+
+<div
+id="profileModal"
+class="modal"
+>
+
+<div class="modalBox">
+
+<h2>
+👤 SEU PERFIL
+</h2>
+
+<input
+id="nameInput"
+class="input"
+placeholder="Digite seu nome"
+>
+
+<button
+class="play"
+onclick="saveProfile()"
+>
+SALVAR
+</button>
+
+<button
+class="close"
+onclick="closeProfile()"
+>
+FECHAR
+</button>
+
+</div>
+
+</div>
+
 
 <script>
-const names=[["Tsuki","🤠","COMUM"],["T-Bot","🤖","RARO"],["Ghost","👻","ÉPICO"],["Ninja","🥷","MÍTICO"],["Dragon","🐉","LENDÁRIO"],["Volt","⚡","SUPER RARO"]];
-let hp=100,ehp=100,pos=12;
 
-function $(x){return document.getElementById(x)}
-function home(){$("home").classList.add("on");$("game").classList.remove("on")}
-function start(){$("home").classList.remove("on");$("game").classList.add("on");hp=ehp=100;$("myHp").style.width="100%";$("enemyHp").style.width="100%";$("msg").textContent="⚔️ Oponente encontrado!"}
-function generate(){let b=names[Math.random()*names.length|0];$("gIcon").textContent=b[1];$("gName").textContent=b[0];$("gRarity").textContent=b[2];$("gHp").textContent=300+(Math.random()*500|0);$("gDmg").textContent=20+(Math.random()*80|0);$("gSpeed").textContent=(3+Math.random()*3).toFixed(1);$("generated").classList.add("pop");setTimeout(()=>$("generated").classList.remove("pop"),120)}
-function move(d){pos=Math.max(2,Math.min(70,pos+d*7));$("me").style.left=pos+"%"}
-function hit(d){if(ehp<=0)return;ehp=Math.max(0,ehp-d);$("enemyHp").style.width=ehp+"%";$("msg").textContent="💥 -"+d+" de dano!";if(ehp===0){$("msg").textContent="🏆 VITÓRIA!";let t=+$("trophies").textContent+8;$("trophies").textContent=t;$("statTro").textContent=t;$("wins").textContent=+$("wins").textContent+1}}
-function editName(){let n=prompt("Seu nome:",$("name").textContent);if(n){$("name").textContent=n;localStorage.tsuki=n}}
-if(localStorage.tsuki)$("name").textContent=localStorage.tsuki;
-generate();
+const brawlerImages = [
+
+"https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=700&q=90",
+
+"https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=700&q=90",
+
+"https://images.unsplash.com/photo-1535378917042-10a22c95931a?auto=format&fit=crop&w=700&q=90",
+
+"https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=700&q=90",
+
+"https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=700&q=90"
+
+];
+
+const brawlers = [
+
+{
+ name:"Tsuki",
+ rarity:"COMUM",
+ hp:650,
+ damage:55,
+ speed:4.2,
+ image:brawlerImages[0]
+},
+
+{
+ name:"T-Bot",
+ rarity:"RARO",
+ hp:720,
+ damage:62,
+ speed:4.5,
+ image:brawlerImages[1]
+},
+
+{
+ name:"Ghost",
+ rarity:"ÉPICO",
+ hp:760,
+ damage:70,
+ speed:4.8,
+ image:brawlerImages[2]
+},
+
+{
+ name:"Volt",
+ rarity:"MÍTICO",
+ hp:820,
+ damage:78,
+ speed:5.2,
+ image:brawlerImages[3]
+},
+
+{
+ name:"Dragon",
+ rarity:"LENDÁRIO",
+ hp:900,
+ damage:92,
+ speed:5.5,
+ image:brawlerImages[4]
+}
+
+];
+
+let myHealth = 100;
+
+let enemyHealth = 100;
+
+let playerPosition = 10;
+
+let currentBrawler = brawlers[0];
+
+let attacking = false;
+
+
+function $(id){
+
+ return document.getElementById(id);
+
+}
+
+
+function showScreen(id){
+
+ document
+ .querySelectorAll(".screen")
+ .forEach(screen => {
+
+  screen.classList.remove("active");
+
+ });
+
+ $(id).classList.add("active");
+
+}
+
+
+function goHome(){
+
+ showScreen("home");
+
+}
+
+
+function startBattle(){
+
+ myHealth = 100;
+
+ enemyHealth = 100;
+
+ playerPosition = 10;
+
+ $("myHealth").style.width = "100%";
+
+ $("enemyHealth").style.width = "100%";
+
+ $("myFighter").src =
+ currentBrawler.image;
+
+ $("enemyFighter").src =
+ brawlerImages[1];
+
+ $("myFighter").style.left =
+ playerPosition + "%";
+
+ $("result").classList.add("hidden");
+
+ $("restart").classList.add("hidden");
+
+ $("message").textContent =
+ "⚔️ Oponente encontrado!";
+
+ showScreen("battleScreen");
+
+}
+
+
+function movePlayer(direction){
+
+ const amount =
+ currentBrawler.speed * 1.9;
+
+ playerPosition +=
+ direction * amount;
+
+ if(playerPosition < 2){
+
+  playerPosition = 2;
+
+ }
+
+ if(playerPosition > 78){
+
+  playerPosition = 78;
+
+ }
+
+ $("myFighter").style.left =
+ playerPosition + "%";
+
+}
+
+
+function attack(damage){
+
+ if(enemyHealth <= 0){
+
+  return;
+
+ }
+
+ if(attacking){
+
+  return;
+
+ }
+
+ attacking = true;
+
+ $("myFighter").style.transform =
+ "scale(1.12)";
+
+ setTimeout(() => {
+
+  $("myFighter").style.transform =
+  "scale(1)";
+
+  attacking = false;
+
+ },80);
+
+ enemyHealth -= damage;
+
+ if(enemyHealth < 0){
+
+  enemyHealth = 0;
+
+ }
+
+ $("enemyHealth").style.width =
+ enemyHealth + "%";
+
+ $("message").textContent =
+ "💥 -" + damage + " DE DANO!";
+
+ if(enemyHealth === 0){
+
+  winBattle();
+
+ }
+
+}
+
+
+function winBattle(){
+
+ $("message").textContent =
+ "🏆 VOCÊ VENCEU!";
+
+ $("result").textContent =
+ "🎉 VITÓRIA! +8 TROFÉUS";
+
+ $("result").classList.remove("hidden");
+
+ $("restart").classList.remove("hidden");
+
+ let trophies =
+ Number($("trophies").textContent);
+
+ trophies += 8;
+
+ $("trophies").textContent =
+ trophies;
+
+ $("statTrophies").textContent =
+ trophies;
+
+ let wins =
+ Number($("wins").textContent);
+
+ wins++;
+
+ $("wins").textContent =
+ wins;
+
+ localStorage.setItem(
+ "tsukiTrophies",
+ trophies
+ );
+
+ localStorage.setItem(
+ "tsukiWins",
+ wins
+ );
+
+}
+
+
+function generateBrawler(){
+
+ const index =
+ Math.floor(
+  Math.random() *
+  brawlers.length
+ );
+
+ currentBrawler =
+ brawlers[index];
+
+ $("generatedImage").src =
+ currentBrawler.image;
+
+ $("generatedName").textContent =
+ currentBrawler.name;
+
+ $("generatedRarity").textContent =
+ currentBrawler.rarity;
+
+ $("generatedHp").textContent =
+ currentBrawler.hp;
+
+ $("generatedDamage").textContent =
+ currentBrawler.damage;
+
+ $("generatedSpeed").textContent =
+ currentBrawler.speed;
+
+ $("generated").classList.add("pop");
+
+ setTimeout(() => {
+
+  $("generated").classList.remove("pop");
+
+ },130);
+
+}
+
+
+function openProfile(){
+
+ $("nameInput").value =
+ $("playerName").textContent;
+
+ $("profileModal")
+ .classList.add("show");
+
+}
+
+
+function closeProfile(){
+
+ $("profileModal")
+ .classList.remove("show");
+
+}
+
+
+function saveProfile(){
+
+ const name =
+ $("nameInput")
+ .value
+ .trim();
+
+ if(name){
+
+  $("playerName").textContent =
+  name;
+
+  localStorage.setItem(
+   "tsukiName",
+   name
+  );
+
+ }
+
+ closeProfile();
+
+}
+
+
+function loadData(){
+
+ const name =
+ localStorage.getItem(
+  "tsukiName"
+ );
+
+ const trophies =
+ localStorage.getItem(
+  "tsukiTrophies"
+ );
+
+ const wins =
+ localStorage.getItem(
+  "tsukiWins"
+ );
+
+ if(name){
+
+  $("playerName").textContent =
+  name;
+
+ }
+
+ if(trophies){
+
+  $("trophies").textContent =
+  trophies;
+
+  $("statTrophies").textContent =
+  trophies;
+
+ }
+
+ if(wins){
+
+  $("wins").textContent =
+  wins;
+
+ }
+
+}
+
+
+$("profileAvatar").src =
+ brawlerImages[0];
+
+$("myFighter").src =
+ brawlerImages[0];
+
+$("enemyFighter").src =
+ brawlerImages[1];
+
+generateBrawler();
+
+loadData();
+
 </script>
+
 </body>
 </html>
