@@ -112,7 +112,7 @@ h1{font-size:29px;margin-bottom:6px}h2{margin-bottom:12px}.sub{color:#b9c8d8}
 <h2>🏆 ESTATÍSTICAS</h2>
 <div class="stats">
 <div class="stat"><b id="wins">42</b><span>VITÓRIAS</span></div>
-<div class="stat"><b id="statTrophies">1280</b><span>TROFÉUS</span></div>
+<div class="stat"><b id="statTrophies">12280</b><span>TROFÉUS</span></div>
 <div class="stat"><b>70</b><span>BRAWLERS</span></div>
 </div>
 </div>
@@ -292,7 +292,7 @@ $("super").classList.toggle("locked",!superReady);
 function useSuper(){
 if(!playing)return;
 if(!superReady){
-$("message").textContent="⚡ Acerte 2 ataques de perto!";
+$("message").textContent="⚡ Acerte 3 ataques de perto!";
 return;
 }
 superReady=false;hits=0;superBar();
@@ -315,7 +315,7 @@ setTimeout(()=>{py=old;update();jumping=false},250);
 
 function goal(){
 score++;$("myScore").textContent=score;
-$("message").textContent="🥅 GOOOOOOL! 🔥";
+$("message").textContent="🥅 GOOOOOOOOL! 🔥";
 bx=50;by=50;px=18;py=50;update();
 if(score>=3)win();
 }
