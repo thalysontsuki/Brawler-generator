@@ -2,858 +2,688 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>Tsuki RPG</title>
 
 <style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0
-}
-
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden}
 body{
-  font-family:Arial,sans-serif;
-  background:#080b12;
-  color:#fff;
-  overflow:hidden;
-  touch-action:none
+font-family:Arial,sans-serif;
+background:#070b11;
+color:#fff;
+touch-action:none;
+user-select:none
 }
+button{font:inherit;border:0;cursor:pointer;color:#fff}
+.hidden{display:none!important}
 
-button{
-  border:0;
-  color:#fff;
-  font-weight:bold;
-  cursor:pointer
+.screen{
+position:absolute;
+inset:0;
+display:none;
+overflow:hidden
 }
-
-#game{
-  width:100vw;
-  height:100vh;
-  background:
-    radial-gradient(circle at 50% 20%,#405b72,#101722 70%);
-  position:relative;
-  overflow:hidden
-}
+.screen.active{display:block}
 
 /* MENU */
-
 #menu{
-  width:100%;
-  height:100%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:20px
+background:
+linear-gradient(#0005,#000b),
+radial-gradient(circle at 50% 25%,#49677d,#121b27 60%,#070a0f)
 }
-
-.menuBox{
-  width:min(480px,100%);
-  padding:28px;
-  text-align:center;
-  border-radius:25px;
-  background:#111c2aee;
-  border:2px solid #ffffff18;
-  box-shadow:0 20px 60px #0009
+.menuContent{
+position:absolute;
+left:50%;
+top:50%;
+transform:translate(-50%,-50%);
+width:min(430px,92%);
+text-align:center;
+padding:25px;
+background:#0b111be8;
+border:1px solid #ffffff22;
+border-radius:25px;
+box-shadow:0 20px 70px #000
 }
-
 .logo{
-  font-size:44px;
-  font-weight:1000;
-  color:#d9a441;
-  text-shadow:0 4px #000;
-  margin-bottom:8px
+font-size:48px;
+font-weight:1000;
+letter-spacing:3px;
+color:#d9ad4c;
+text-shadow:0 4px 0 #34250d
 }
-
-.subtitle{
-  color:#aebdcc;
-  margin-bottom:25px
+.tagline{color:#aeb8c5;margin:5px 0 20px}
+.hero{
+width:190px;
+height:245px;
+object-fit:contain;
+display:block;
+margin:0 auto 15px
 }
-
-.heroPreview{
-  width:180px;
-  height:230px;
-  margin:auto;
-  display:block;
-  object-fit:contain
+.menuBtn{
+width:100%;
+padding:15px;
+margin-top:9px;
+border-radius:13px;
+background:linear-gradient(#35516d,#1c2d40);
+border:1px solid #ffffff22;
+font-weight:900
 }
-
-.btn{
-  width:100%;
-  padding:15px;
-  margin-top:10px;
-  border-radius:13px;
-  background:#253c55;
-  font-size:16px
+.menuBtn.main{
+background:linear-gradient(#e0bd5e,#9a681e);
+color:#171109;
+font-size:19px
 }
+.menuBtn:active{transform:scale(.98)}
 
-.start{
-  background:linear-gradient(#dcb653,#9c6b20);
-  font-size:20px;
-  box-shadow:0 4px #60420f
+/* WORLD */
+#world{
+background:
+linear-gradient(120deg,#162b1d,#315b35 45%,#1b3223)
 }
-
-.btn:active{
-  transform:translateY(2px)
+.skyLight{
+position:absolute;
+width:600px;
+height:600px;
+left:50%;
+top:-300px;
+transform:translateX(-50%);
+background:radial-gradient(circle,#ffffff18,transparent 65%);
+pointer-events:none
+}
+.ground{
+position:absolute;
+inset:0;
+background-image:
+radial-gradient(#b6c87922 1px,transparent 1px);
+background-size:35px 35px
+}
+.path{
+position:absolute;
+width:140%;
+height:145px;
+left:-20%;
+top:49%;
+transform:rotate(-8deg);
+background:#806c4e;
+box-shadow:0 0 25px #0005
+}
+.path:after{
+content:"";
+position:absolute;
+inset:15px 0;
+background:#947d5a;
+opacity:.35
+}
+.tree{
+position:absolute;
+width:90px;
+height:115px
+}
+.tree:before{
+content:"";
+position:absolute;
+width:20px;
+height:52px;
+bottom:0;
+left:35px;
+background:#4b3321;
+border-radius:8px
+}
+.tree:after{
+content:"";
+position:absolute;
+width:76px;
+height:76px;
+left:7px;
+top:0;
+border-radius:50%;
+background:#163f25;
+box-shadow:
+35px 10px 0 #22592f,
+20px -18px 0 #2c6a39
+}
+.rock{
+position:absolute;
+width:55px;
+height:30px;
+border-radius:50%;
+background:#53606a;
+box-shadow:inset -8px -5px #303940
 }
 
 /* HUD */
-
 #hud{
-  position:absolute;
-  top:0;
-  left:0;
-  right:0;
-  height:70px;
-  background:#0a1019dd;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:8px 12px;
-  z-index:20;
-  border-bottom:1px solid #ffffff18
+position:absolute;
+top:0;
+left:0;
+right:0;
+height:74px;
+z-index:20;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:8px 12px;
+background:#080e16dd;
+border-bottom:1px solid #ffffff18
 }
-
-.playerInfo{
-  display:flex;
-  align-items:center;
-  gap:9px
+.profile{
+display:flex;
+gap:8px;
+align-items:center
 }
-
-.miniAvatar{
-  width:48px;
-  height:48px;
-  object-fit:contain;
-  border-radius:12px;
-  background:#172638
+.avatar{
+width:50px;
+height:50px;
+border-radius:13px;
+background:#182636;
+object-fit:contain
 }
-
-.name{
-  font-weight:900
-}
-
-.level{
-  font-size:12px;
-  color:#dcb653
-}
-
-.resources{
-  text-align:right;
-  font-size:13px;
-  line-height:20px
-}
-
-.gold{
-  color:#ffd45a
-}
-
-/* MAP */
-
-#world{
-  position:absolute;
-  inset:70px 0 0;
-  background:
-    radial-gradient(circle at 30% 30%,#477f48,transparent 25%),
-    radial-gradient(circle at 75% 60%,#355e3c,transparent 30%),
-    linear-gradient(#263d2d,#17251d);
-  overflow:hidden
-}
-
-.grass{
-  position:absolute;
-  inset:0;
-  opacity:.35;
-  background-image:
-    radial-gradient(#89a85b 1px,transparent 1px);
-  background-size:28px 28px
-}
-
-.road{
-  position:absolute;
-  width:140%;
-  height:130px;
-  left:-20%;
-  top:48%;
-  background:#8b7657;
-  transform:rotate(-8deg);
-  box-shadow:0 0 15px #0005
-}
-
-.road2{
-  position:absolute;
-  width:130%;
-  height:100px;
-  left:-10%;
-  top:25%;
-  background:#806c50;
-  transform:rotate(12deg);
-  opacity:.8
-}
-
-.tree{
-  position:absolute;
-  width:70px;
-  height:95px;
-  z-index:2
-}
-
-.tree:before{
-  content:"";
-  position:absolute;
-  left:29px;
-  bottom:0;
-  width:16px;
-  height:45px;
-  background:#503823;
-  border-radius:8px
-}
-
-.tree:after{
-  content:"";
-  position:absolute;
-  left:5px;
-  top:0;
-  width:65px;
-  height:65px;
-  border-radius:50%;
-  background:#214f2b;
-  box-shadow:
-    25px -15px 0 #2e6938,
-    35px 15px 0 #1b4726
-}
+.name{font-weight:900}
+.small{font-size:12px;color:#9eabba}
+.resources{text-align:right;font-size:13px;line-height:20px}
+.gold{color:#ffd55e}
 
 /* PLAYER */
-
 .character{
-  position:absolute;
-  width:82px;
-  height:105px;
-  object-fit:contain;
-  z-index:10;
-  transition:left .06s,top .06s
+position:absolute;
+width:92px;
+height:120px;
+object-fit:contain;
+z-index:10;
+transform:translate(-50%,-50%);
+transition:left .05s linear,top .05s linear
 }
+.enemy{z-index:9}
 
-#player{
-  left:48%;
-  top:60%;
-  transform:translate(-50%,-50%)
+/* TARGET */
+.enemyBar{
+position:absolute;
+top:88px;
+left:50%;
+transform:translateX(-50%);
+width:190px;
+height:9px;
+background:#250d12;
+border-radius:8px;
+overflow:hidden;
+z-index:25
 }
-
-.enemy{
-  z-index:8
-}
-
-/* NPC / CHEST */
-
-.chest{
-  position:absolute;
-  width:50px;
-  height:45px;
-  background:#7a421c;
-  border:4px solid #d89c40;
-  border-radius:7px;
-  z-index:4
-}
-
-.chest:after{
-  content:"";
-  position:absolute;
-  width:8px;
-  height:12px;
-  background:#ffd45a;
-  left:50%;
-  top:15px;
-  transform:translateX(-50%)
-}
+.enemyFill{height:100%;width:100%;background:#d83e4b}
 
 /* CONTROLS */
-
-#controls{
-  position:absolute;
-  inset:0;
-  z-index:30;
-  pointer-events:none
-}
-
+#controls{position:absolute;inset:0;z-index:30;pointer-events:none}
 .joystick{
-  pointer-events:auto;
-  position:absolute;
-  left:18px;
-  bottom:20px;
-  width:105px;
-  height:105px;
-  border-radius:50%;
-  background:#ffffff18;
-  border:3px solid #ffffff38
+position:absolute;
+left:18px;
+bottom:18px;
+width:108px;
+height:108px;
+border-radius:50%;
+background:#ffffff15;
+border:3px solid #ffffff35;
+pointer-events:auto
 }
-
-.stick{
-  position:absolute;
-  left:50%;
-  top:50%;
-  width:48px;
-  height:48px;
-  border-radius:50%;
-  background:#ffffff9c;
-  border:3px solid #fff;
-  transform:translate(-50%,-50%)
+.knob{
+position:absolute;
+left:50%;
+top:50%;
+width:50px;
+height:50px;
+border-radius:50%;
+transform:translate(-50%,-50%);
+background:#dbe4ecaa;
+border:3px solid #fff
 }
-
 .actions{
-  pointer-events:auto;
-  position:absolute;
-  right:15px;
-  bottom:18px;
-  display:flex;
-  gap:8px;
-  align-items:end
+position:absolute;
+right:14px;
+bottom:15px;
+display:flex;
+gap:8px;
+align-items:flex-end;
+pointer-events:auto
 }
-
-.action{
-  width:62px;
-  height:62px;
-  border-radius:50%;
-  border:3px solid #ffffff55;
-  font-size:11px
+.act{
+width:63px;
+height:63px;
+border-radius:50%;
+border:2px solid #ffffff55;
+background:#344e69;
+font-size:11px;
+font-weight:900;
+box-shadow:0 5px 12px #0007
 }
+.act.attack{width:75px;height:75px;background:#a9363d}
+.act.magic{background:#5a49a1}
+.act.heal{background:#287b4c}
 
-.attack{
-  width:72px;
-  height:72px;
-  background:#b93737
+/* PANELS */
+.overlay{
+position:absolute;
+inset:0;
+z-index:100;
+display:none;
+align-items:center;
+justify-content:center;
+padding:15px;
+background:#000b
 }
-
-.skill{
-  background:#385da0
-}
-
-.heal{
-  background:#27834a
-}
-
-/* STATUS */
-
-.status{
-  position:absolute;
-  left:50%;
-  top:82px;
-  transform:translateX(-50%);
-  background:#07101bdd;
-  padding:8px 15px;
-  border-radius:12px;
-  z-index:25;
-  font-size:13px;
-  color:#e6c968;
-  white-space:nowrap
-}
-
-.hpBox{
-  position:absolute;
-  left:50%;
-  top:108px;
-  transform:translateX(-50%);
-  width:180px;
-  height:9px;
-  background:#281417;
-  border-radius:10px;
-  overflow:hidden;
-  z-index:25
-}
-
-.hpBar{
-  height:100%;
-  width:100%;
-  background:#42c95a
-}
-
-/* PANEL */
-
+.overlay.open{display:flex}
 .panel{
-  position:absolute;
-  inset:0;
-  background:#000a;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:100;
-  padding:15px
+width:min(440px,100%);
+max-height:90vh;
+overflow:auto;
+padding:18px;
+background:#101a27;
+border:1px solid #ffffff20;
+border-radius:22px;
+box-shadow:0 20px 70px #000
 }
-
-.panel.show{
-  display:flex
+.panel h2{
+color:#e2bd61;
+margin-bottom:14px
 }
-
-.panelBox{
-  width:min(430px,100%);
-  max-height:90vh;
-  overflow:auto;
-  background:#111c2a;
-  border:2px solid #ffffff18;
-  border-radius:22px;
-  padding:18px
+.row{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:8px;
+padding:11px;
+margin:7px 0;
+background:#19283a;
+border-radius:11px
 }
-
-.panelBox h2{
-  margin-bottom:12px;
-  color:#e2c263
+.row button{
+padding:8px 10px;
+border-radius:8px;
+background:#3b5874
 }
-
-.item{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:10px;
-  background:#1b2b3e;
-  border-radius:10px;
-  margin:6px 0
-}
-
 .close{
-  background:#673333
+width:100%;
+padding:13px;
+margin-top:12px;
+border-radius:10px;
+background:#69333a
+}
+.devInput{
+width:100%;
+padding:11px;
+background:#080e16;
+color:#fff;
+border:1px solid #ffffff20;
+border-radius:8px;
+margin:5px 0 10px
+}
+.rarity{
+font-size:11px;
+color:#d8b45b
 }
 
-input{
-  width:100%;
-  padding:12px;
-  border-radius:9px;
-  border:1px solid #ffffff20;
-  background:#07101b;
-  color:white;
-  margin:5px 0 10px
+/* NOTIFICATION */
+#notice{
+position:absolute;
+left:50%;
+bottom:145px;
+transform:translateX(-50%);
+z-index:80;
+padding:10px 15px;
+background:#08111ddd;
+border:1px solid #ffffff18;
+border-radius:12px;
+opacity:0;
+pointer-events:none;
+transition:.2s
 }
+#notice.show{opacity:1}
 
-select{
-  width:100%;
-  padding:12px;
-  background:#07101b;
-  color:#fff;
-  border-radius:9px;
-  margin-bottom:10px
-}
-
-.notification{
-  position:absolute;
-  left:50%;
-  bottom:145px;
-  transform:translateX(-50%);
-  background:#101b28ee;
-  padding:11px 16px;
-  border-radius:12px;
-  z-index:80;
-  opacity:0;
-  transition:.2s
-}
-
-.notification.show{
-  opacity:1
-}
-
-/* COMBAT */
-
+/* DAMAGE */
 .damage{
-  position:absolute;
-  color:#ffdc58;
-  font-size:25px;
-  font-weight:1000;
-  z-index:50;
-  animation:damage .5s forwards;
-  pointer-events:none
+position:absolute;
+z-index:70;
+font-size:25px;
+font-weight:1000;
+color:#ffe16b;
+animation:floatDamage .6s forwards;
+pointer-events:none
+}
+@keyframes floatDamage{
+to{transform:translateY(-55px);opacity:0}
 }
 
-@keyframes damage{
-  from{
-    transform:translateY(0) scale(.7);
-    opacity:1
-  }
-  to{
-    transform:translateY(-55px) scale(1.15);
-    opacity:0
-  }
+/* BATTLE FLASH */
+.flash{
+animation:flash .16s
+}
+@keyframes flash{
+50%{filter:brightness(2)}
 }
 
-.attackAnim{
-  animation:attack .2s
-}
-
-@keyframes attack{
-  50%{
-    transform:translate(-50%,-50%) scale(1.25)
-  }
-}
-
-.enemyHit{
-  animation:enemyHit .18s
-}
-
-@keyframes enemyHit{
-  50%{
-    filter:brightness(2)
-  }
-}
-
-.magic{
-  position:absolute;
-  width:25px;
-  height:25px;
-  border-radius:50%;
-  background:#8e62ff;
-  box-shadow:0 0 25px #9b73ff;
-  z-index:40;
-  animation:magic .45s linear forwards
-}
-
-@keyframes magic{
-  to{
-    left:50%;
-    top:50%;
-    opacity:0
-  }
-}
-
-@media(max-width:600px){
-
-.logo{
-  font-size:34px
-}
-
-.character{
-  width:70px;
-  height:90px
-}
-
-.joystick{
-  width:95px;
-  height:95px
-}
-
+/* RESPONSIVE */
+@media(max-width:500px){
+.logo{font-size:38px}
+.character{width:78px;height:105px}
 }
 </style>
 </head>
 
 <body>
 
-<div id="game">
-
 <!-- MENU -->
-
-<div id="menu">
-
-<div class="menuBox">
+<section id="menu" class="screen active">
+<div class="menuContent">
 
 <div class="logo">TSUKI RPG</div>
+<div class="tagline">Aventura • Combate • Fantasia</div>
 
-<div class="subtitle">
-A aventura começa agora.
-</div>
+<img id="heroMenu" class="hero">
 
-<img id="heroPreview"
-class="heroPreview">
-
-<button class="btn start"
-onclick="startGame()">
+<button class="menuBtn main" onclick="startGame()">
 ⚔️ COMEÇAR AVENTURA
 </button>
 
-<button class="btn"
-onclick="openInventory()">
+<button class="menuBtn" onclick="openInventory()">
 🎒 INVENTÁRIO
 </button>
 
-<button class="btn"
-onclick="openDev()">
+<button class="menuBtn" onclick="openDev()">
 🛠️ DESENVOLVEDOR
 </button>
 
 </div>
-
-</div>
-
-
-<!-- HUD -->
-
-<div id="hud" style="display:none">
-
-<div class="playerInfo">
-
-<img id="miniAvatar"
-class="miniAvatar">
-
-<div>
-<div class="name" id="hudName">
-Aventureiro
-</div>
-
-<div class="level">
-Nível <span id="level">1</span>
-</div>
-</div>
-
-</div>
-
-<div class="resources">
-
-<div>
-❤️ <span id="hp">100</span>/100
-</div>
-
-<div class="gold">
-💰 <span id="gold">100</span>
-</div>
-
-</div>
-
-</div>
+</section>
 
 
 <!-- WORLD -->
+<section id="world" class="screen">
 
-<div id="world" style="display:none">
+<div class="skyLight"></div>
+<div class="ground"></div>
+<div class="path"></div>
 
-<div class="grass"></div>
+<div class="tree" style="left:4%;top:17%"></div>
+<div class="tree" style="left:80%;top:13%"></div>
+<div class="tree" style="left:12%;top:72%"></div>
+<div class="tree" style="left:83%;top:70%"></div>
 
-<div class="road"></div>
-<div class="road2"></div>
+<div class="rock" style="left:28%;top:30%"></div>
+<div class="rock" style="left:65%;top:33%"></div>
+<div class="rock" style="left:45%;top:76%"></div>
 
-<div class="tree" style="left:5%;top:12%"></div>
-<div class="tree" style="left:80%;top:15%"></div>
-<div class="tree" style="left:15%;top:72%"></div>
-<div class="tree" style="left:85%;top:70%"></div>
 
-<div class="chest"
-style="left:72%;top:43%"
-onclick="openChest()">
+<!-- HUD -->
+<div id="hud">
+
+<div class="profile">
+<img id="avatar" class="avatar">
+<div>
+<div id="playerName" class="name">Aventureiro</div>
+<div class="small">
+Nível <span id="level">1</span> • XP <span id="xp">0</span>
+</div>
+</div>
 </div>
 
-<img id="player"
-class="character">
-
-<img id="enemy"
-class="character enemy"
-style="left:72%;top:50%;display:none">
-
-</div>
-
-
-<!-- STATUS -->
-
-<div id="status"
-class="status"
-style="display:none">
-Explore o mapa
-</div>
-
-<div id="enemyHpBox"
-class="hpBox"
-style="display:none">
-
-<div id="enemyHpBar"
-class="hpBar">
+<div class="resources">
+<div>❤️ <span id="hp">100</span>/<span id="maxHp">100</span></div>
+<div class="gold">💰 <span id="gold">100</span></div>
 </div>
 
 </div>
 
 
-<!-- CONTROLS -->
-
-<div id="controls"
-style="display:none">
-
-<div id="joystick"
-class="joystick">
-
-<div id="stick"
-class="stick">
+<div id="enemyBar" class="enemyBar hidden">
+<div id="enemyFill" class="enemyFill"></div>
 </div>
 
+
+<img id="player" class="character">
+<img id="enemy" class="character enemy hidden">
+
+
+<!-- CONTROLES -->
+<div id="controls">
+
+<div id="joystick" class="joystick">
+<div id="knob" class="knob"></div>
 </div>
 
 <div class="actions">
 
-<button
-class="action attack"
-onclick="attack()">
-⚔️<br>ATACAR
+<button class="act heal" onclick="heal()">
+❤️<br>CURA
 </button>
 
-<button
-class="action skill"
-onclick="skill()">
+<button class="act magic" onclick="magicAttack()">
 ✨<br>MAGIA
 </button>
 
-<button
-class="action heal"
-onclick="heal()">
-💚<br>CURA
+<button class="act attack" onclick="attack()">
+⚔️<br>ATACAR
 </button>
 
 </div>
-
 </div>
 
+<div id="notice"></div>
 
-<!-- INVENTÁRIO -->
+</section>
 
-<div id="inventory"
-class="panel">
 
-<div class="panelBox">
+<!-- INVENTORY -->
+<div id="inventoryOverlay" class="overlay">
+
+<div class="panel">
 
 <h2>🎒 Inventário</h2>
 
-<div id="inventoryList">
-</div>
+<div id="inventoryList"></div>
 
-<button
-class="btn close"
-onclick="closePanels()">
+<button class="close" onclick="closePanels()">
 FECHAR
 </button>
 
 </div>
-
 </div>
 
 
 <!-- DEV -->
+<div id="devOverlay" class="overlay">
 
-<div id="dev"
-class="panel">
+<div class="panel">
 
-<div class="panelBox">
+<h2>🛠️ Modo Desenvolvedor</h2>
 
-<h2>🛠️ MODO DESENVOLVEDOR</h2>
-
-<p style="color:#9facba;font-size:13px">
-Área para testar o jogo.
+<p class="small">
+Ferramentas para testar o jogo.
 </p>
 
+<br>
+
 <label>💰 Moedas</label>
+<input id="devGold" class="devInput" type="number" value="500">
 
-<input
-id="devGold"
-type="number"
-value="100">
-
-<button
-class="btn"
-onclick="giveGold()">
-Adicionar moedas
+<button class="menuBtn" onclick="devGold()">
+ADICIONAR MOEDAS
 </button>
 
+
+<br><br>
 
 <label>📈 Nível</label>
+<input id="devLevel" class="devInput" type="number" value="10">
 
-<input
-id="devLevel"
-type="number"
-value="1">
-
-<button
-class="btn"
-onclick="setLevel()">
-Alterar nível
+<button class="menuBtn" onclick="devLevel()">
+ALTERAR NÍVEL
 </button>
 
 
-<label>❤️ Vida</label>
+<br><br>
 
-<button
-class="btn"
-onclick="fullHeal()">
-Vida máxima
+<button class="menuBtn" onclick="fullHeal()">
+❤️ VIDA MÁXIMA
 </button>
 
-
-<label>⚔️ Arma</label>
-
-<select id="devWeapon">
-
-<option>Espada de Ferro</option>
-<option>Machado do Guardião</option>
-<option>Arco Lunar</option>
-<option>Cajado Arcano</option>
-<option>Lança Sombria</option>
-<option>Espada Lendária</option>
-
-</select>
-
-<button
-class="btn"
-onclick="giveWeapon()">
-Adicionar arma
+<button class="menuBtn" onclick="spawnEnemy()">
+👾 CRIAR INIMIGO
 </button>
 
-
-<button
-class="btn"
-onclick="spawnEnemy()">
-👾 Criar inimigo
+<button class="menuBtn" onclick="giveAllWeapons()">
+⚔️ LIBERAR TODAS AS ARMAS
 </button>
 
-
-<button
-class="btn"
-onclick="clearSave()">
-🗑️ Resetar progresso
-</button>
-
-
-<button
-class="btn close"
-onclick="closePanels()">
-FECHAR
+<button class="menuBtn" onclick="closePanels()">
+VOLTAR
 </button>
 
 </div>
-
-</div>
-
-
-<div id="notification"
-class="notification">
-</div>
-
 </div>
 
 
 <script>
 
 /* =========================
+   PERSONAGEM
+========================= */
+
+function heroSVG(){
+
+let svg=`
+<svg xmlns="http://www.w3.org/2000/svg"
+width="300" height="420">
+
+<defs>
+<linearGradient id="a" x1="0" y1="0" x2="1" y2="1">
+<stop stop-color="#507eb2"/>
+<stop offset="1" stop-color="#17283e"/>
+</linearGradient>
+</defs>
+
+<ellipse cx="150" cy="392"
+rx="88" ry="17" fill="#0007"/>
+
+<!-- pernas -->
+<path d="M105 275v100h34l12-95"
+fill="#202c3d"/>
+<path d="M151 280l14 95h34l-8-100"
+fill="#202c3d"/>
+
+<!-- capa -->
+<path d="M92 182Q50 250 76 327
+Q105 310 120 285V180"
+fill="#4a2029"/>
+
+<!-- corpo -->
+<path d="M88 178Q150 145 212 178
+L204 285Q150 310 96 285Z"
+fill="url(#a)"
+stroke="#101722"
+stroke-width="8"/>
+
+<!-- pescoço -->
+<rect x="133" y="132"
+width="34" height="48" rx="9"
+fill="#d59d7b"/>
+
+<!-- cabeça -->
+<circle cx="150" cy="102"
+r="65" fill="#dfaa86"
+stroke="#111"
+stroke-width="7"/>
+
+<!-- cabelo -->
+<path d="M88 105Q78 25 150 22
+Q220 22 214 110L188 70
+L168 93L145 60L120 98
+L100 73Z"
+fill="#20242a"/>
+
+<!-- olhos -->
+<circle cx="125" cy="112" r="8" fill="#17202b"/>
+<circle cx="175" cy="112" r="8" fill="#17202b"/>
+
+<!-- nariz -->
+<path d="M150 116l-8 20h15"
+fill="none" stroke="#9a6b58" stroke-width="5"/>
+
+<!-- boca -->
+<path d="M130 151q20 12 40 0"
+fill="none" stroke="#713e3a" stroke-width="5"/>
+
+<!-- braço -->
+<path d="M95 192Q52 230 68 272"
+fill="none" stroke="#355f8c"
+stroke-width="27" stroke-linecap="round"/>
+
+<!-- espada -->
+<path d="M69 270L19 200"
+stroke="#dfe5ea" stroke-width="14"/>
+<path d="M48 251L76 228"
+stroke="#9a682f" stroke-width="13"/>
+
+</svg>`;
+
+return "data:image/svg+xml;charset=utf-8,"+
+encodeURIComponent(svg);
+}
+
+
+/* =========================
+   INIMIGO
+========================= */
+
+function enemySVG(){
+
+let svg=`
+<svg xmlns="http://www.w3.org/2000/svg"
+width="300" height="420">
+
+<ellipse cx="150" cy="392"
+rx="95" ry="18" fill="#0008"/>
+
+<path d="M78 190Q150 150 222 190
+L208 310Q150 335 92 310Z"
+fill="#6e2930"
+stroke="#111"
+stroke-width="9"/>
+
+<circle cx="150" cy="105"
+r="67" fill="#8e604e"
+stroke="#111" stroke-width="8"/>
+
+<path d="M84 105Q95 20 150 24
+Q215 20 220 108
+L185 70L160 96L130 65L105 102Z"
+fill="#111"/>
+
+<circle cx="124" cy="115"
+r="10" fill="#ff3d48"/>
+
+<circle cx="176" cy="115"
+r="10" fill="#ff3d48"/>
+
+<path d="M120 156Q150 176 180 156"
+fill="none" stroke="#321318"
+stroke-width="8"/>
+
+</svg>`;
+
+return "data:image/svg+xml;charset=utf-8,"+
+encodeURIComponent(svg);
+}
+
+
+/* =========================
    DADOS
 ========================= */
 
 const weapons=[
-{
-name:"Espada de Ferro",
-damage:20,
-rarity:"Comum"
-},
-{
-name:"Machado do Guardião",
-damage:35,
-rarity:"Raro"
-},
-{
-name:"Arco Lunar",
-damage:45,
-rarity:"Épico"
-},
-{
-name:"Cajado Arcano",
-damage:55,
-rarity:"Mítico"
-},
-{
-name:"Lança Sombria",
-damage:65,
-rarity:"Lendário"
-},
-{
-name:"Espada Lendária",
-damage:90,
-rarity:"Lendário"
-}
+{name:"Espada de Ferro",damage:20,rarity:"Comum"},
+{name:"Machado do Guardião",damage:35,rarity:"Raro"},
+{name:"Arco Lunar",damage:45,rarity:"Épico"},
+{name:"Cajado Arcano",damage:55,rarity:"Mítico"},
+{name:"Lança Sombria",damage:70,rarity:"Lendário"},
+{name:"Espada do Rei",damage:100,rarity:"Lendário"}
 ];
 
 let player={
@@ -868,235 +698,48 @@ inventory:[weapons[0].name]
 };
 
 let enemy={
+alive:false,
 hp:100,
 maxHp:100,
-damage:10,
-alive:false
+damage:8
 };
 
+let px=50;
+let py=58;
+let enemyX=72;
+let enemyY=52;
 let playing=false;
 
-let px=48;
-let py=60;
-
-let enemyX=72;
-let enemyY=50;
-
-let moving=false;
-
 
 /* =========================
-   SVG DO PERSONAGEM
+   INICIALIZAÇÃO
 ========================= */
 
-function createCharacter(){
+const art=heroSVG();
 
-let svg=`
-
-<svg
-xmlns="http://www.w3.org/2000/svg"
-width="300"
-height="400">
-
-<defs>
-
-<linearGradient
-id="armor"
-x1="0"
-y1="0"
-x2="1"
-y2="1">
-
-<stop
-stop-color="#4f83c2"/>
-
-<stop
-offset="1"
-stop-color="#172b48"/>
-
-</linearGradient>
-
-</defs>
-
-<ellipse
-cx="150"
-cy="375"
-rx="90"
-ry="18"
-fill="#0005"/>
-
-<!-- pernas -->
-
-<path
-d="M105 270 L105 360 L135 360 L145 275"
-fill="#202b3b"/>
-
-<path
-d="M155 275 L165 360 L195 360 L190 270"
-fill="#202b3b"/>
-
-<!-- corpo -->
-
-<path
-d="M85 175 Q150 145 215 175
-L205 285 Q150 310 95 285 Z"
-fill="url(#armor)"
-stroke="#111"
-stroke-width="8"/>
-
-<!-- capa -->
-
-<path
-d="M90 180 Q55 230 70 320
-Q110 305 120 285
-L110 180"
-fill="#4b2028"/>
-
-<!-- pescoço -->
-
-<rect
-x="132"
-y="135"
-width="36"
-height="45"
-rx="10"
-fill="#d69c7b"/>
-
-<!-- cabeça -->
-
-<circle
-cx="150"
-cy="105"
-r="65"
-fill="#e2ad89"
-stroke="#171717"
-stroke-width="7"/>
-
-<!-- cabelo -->
-
-<path
-d="M88 105
-Q82 25 150 25
-Q220 25 215 110
-L190 70
-L170 95
-L145 62
-L120 100
-L100 75 Z"
-fill="#20242b"/>
-
-<!-- olhos -->
-
-<circle
-cx="125"
-cy="112"
-r="8"
-fill="#17212c"/>
-
-<circle
-cx="175"
-cy="112"
-r="8"
-fill="#17212c"/>
-
-<!-- nariz -->
-
-<path
-d="M150 115 L142 137 L155 137"
-fill="none"
-stroke="#9d6d58"
-stroke-width="5"/>
-
-<!-- boca -->
-
-<path
-d="M130 150 Q150 162 170 150"
-fill="none"
-stroke="#713f3c"
-stroke-width="5"/>
-
-<!-- braço -->
-
-<path
-d="M95 190 Q50 220 65 270"
-fill="none"
-stroke="#355c87"
-stroke-width="28"
-stroke-linecap="round"/>
-
-<!-- espada -->
-
-<path
-d="M70 270 L20 205"
-stroke="#ddd"
-stroke-width="13"/>
-
-<path
-d="M52 250 L75 230"
-stroke="#9c6a2e"
-stroke-width="12"/>
-
-</svg>
-`;
-
-return "data:image/svg+xml;charset=UTF-8,"
-+encodeURIComponent(svg);
-
-}
+document.getElementById("heroMenu").src=art;
+document.getElementById("avatar").src=art;
+document.getElementById("player").src=art;
 
 
 /* =========================
-   INÍCIO
-========================= */
-
-const characterArt=createCharacter();
-
-document.getElementById(
-"heroPreview"
-).src=characterArt;
-
-document.getElementById(
-"miniAvatar"
-).src=characterArt;
-
-document.getElementById(
-"player"
-).src=characterArt;
-
-
-/* =========================
-   JOGO
+   START
 ========================= */
 
 function startGame(){
 
 playing=true;
 
-document.getElementById(
-"menu"
-).style.display="none";
+document.getElementById("menu")
+.classList.remove("active");
 
-document.getElementById(
-"hud"
-).style.display="flex";
+document.getElementById("world")
+.classList.add("active");
 
-document.getElementById(
-"world"
-).style.display="block";
-
-document.getElementById(
-"controls"
-).style.display="block";
-
-document.getElementById(
-"status"
-).style.display="block";
-
+updatePlayer();
 updateHUD();
 
-notify(
-"⚔️ A aventura começou!"
-);
+notice("⚔️ A aventura começou!");
 
 }
 
@@ -1105,35 +748,33 @@ notify(
    MOVIMENTO
 ========================= */
 
-function move(dx,dy){
+function move(x,y){
 
 if(!playing)return;
 
-let speed=.18;
+const speed=.18;
 
-px+=dx*speed;
-py+=dy*speed;
+px+=x*speed;
+py+=y*speed;
 
-px=Math.max(4,Math.min(92,px));
-py=Math.max(8,Math.min(88,py));
+px=Math.max(5,Math.min(95,px));
+py=Math.max(12,Math.min(90,py));
 
 updatePlayer();
-
-checkEnemyDistance();
 
 }
 
 
+/* =========================
+   PLAYER
+========================= */
+
 function updatePlayer(){
 
-let p=
-document.getElementById("player");
+const p=document.getElementById("player");
 
-p.style.left=
-px+"%";
-
-p.style.top=
-py+"%";
+p.style.left=px+"%";
+p.style.top=py+"%";
 
 }
 
@@ -1145,156 +786,42 @@ py+"%";
 function spawnEnemy(){
 
 enemy.alive=true;
+enemy.hp=enemy.maxHp;
 
-enemy.hp=100;
+const el=document.getElementById("enemy");
 
-enemy.damage=10;
+el.src=enemySVG();
+el.classList.remove("hidden");
+
+document.getElementById("enemyBar")
+.classList.remove("hidden");
 
 enemyX=72;
-
-enemyY=50;
-
-let el=
-document.getElementById("enemy");
-
-el.style.display="block";
-
-el.src=createEnemy();
-
-el.style.left=
-enemyX+"%";
-
-el.style.top=
-enemyY+"%";
-
-document.getElementById(
-"enemyHpBox"
-).style.display="block";
+enemyY=52;
 
 updateEnemy();
 
-notify(
-"👾 Um inimigo apareceu!"
-);
-
-}
-
-
-function createEnemy(){
-
-let svg=`
-
-<svg
-xmlns="http://www.w3.org/2000/svg"
-width="300"
-height="400">
-
-<ellipse
-cx="150"
-cy="370"
-rx="95"
-ry="20"
-fill="#0005"/>
-
-<path
-d="M75 180 Q150 140 225 180
-L210 300 Q150 330 90 300Z"
-fill="#7c3030"
-stroke="#171717"
-stroke-width="8"/>
-
-<circle
-cx="150"
-cy="105"
-r="65"
-fill="#9c654e"
-stroke="#151515"
-stroke-width="8"/>
-
-<path
-d="M85 100 Q95 20 150 25
-Q215 20 220 105
-L185 70 L160 95
-L130 65 L105 100Z"
-fill="#111"/>
-
-<circle
-cx="125"
-cy="115"
-r="10"
-fill="#ff4444"/>
-
-<circle
-cx="175"
-cy="115"
-r="10"
-fill="#ff4444"/>
-
-<path
-d="M120 155 Q150 175 180 155"
-fill="none"
-stroke="#351616"
-stroke-width="8"/>
-
-</svg>
-`;
-
-return "data:image/svg+xml;charset=UTF-8,"
-+encodeURIComponent(svg);
+notice("👾 Um inimigo apareceu!");
 
 }
 
 
 function updateEnemy(){
 
-let el=
-document.getElementById("enemy");
+const e=document.getElementById("enemy");
 
-el.style.left=
-enemyX+"%";
+e.style.left=enemyX+"%";
+e.style.top=enemyY+"%";
 
-el.style.top=
-enemyY+"%";
-
-document.getElementById(
-"enemyHpBar"
-).style.width=
-(enemy.hp/enemy.maxHp*100)+"%";
-
-}
-
-
-function checkEnemyDistance(){
-
-if(!enemy.alive)return;
-
-let dx=px-enemyX;
-let dy=py-enemyY;
-
-let distance=
-Math.hypot(dx,dy);
-
-if(distance<28){
-
-document.getElementById(
-"status"
-).textContent=
-"👾 Inimigo perto!";
-
-}else{
-
-document.getElementById(
-"status"
-).textContent=
-"Explore o mapa";
-
-}
+document.getElementById("enemyFill")
+.style.width=
+Math.max(0,enemy.hp/enemy.maxHp*100)+"%";
 
 }
 
 
 /* =========================
-   IA INIMIGO
+   INIMIGO SE MOVE
 ========================= */
 
 setInterval(()=>{
@@ -1304,60 +831,52 @@ if(!playing||!enemy.alive)return;
 let dx=px-enemyX;
 let dy=py-enemyY;
 
-let distance=
-Math.hypot(dx,dy);
+let d=Math.hypot(dx,dy);
 
-if(distance>14){
+if(d>13){
 
-enemyX+=(dx/distance)*.08;
-enemyY+=(dy/distance)*.08;
+enemyX+=dx/d*.055;
+enemyY+=dy/d*.055;
 
 updateEnemy();
 
 }else{
 
-enemyAttack();
+enemyHitPlayer();
 
 }
 
-},60);
+},70);
 
+let lastHit=0;
 
-let lastEnemyAttack=0;
-
-function enemyAttack(){
+function enemyHitPlayer(){
 
 let now=Date.now();
 
-if(now-lastEnemyAttack<900)return;
+if(now-lastHit<900)return;
 
-lastEnemyAttack=now;
+lastHit=now;
 
 player.hp-=enemy.damage;
 
-if(player.hp<0)
-player.hp=0;
+if(player.hp<0)player.hp=0;
+
+damageText(px,py,"-"+enemy.damage);
 
 updateHUD();
 
-showDamage(
-px,
-py,
-"-"+enemy.damage
-);
-
 if(player.hp<=0){
 
-notify(
-"💀 Você foi derrotado!"
-);
+notice("💀 Você foi derrotado!");
 
 player.hp=player.maxHp;
 
-px=48;
-py=60;
+px=50;
+py=58;
 
 updatePlayer();
+updateHUD();
 
 }
 
@@ -1370,87 +889,54 @@ updatePlayer();
 
 function attack(){
 
-if(!playing){
-
-return;
-
-}
+if(!playing)return;
 
 if(!enemy.alive){
 
-notify(
-"Não há inimigo aqui."
-);
+notice("Não há inimigo para atacar.");
 
 return;
 
 }
 
-let dx=px-enemyX;
-
-let dy=py-enemyY;
-
-let distance=
-Math.hypot(dx,dy);
-
-if(distance>16){
-
-notify(
-"⚔️ Chegue mais perto!"
+let d=Math.hypot(
+px-enemyX,
+py-enemyY
 );
+
+if(d>16){
+
+notice("⚔️ Chegue mais perto!");
 
 return;
 
 }
 
-let playerEl=
-document.getElementById(
-"player"
-);
-
-playerEl.classList.add(
-"attackAnim"
-);
-
-setTimeout(()=>{
-playerEl.classList.remove(
-"attackAnim"
-);
-},200);
-
-let damage=
-player.weapon.damage;
+const damage=player.weapon.damage;
 
 enemy.hp-=damage;
 
-showDamage(
+const p=document.getElementById("player");
+const e=document.getElementById("enemy");
+
+p.classList.add("flash");
+e.classList.add("flash");
+
+setTimeout(()=>{
+p.classList.remove("flash");
+e.classList.remove("flash");
+},160);
+
+damageText(
 enemyX,
 enemyY,
 "-"+damage
 );
 
-let enemyEl=
-document.getElementById(
-"enemy"
-);
-
-enemyEl.classList.add(
-"enemyHit"
-);
-
-setTimeout(()=>{
-enemyEl.classList.remove(
-"enemyHit"
-);
-},200);
-
 updateEnemy();
 
-if(enemy.hp<=0){
-
+if(enemy.hp<=0)
 defeatEnemy();
-
-}
 
 }
 
@@ -1459,70 +945,45 @@ defeatEnemy();
    MAGIA
 ========================= */
 
-function skill(){
+function magicAttack(){
 
 if(!playing)return;
 
 if(!enemy.alive){
 
-notify(
-"✨ Nenhum inimigo."
-);
+notice("✨ Nenhum inimigo.");
 
 return;
 
 }
 
-let magic=
-document.createElement("div");
+let d=Math.hypot(
+px-enemyX,
+py-enemyY
+);
 
-magic.className="magic";
+if(d>45){
 
-magic.style.left=
-px+"%";
+notice("✨ O inimigo está longe demais.");
 
-magic.style.top=
-py+"%";
+return;
 
-document.getElementById(
-"world"
-).appendChild(magic);
+}
 
-setTimeout(()=>{
-magic.remove();
-},500);
+let damage=45;
 
-let dx=px-enemyX;
-let dy=py-enemyY;
+enemy.hp-=damage;
 
-let distance=
-Math.hypot(dx,dy);
-
-if(distance<45){
-
-enemy.hp-=45;
-
-showDamage(
+damageText(
 enemyX,
 enemyY,
-"-45 ✨"
+"-"+damage+" ✨"
 );
 
 updateEnemy();
 
-if(enemy.hp<=0){
-
+if(enemy.hp<=0)
 defeatEnemy();
-
-}
-
-}else{
-
-notify(
-"✨ A magia errou!"
-);
-
-}
 
 }
 
@@ -1533,61 +994,48 @@ notify(
 
 function heal(){
 
-if(!playing)return;
-
 if(player.hp>=player.maxHp){
 
-notify(
-"❤️ Sua vida já está cheia."
-);
+notice("❤️ Sua vida já está cheia.");
 
 return;
 
 }
 
-player.hp+=30;
-
-if(player.hp>player.maxHp)
-player.hp=player.maxHp;
+player.hp=Math.min(
+player.maxHp,
+player.hp+30
+);
 
 updateHUD();
 
-notify(
-"💚 Você recuperou vida!"
-);
+notice("💚 Você recuperou vida!");
 
 }
 
 
 /* =========================
-   INIMIGO DERROTADO
+   DERROTA
 ========================= */
 
 function defeatEnemy(){
 
 enemy.alive=false;
 
-enemy.hp=0;
+document.getElementById("enemy")
+.classList.add("hidden");
 
-document.getElementById(
-"enemy"
-).style.display="none";
-
-document.getElementById(
-"enemyHpBox"
-).style.display="none";
-
-player.xp+=50;
+document.getElementById("enemyBar")
+.classList.add("hidden");
 
 player.gold+=25;
+player.xp+=50;
 
-checkLevel();
+levelCheck();
 
 updateHUD();
 
-notify(
-"🏆 Inimigo derrotado! +50 XP +25 💰"
-);
+notice("🏆 Inimigo derrotado! +50 XP");
 
 }
 
@@ -1596,25 +1044,20 @@ notify(
    XP
 ========================= */
 
-function checkLevel(){
+function levelCheck(){
 
-let needed=
-player.level*100;
+let need=player.level*100;
 
-if(player.xp>=needed){
+if(player.xp>=need){
 
-player.xp-=needed;
-
+player.xp-=need;
 player.level++;
 
 player.maxHp+=20;
+player.hp=player.maxHp;
 
-player.hp=
-player.maxHp;
-
-notify(
-"🎉 VOCÊ SUBIU PARA O NÍVEL "
-+player.level+"!"
+notice(
+"🎉 NÍVEL "+player.level+"!"
 );
 
 }
@@ -1623,44 +1066,28 @@ notify(
 
 
 /* =========================
-   BAÚ
+   HUD
 ========================= */
 
-function openChest(){
+function updateHUD(){
 
-let weapon=
-weapons[
-Math.floor(
-Math.random()*weapons.length
-)
-];
+document.getElementById("playerName")
+.textContent=player.name;
 
-if(!player.inventory.includes(
-weapon.name
-)){
+document.getElementById("level")
+.textContent=player.level;
 
-player.inventory.push(
-weapon.name
-);
+document.getElementById("xp")
+.textContent=player.xp;
 
-player.weapon=weapon;
+document.getElementById("hp")
+.textContent=Math.floor(player.hp);
 
-notify(
-"🎁 Você encontrou: "
-+weapon.name
-);
+document.getElementById("maxHp")
+.textContent=player.maxHp;
 
-}else{
-
-player.gold+=50;
-
-notify(
-"💰 O baú tinha 50 moedas!"
-);
-
-}
-
-updateHUD();
+document.getElementById("gold")
+.textContent=player.gold;
 
 }
 
@@ -1671,63 +1098,265 @@ updateHUD();
 
 function openInventory(){
 
-let html="";
+const list=document.getElementById(
+"inventoryList"
+);
+
+list.innerHTML="";
 
 player.inventory.forEach(name=>{
 
-let weapon=
-weapons.find(
-w=>w.name===name
+const w=weapons.find(
+x=>x.name===name
 );
 
-html+=`
+const row=document.createElement("div");
 
-<div class="item">
+row.className="row";
 
+row.innerHTML=`
 <div>
-<b>${weapon.name}</b>
-<br>
-<small>
-⚔️ ${weapon.damage}
-• ${weapon.rarity}
-</small>
+<b>${w.name}</b>
+<div class="rarity">
+${w.rarity} • ⚔️ ${w.damage}
 </div>
-
-<button
-class="smallBtn"
-style="width:100px;margin:0"
-onclick="equip('${weapon.name}')">
-EQUIPAR
-</button>
-
 </div>
-
+<button>USAR</button>
 `;
+
+row.querySelector("button")
+.onclick=()=>equip(w);
+
+list.appendChild(row);
 
 });
 
 document.getElementById(
-"inventoryList"
-).innerHTML=
-html;
-
-document.getElementById(
-"inventory"
-).classList.add("show");
+"inventoryOverlay"
+).classList.add("open");
 
 }
 
 
-function equip(name){
+function equip(w){
 
-let weapon=
-weapons.find(
-w=>w.name===name
+player.weapon=w;
+
+notice("⚔️ Equipado: "+w.name);
+
+closePanels();
+
+}
+
+
+/* =========================
+   DESENVOLVEDOR
+========================= */
+
+function openDev(){
+
+const password=prompt(
+"Senha do desenvolvedor:"
 );
 
-if(!weapon)return;
+if(password!=="tsuki123"){
 
-player.weapon=weapon;
+alert("❌ Senha incorreta.");
 
-notify(
-"⚔️ Equipa
+return;
+
+}
+
+document.getElementById(
+"devOverlay"
+).classList.add("open");
+
+}
+
+
+function devGold(){
+
+let amount=Number(
+document.getElementById("devGold").value
+);
+
+if(!amount)return;
+
+player.gold+=amount;
+
+updateHUD();
+
+notice("💰 +"+amount);
+
+}
+
+
+function devLevel(){
+
+let level=Number(
+document.getElementById("devLevel").value
+);
+
+if(level<1)level=1;
+
+player.level=level;
+player.maxHp=100+(level-1)*20;
+player.hp=player.maxHp;
+
+updateHUD();
+
+notice("📈 Nível alterado.");
+
+}
+
+
+function fullHeal(){
+
+player.hp=player.maxHp;
+
+updateHUD();
+
+notice("❤️ Vida restaurada.");
+
+}
+
+
+function giveAllWeapons(){
+
+weapons.forEach(w=>{
+
+if(!player.inventory.includes(w.name))
+player.inventory.push(w.name);
+
+});
+
+notice("⚔️ Todas as armas liberadas!");
+
+}
+
+
+/* =========================
+   FECHAR
+========================= */
+
+function closePanels(){
+
+document.querySelectorAll(".overlay")
+.forEach(x=>x.classList.remove("open"));
+
+}
+
+
+/* =========================
+   NOTIFICAÇÃO
+========================= */
+
+let noticeTimer;
+
+function notice(text){
+
+const n=document.getElementById("notice");
+
+n.textContent=text;
+
+n.classList.add("show");
+
+clearTimeout(noticeTimer);
+
+noticeTimer=setTimeout(()=>{
+n.classList.remove("show");
+},1800);
+
+}
+
+
+/* =========================
+   DANO
+========================= */
+
+function damageText(x,y,text){
+
+const d=document.createElement("div");
+
+d.className="damage";
+d.textContent=text;
+
+d.style.left=x+"%";
+d.style.top=y+"%";
+
+document.getElementById("world")
+.appendChild(d);
+
+setTimeout(()=>d.remove(),600);
+
+}
+
+
+/* =========================
+   ANALÓGICO
+========================= */
+
+const joy=document.getElementById("joystick");
+const knob=document.getElementById("knob");
+
+let dragging=false;
+
+joy.addEventListener("pointerdown",e=>{
+
+dragging=true;
+joy.setPointerCapture(e.pointerId);
+analog(e);
+
+});
+
+joy.addEventListener("pointermove",e=>{
+
+if(dragging)analog(e);
+
+});
+
+joy.addEventListener("pointerup",()=>{
+
+dragging=false;
+
+knob.style.left="50%";
+knob.style.top="50%";
+
+});
+
+
+function analog(e){
+
+const r=joy.getBoundingClientRect();
+
+let x=e.clientX-r.left-r.width/2;
+let y=e.clientY-r.top-r.height/2;
+
+const max=36;
+
+let d=Math.hypot(x,y);
+
+if(d>max){
+
+x=x/d*max;
+y=y/d*max;
+
+}
+
+knob.style.left=
+"calc(50% + "+x+"px)";
+
+knob.style.top=
+"calc(50% + "+y+"px)";
+
+if(d>7){
+
+move(x/max,y/max);
+
+}
+
+}
+
+
+/* =========================
+ 
