@@ -1,61 +1,113 @@
-<!-- GERADOR DE BRAWLERS -->
-<section class="generator">
-  <h2>🎲 GERADOR DE BRAWLER</h2>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Brawl Tsuki</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial;background:#07101f;color:#fff}
+button{border:0;border-radius:14px;padding:14px;font-weight:900;cursor:pointer}
+.app{min-height:100vh;background:radial-gradient(circle,#315b8d,#07101f 70%);padding-bottom:30px}
+header{height:70px;padding:10px 15px;background:#081526dd;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:5}
+.logo{font-size:25px;font-weight:1000;text-shadow:0 3px #000}.logo b{color:#ffd52f}
+.profile{display:flex;align-items:center;gap:8px}.avatar{font-size:27px;background:#ff9d20;border:3px solid #fff;border-radius:13px;padding:5px}.name{font-weight:900}.tro{color:#ffd52f;font-size:13px}
+main{max-width:850px;margin:auto;padding:15px}.screen{display:none}.on{display:block}
+.hero,.panel{background:#102642dd;border:2px solid #ffffff12;border-radius:22px;padding:20px;margin-bottom:15px;box-shadow:0 10px 30px #0006}
+h1{font-size:31px;margin:0 0 7px}h2{margin:5px 0 15px}.sub{color:#b9c8dc}
+.play{width:100%;margin-top:18px;background:linear-gradient(#ffe94e,#ffb817);font-size:22px;box-shadow:0 5px #a56400}
+.play:active,.btn:active{transform:translateY(3px)}
+.row{display:flex;gap:10px;margin-top:10px}.btn{flex:1;background:#1b3554;color:#fff}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.card{padding:14px;border-radius:18px;min-height:140px;border:2px solid #ffffff18}.common{background:linear-gradient(145deg,#617487,#293746)}.rare{background:linear-gradient(145deg,#188fdf,#123e6b)}.epic{background:linear-gradient(145deg,#a448e8,#481875)}
+.icon{font-size:50px}.card b{display:block;font-size:17px}.rarity{font-size:11px;opacity:.8}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{text-align:center;background:#0b1d33;padding:13px;border-radius:15px}.stat b{display:block;color:#ffd52f;font-size:23px}
+.generator{text-align:center}.generated{padding:20px;border-radius:20px;background:linear-gradient(145deg,#254f7c,#132941);transition:.12s}.generated.pop{transform:scale(1.04)}.generated .icon{font-size:70px}
+#battle{height:370px;border-radius:22px;position:relative;overflow:hidden;background:linear-gradient(#65c4ed 0 53%,#86c54e 53%);border:3px solid #ffffff18}
+.ground{position:absolute;bottom:0;width:100%;height:80px;background:#5ba63a}.fighter{position:absolute;bottom:65px;font-size:55px;z-index:2;transition:left .05s,right .05s}
+.me{left:12%}.enemy{right:12%}.hp{position:absolute;top:12px;width:38%;height:15px;background:#421515;border:2px solid #fff;border-radius:10px;overflow:hidden;z-index:3}.hp i{display:block;height:100%;background:#38df4c}.left{left:10px}.right{right:10px}
+.message{text-align:center;color:#ffd52f;font-weight:900;padding:8px}.controls{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.attack{background:#e33b36;color:#fff}.super{background:#8d45dc;color:#fff}
+@media(max-width:600px){.cards{grid-template-columns:repeat(2,1fr)}.controls{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+<div class="logo">BRAWL <b>TSUKI</b></div>
+<div class="profile"><div><div class="name" id="name">Thalyson</div><div class="tro">🏆 <span id="trophies">1280</span></div></div><div class="avatar">😎</div></div>
+</header>
 
-  <div id="brawlerCard" class="brawler-card">
-    <div id="brawlerIcon">🥊</div>
-    <h3 id="brawlerName">Clique para gerar</h3>
-    <p id="brawlerRarity">---</p>
+<main>
+<section id="home" class="screen on">
+<div class="hero">
+<h1>Pronto para a batalha? 🔥</h1>
+<div class="sub">Crie seu Brawler e entre na batalha!</div>
+<button class="play" onclick="start()">🎮 JOGAR</button>
+<div class="row"><button class="btn" onclick="generate()">🎲 GERAR BRAWLER</button><button class="btn" onclick="editName()">👤 PERFIL</button></div>
+</div>
 
-    <div class="stats">
-      ❤️ <span id="brawlerHp">---</span>
-      ⚔️ <span id="brawlerDamage">---</span>
-      ⚡ <span id="brawlerSpeed">---</span>
-    </div>
-  </div>
+<div class="panel generator">
+<h2>🎲 Seu Brawler</h2>
+<div id="generated" class="generated">
+<div class="icon" id="gIcon">❓</div>
+<h2 id="gName">Gere um Brawler</h2>
+<div id="gRarity">---</div>
+<div class="stats">
+<div class="stat"><b id="gHp">---</b>❤️ VIDA</div>
+<div class="stat"><b id="gDmg">---</b>⚔️ DANO</div>
+<div class="stat"><b id="gSpeed">---</b>⚡ VELOCIDADE</div>
+</div>
+</div>
+<button class="play" onclick="generate()">🎲 GERAR AGORA</button>
+</div>
 
-  <button onclick="generateBrawler()" class="generate">
-    🎲 GERAR BRAWLER
-  </button>
+<div class="panel">
+<h2>🥊 Brawlers</h2>
+<div class="cards">
+<div class="card common"><div class="icon">🤠</div><b>Tsuki</b><span class="rarity">COMUM</span></div>
+<div class="card rare"><div class="icon">🤖</div><b>T-Bot</b><span class="rarity">RARO</span></div>
+<div class="card epic"><div class="icon">👻</div><b>Ghost</b><span class="rarity">ÉPICO</span></div>
+</div>
+</div>
+
+<div class="panel">
+<h2>🏆 Estatísticas</h2>
+<div class="stats">
+<div class="stat"><b id="wins">42</b>VITÓRIAS</div>
+<div class="stat"><b id="statTro">1280</b>TROFÉUS</div>
+<div class="stat"><b>18</b>BRAWLERS</div>
+</div>
+</div>
 </section>
 
-<style>
-.generator{margin:20px auto;max-width:600px;padding:18px;border-radius:22px;background:linear-gradient(145deg,#173b68,#0b1b31);color:#fff;text-align:center;box-shadow:0 12px 30px #0006}
-.generator h2{margin-bottom:14px}
-.brawler-card{padding:22px;border-radius:20px;background:linear-gradient(145deg,#28609a,#152b49);transition:.15s}
-.brawler-card.pop{transform:scale(1.04)}
-#brawlerIcon{font-size:65px}
-#brawlerName{font-size:25px;margin:5px}
-#brawlerRarity{color:#ffd52f;font-weight:bold}
-.stats{display:flex;justify-content:center;gap:15px;margin-top:12px;font-weight:bold}
-.generate{width:100%;margin-top:14px;padding:16px;border:0;border-radius:15px;background:linear-gradient(#ffe94e,#ffb817);font-size:18px;font-weight:900;color:#241600;box-shadow:0 5px #a56500}
-.generate:active{transform:translateY(4px);box-shadow:0 1px #a56500}
-</style>
+<section id="game" class="screen">
+<button class="btn" onclick="home()">← VOLTAR</button>
+<div id="battle">
+<div class="hp left"><i id="myHp"></i></div><div class="hp right"><i id="enemyHp"></i></div>
+<div id="me" class="fighter me">🤠</div><div id="enemy" class="fighter enemy">🤖</div><div class="ground"></div>
+</div>
+<div class="message" id="msg">⚔️ Batalha!</div>
+<div class="controls">
+<button class="btn" onclick="move(-1)">⬅️</button>
+<button class="btn" onclick="move(1)">➡️</button>
+<button class="attack" onclick="hit(10)">💥 ATAQUE</button>
+<button class="super" onclick="hit(25)">⚡ SUPER</button>
+</div>
+</section>
+</main>
+</div>
 
 <script>
-const brawlers=[
-["Tsuki","🤠","COMUM"],
-["T-Bot","🤖","RARO"],
-["Ghost","👻","ÉPICO"],
-["Ninja","🥷","MÍTICO"],
-["Dragon","🐉","LENDÁRIO"],
-["Robot","🦾","SUPER RARO"]
-];
+const names=[["Tsuki","🤠","COMUM"],["T-Bot","🤖","RARO"],["Ghost","👻","ÉPICO"],["Ninja","🥷","MÍTICO"],["Dragon","🐉","LENDÁRIO"],["Volt","⚡","SUPER RARO"]];
+let hp=100,ehp=100,pos=12;
 
-function generateBrawler(){
-  const b=brawlers[Math.floor(Math.random()*brawlers.length)];
-  const hp=Math.floor(Math.random()*500)+300;
-  const damage=Math.floor(Math.random()*80)+20;
-  const speed=(Math.random()*2+3).toFixed(1);
-
-  brawlerIcon.textContent=b[1];
-  brawlerName.textContent=b[0];
-  brawlerRarity.textContent=b[2];
-  brawlerHp.textContent=hp;
-  brawlerDamage.textContent=damage;
-  brawlerSpeed.textContent=speed;
-
-  brawlerCard.classList.add("pop");
-  setTimeout(()=>brawlerCard.classList.remove("pop"),150);
-}
+function $(x){return document.getElementById(x)}
+function home(){$("home").classList.add("on");$("game").classList.remove("on")}
+function start(){$("home").classList.remove("on");$("game").classList.add("on");hp=ehp=100;$("myHp").style.width="100%";$("enemyHp").style.width="100%";$("msg").textContent="⚔️ Oponente encontrado!"}
+function generate(){let b=names[Math.random()*names.length|0];$("gIcon").textContent=b[1];$("gName").textContent=b[0];$("gRarity").textContent=b[2];$("gHp").textContent=300+(Math.random()*500|0);$("gDmg").textContent=20+(Math.random()*80|0);$("gSpeed").textContent=(3+Math.random()*3).toFixed(1);$("generated").classList.add("pop");setTimeout(()=>$("generated").classList.remove("pop"),120)}
+function move(d){pos=Math.max(2,Math.min(70,pos+d*7));$("me").style.left=pos+"%"}
+function hit(d){if(ehp<=0)return;ehp=Math.max(0,ehp-d);$("enemyHp").style.width=ehp+"%";$("msg").textContent="💥 -"+d+" de dano!";if(ehp===0){$("msg").textContent="🏆 VITÓRIA!";let t=+$("trophies").textContent+8;$("trophies").textContent=t;$("statTro").textContent=t;$("wins").textContent=+$("wins").textContent+1}}
+function editName(){let n=prompt("Seu nome:",$("name").textContent);if(n){$("name").textContent=n;localStorage.tsuki=n}}
+if(localStorage.tsuki)$("name").textContent=localStorage.tsuki;
+generate();
 </script>
+</body>
+</html>
