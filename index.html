@@ -1,129 +1,32 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Bandeiras do Mundo</title>
+<h1>Bandeiras do Mundo</h1>
+<button onclick="mostrarBandeiras()">TOQUE AQUI PRA VER TODAS AS BANDEIRAS DO MUNDO</button>
+<div id="bandeiras"></div>
 
-<style>
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+<script>
+  async function mostrarBandeiras() {
+    const resposta = await fetch("https://restcountries.com/v3.1/all");
+    const paises = await resposta.json();
+
+    const container = document.getElementById("bandeiras");
+    container.innerHTML = ""; // limpa antes de carregar
+
+    paises.forEach(pais => {
+      const div = document.createElement("div");
+      div.style.margin = "10px";
+      div.style.display = "inline-block";
+      div.style.textAlign = "center";
+
+      const img = document.createElement("img");
+      img.src = pais.flags.png;
+      img.alt = pais.name.common;
+      img.style.width = "100px";
+
+      const nome = document.createElement("p");
+      nome.textContent = pais.name.common;
+
+      div.appendChild(img);
+      div.appendChild(nome);
+      container.appendChild(div);
+    });
   }
-
-  body {
-    font-family: Arial, sans-serif;
-    background: #0f1420;
-    color: white;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 30px 15px;
-  }
-
-  h1 {
-    font-size: 28px;
-    margin-bottom: 8px;
-    text-align: center;
-  }
-
-  p.subtitle {
-    color: #9aa7bd;
-    margin-bottom: 25px;
-    text-align: center;
-  }
-
-  #showFlagsBtn {
-    padding: 16px 28px;
-    font-size: 17px;
-    font-weight: bold;
-    color: white;
-    background: linear-gradient(#3b6fe0, #2247a8);
-    border: none;
-    border-radius: 14px;
-    cursor: pointer;
-    box-shadow: 0 10px 25px #0006;
-  }
-
-  #showFlagsBtn:active {
-    transform: scale(.98);
-  }
-
-  #status {
-    margin-top: 18px;
-    color: #9aa7bd;
-    font-size: 14px;
-  }
-
-  #searchBox {
-    display: none;
-    width: 100%;
-    max-width: 500px;
-    margin: 20px 0 10px;
-  }
-
-  #searchInput {
-    width: 100%;
-    padding: 12px 14px;
-    border-radius: 10px;
-    border: 1px solid #ffffff25;
-    background: #171e2c;
-    color: white;
-    font-size: 15px;
-  }
-
-  #flagsGrid {
-    display: none;
-    width: 100%;
-    max-width: 1000px;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 14px;
-    margin-top: 10px;
-  }
-
-  .flag-card {
-    background: #171e2c;
-    border: 1px solid #ffffff15;
-    border-radius: 12px;
-    padding: 14px 10px;
-    text-align: center;
-  }
-
-  .flag-img {
-    width: 100%;
-    height: 70px;
-    object-fit: cover;
-    border-radius: 6px;
-    margin-bottom: 8px;
-    background: #0f1420;
-  }
-
-  .flag-emoji {
-    font-size: 42px;
-    line-height: 1;
-    margin-bottom: 8px;
-  }
-
-  .flag-name {
-    font-size: 12px;
-    color: #d5dbe6;
-  }
-</style>
-</head>
-
-<body>
-
-  <h1>🌍 Bandeiras do Mundo</h1>
-  <p class="subtitle">Projeto de estudo — manipulação de dados e DOM em JavaScript</p>
-
-  <button id="showFlagsBtn">TOQUE AQUI PRA VER TODAS AS BANDEIRAS DO MUNDO</button>
-
-  <div id="status"></div>
-
-  <div id="searchBox">
-    <input id="searchInput" type="text" placeholder="Pesquisar país...">
-  </div>
-
-  <div
+</script>
