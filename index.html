@@ -1,32 +1,62 @@
-<h1>Bandeiras do Mundo</h1>
-<button onclick="mostrarBandeiras()">TOQUE AQUI PRA VER TODAS AS BANDEIRAS DO MUNDO</button>
-<div id="bandeiras"></div>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Bandeiras do Mundo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+      text-align: center;
+    }
 
-<script>
-  async function mostrarBandeiras() {
-    const resposta = await fetch("https://restcountries.com/v3.1/all");
-    const paises = await resposta.json();
+    h1 {
+      margin-top: 20px;
+    }
 
-    const container = document.getElementById("bandeiras");
-    container.innerHTML = ""; // limpa antes de carregar
+    button {
+      padding: 10px 20px;
+      margin: 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      background-color: #007bff;
+      color: white;
+    }
 
-    paises.forEach(pais => {
-      const div = document.createElement("div");
-      div.style.margin = "10px";
-      div.style.display = "inline-block";
-      div.style.textAlign = "center";
+    #bandeiras {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 15px;
+      padding: 20px;
+    }
 
-      const img = document.createElement("img");
-      img.src = pais.flags.png;
-      img.alt = pais.name.common;
-      img.style.width = "100px";
+    #bandeiras div {
+      background: white;
+      border-radius: 8px;
+      padding: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
 
-      const nome = document.createElement("p");
-      nome.textContent = pais.name.common;
+    #bandeiras img {
+      width: 100px;
+      border-radius: 4px;
+    }
 
-      div.appendChild(img);
-      div.appendChild(nome);
-      container.appendChild(div);
-    });
-  }
-</script>
+    #bandeiras p {
+      margin-top: 5px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Bandeiras do Mundo</h1>
+  <button onclick="mostrarBandeiras()">TOQUE AQUI PRA VER TODAS AS BANDEIRAS DO MUNDO</button>
+  <div id="bandeiras"></div>
+
+  <script>
+    async function mostrarBandeiras() {
+      try {
+        const resposta = await fetch("https://restcountries
