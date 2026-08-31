@@ -4,37 +4,30 @@
   <meta charset="UTF-8">
   <title>Bandeiras do Mundo</title>
   <style>
-    /* Reset básico */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
     body {
       font-family: "Segoe UI", Arial, sans-serif;
       background: #f4f6f9;
-      color: #333;
+      margin: 0;
+      padding: 0;
+      text-align: center;
     }
 
     header {
-      background: #1e3a8a;
+      background: #2563eb;
       color: white;
       padding: 20px;
-      text-align: center;
       box-shadow: 0 2px 6px rgba(0,0,0,0.2);
     }
 
     h1 {
-      font-size: 28px;
-      font-weight: 600;
+      margin: 0;
+      font-size: 26px;
     }
 
     main {
-      max-width: 1200px;
+      max-width: 1000px;
       margin: 30px auto;
       padding: 0 20px;
-      text-align: center;
-    }
-
-    .controls {
-      margin-bottom: 20px;
     }
 
     button {
@@ -46,37 +39,24 @@
       background-color: #2563eb;
       color: white;
       transition: background 0.3s;
+      margin-bottom: 20px;
     }
 
     button:hover {
       background-color: #1e40af;
     }
 
-    input {
-      padding: 10px;
-      width: 250px;
-      margin-left: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
     #bandeiras {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
       gap: 20px;
-      margin-top: 30px;
     }
 
     .card {
       background: white;
-      border-radius: 10px;
-      padding: 15px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      transition: transform 0.2s;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
+      border-radius: 8px;
+      padding: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
 
     .card img {
@@ -85,10 +65,10 @@
     }
 
     .card p {
-      margin-top: 10px;
-      font-size: 15px;
-      font-weight: 600;
-      color: #111;
+      margin-top: 8px;
+      font-size: 14px;
+      font-weight: bold;
+      color: #333;
     }
   </style>
 </head>
@@ -97,51 +77,37 @@
     <h1>Bandeiras do Mundo</h1>
   </header>
   <main>
-    <div class="controls">
-      <button onclick="mostrarBandeiras()">Carregar Bandeiras</button>
-      <input type="text" id="busca" placeholder="Buscar país..." oninput="filtrarBandeiras()">
-    </div>
+    <button onclick="mostrarBandeiras()">Carregar Bandeiras</button>
     <div id="bandeiras"></div>
   </main>
 
   <script>
-    let paises = [];
-
     async function mostrarBandeiras() {
       try {
         const resposta = await fetch("https://restcountries.com/v3.1/all");
-        paises = await resposta.json();
-        renderizarBandeiras(paises);
+        const paises = await resposta.json();
+
+        const container = document.getElementById("bandeiras");
+        container.innerHTML = "";
+
+        paises.forEach(pais => {
+          const card = document.createElement("div");
+          card.className = "card";
+
+          const img = document.createElement("img");
+          img.src = pais.flags.png;
+          img.alt = pais.name.common;
+
+          const nome = document.createElement("p");
+          nome.textContent = pais.name.common;
+
+          card.appendChild(img);
+          card.appendChild(nome);
+          container.appendChild(card);
+        });
       } catch (erro) {
         alert("Erro ao carregar bandeiras: " + erro);
       }
-    }
-
-    function renderizarBandeiras(lista) {
-      const container = document.getElementById("bandeiras");
-      container.innerHTML = "";
-
-      lista.forEach(pais => {
-        const card = document.createElement("div");
-        card.className = "card";
-
-        const img = document.createElement("img");
-        img.src = pais.flags.png;
-        img.alt = pais.name.common;
-
-        const nome = document.createElement("p");
-        nome.textContent = pais.name.common;
-
-        card.appendChild(img);
-        card.appendChild(nome);
-        container.appendChild(card);
-      });
-    }
-
-    function filtrarBandeiras() {
-      const termo = document.getElementById("busca").value.toLowerCase();
-      const filtrados = paises.filter(p => p.name.common.toLowerCase().includes(termo));
-      renderizarBandeiras(filtrados);
     }
   </script>
 </body>
