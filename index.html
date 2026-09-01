@@ -2,114 +2,54 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Bandeiras do Mundo</title>
-  <style>
-    body {
-      font-family: "Segoe UI", Arial, sans-serif;
-      background: #f4f6f9;
-      margin: 0;
-      padding: 0;
-    }
-
-    header {
-      background: #2563eb;
-      color: white;
-      padding: 20px;
-      text-align: center;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-    }
-
-    h1 {
-      margin: 0;
-      font-size: 26px;
-    }
-
-    main {
-      max-width: 1000px;
-      margin: 30px auto;
-      padding: 0 20px;
-      text-align: center;
-    }
-
-    button {
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      border: none;
-      border-radius: 5px;
-      background-color: #2563eb;
-      color: white;
-      transition: background 0.3s;
-      margin-bottom: 20px;
-    }
-
-    button:hover {
-      background-color: #1e40af;
-    }
-
-    #bandeiras {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-      gap: 20px;
-    }
-
-    .card {
-      background: white;
-      border-radius: 8px;
-      padding: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-
-    .card img {
-      width: 100%;
-      border-radius: 6px;
-    }
-
-    .card p {
-      margin-top: 8px;
-      font-size: 14px;
-      font-weight: bold;
-      color: #333;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Países do Mundo - Estudo</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
-    <h1>Bandeiras do Mundo</h1>
+    <h1>🌍 Países do Mundo</h1>
+    <p>Aprenda sobre os países enquanto estuda JavaScript</p>
   </header>
+
   <main>
-    <button onclick="mostrarBandeiras()">Carregar Bandeiras</button>
-    <div id="bandeiras"></div>
+    <div class="container">
+      <!-- Seção de Busca e Filtros -->
+      <div class="controls">
+        <input 
+          type="text" 
+          id="searchInput" 
+          placeholder="🔍 Buscar país..." 
+          class="search-input"
+        >
+        
+        <select id="continentFilter" class="filter-select">
+          <option value="">Todos os Continentes</option>
+          <option value="Africa">África</option>
+          <option value="Americas">Américas</option>
+          <option value="Asia">Ásia</option>
+          <option value="Europe">Europa</option>
+          <option value="Oceania">Oceania</option>
+        </select>
+
+        <button id="loadBtn" class="load-btn">📥 Carregar Países</button>
+      </div>
+
+      <!-- Status de Carregamento -->
+      <div id="status" class="status"></div>
+
+      <!-- Contenedor de Países -->
+      <div id="paisesContainer" class="paises-grid">
+        <!-- Os países aparecerão aqui -->
+      </div>
+    </div>
   </main>
 
-  <script>
-    async function mostrarBandeiras() {
-      try {
-        const resposta = await fetch("https://restcountries.com/v3.1/all");
-        const paises = await resposta.json();
+  <footer>
+    <p>💡 Projeto de estudo com JavaScript, HTML e CSS</p>
+    <p>API: <a href="https://restcountries.com" target="_blank">restcountries.com</a></p>
+  </footer>
 
-        const container = document.getElementById("bandeiras");
-        container.innerHTML = "";
-
-        paises.forEach(pais => {
-          const card = document.createElement("div");
-          card.className = "card";
-
-          const img = document.createElement("img");
-          img.src = pais.flags.png;
-          img.alt = pais.name.common;
-
-          const nome = document.createElement("p");
-          nome.textContent = pais.name.common;
-
-          card.appendChild(img);
-          card.appendChild(nome);
-          container.appendChild(card);
-        });
-      } catch (erro) {
-        alert("Erro ao carregar bandeiras: " + erro);
-      }
-    }
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
