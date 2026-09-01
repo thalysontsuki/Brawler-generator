@@ -110,8 +110,8 @@ function filtrarPaises() {
   });
   
   // Atualizar exibição
-  exibirPaises(pairesFiltrados);
-  status.textContent = `🔍 ${pairesFiltrados.length} país(es) encontrado(s)`;
+  exibirPaises(paisesFiltrados);
+  status.textContent = `🔍 ${paisesFiltrados.length} país(es) encontrado(s)`;
 }
 
 // 7. EVENT LISTENERS (Detectar eventos do usuário)
